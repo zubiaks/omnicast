@@ -1,0 +1,7 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="450" fill="#0f1115"/>
+  <rect x="40" y="40" width="720" height="370" rx="16" fill="#0f1a2f" stroke="#3b82f6" stroke-width="4"/>
+  <polygon points="360,200 460,250 360,300" fill="#3b82f6" opacity="0.9"/>
+  <text x="50" y="80" fill="#3b82f6" font-size="24" font-family="Inter,Segoe UI,Roboto" font-weight="700">IPTV</text>
+  <text x="50" y="110" fill="#9bbdfc" font-size="16" font-family="Inter,Segoe UI,Roboto">OmniCast</text>
+</svg>

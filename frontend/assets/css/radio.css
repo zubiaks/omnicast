@@ -1,0 +1,40 @@
+.hero {
+  background-size: cover;
+  background-position: center;
+  height: 180px;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+}
+.hero .overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+}
+th, td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+th {
+  background: var(--header);
+}
+tr:hover {
+  background: var(--hover);
+}
+.online {
+  color: #4caf50;
+  font-weight: bold;
+}
+.offline {
+  color: #f44336;
+  font-weight: bold;
+}

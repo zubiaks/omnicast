@@ -1,0 +1,160 @@
+#dashboard {
+  position: relative;
+  height: calc(100vh - 50px);
+  overflow: hidden;
+  background: var(--bg-color, #111);
+  color: var(--text-color, #fff);
+}
+body.theme-light #dashboard {
+  --bg-color: #f5f5f5;
+  --text-color: #000;
+}
+
+/* Painéis */
+.painel {
+  opacity: 0;
+  transition: opacity 1s ease;
+  position: absolute;
+  inset: 0;
+  padding: 20px;
+}
+.painel.ativo {
+  opacity: 1;
+  position: relative;
+}
+
+/* Métricas */
+#dashboard-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.metric {
+  background: rgba(0,0,0,0.3);
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  transition: background 0.3s;
+}
+body.theme-light .metric { background: rgba(255,255,255,0.8); }
+
+/* Gráficos */
+#dashboard-charts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  height: 100%;
+}
+canvas {
+  background: #fff;
+  border-radius: 6px;
+  padding: 5px;
+}
+
+/* Destaques */
+#lista-destaques {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#lista-destaques .item {
+  background: rgba(0,0,0,0.2);
+  padding: 8px;
+  border-radius: 4px;
+}
+body.theme-light #lista-destaques .item { background: rgba(255,255,255,0.6); }
+
+/* Alertas visuais */
+.alerta {
+  animation: piscar 1s infinite alternate;
+}
+@keyframes piscar {
+  from { background-color: rgba(255,0,0,0.3); }
+  to { background-color: transparent; }
+}
+
+/* Painel de Configurações Globais */
+#painel-config-global {
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  z-index: 1000;
+  width: 280px;
+}
+body.theme-light #painel-config-global {
+  background: rgba(255,255,255,0.95);
+  color: #000;
+}
+#painel-config-global fieldset {
+  border: 1px solid rgba(255,255,255,0.2);
+  margin-bottom: 10px;
+  padding: 8px;
+}
+body.theme-light #painel-config-global fieldset {
+  border-color: rgba(0,0,0,0.2);
+}
+#painel-config-global legend { font-weight: bold; }
+#painel-config-global button {
+  width: 100%;
+  padding: 8px;
+  background: var(--accent-color, #27ae60);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+#painel-config-global button:hover { background: var(--accent-color-hover, #219150); }
+
+/* Botão refresh manual */
+#btn-refresh-manual {
+  background: var(--accent-color, #27ae60);
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+#btn-refresh-manual:hover { background: var(--accent-color-hover, #219150); }
+
+/* Banner de atualização (PWA) */
+.update-banner {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  background: var(--accent-color, #27ae60);
+  color: var(--text-on-accent, #fff);
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--font-family, sans-serif);
+  z-index: 9999;
+  animation: slideIn 0.4s ease-out;
+}
+.update-actions { display: flex; gap: 6px; }
+.update-btn, .update-close {
+  border: none; padding: 6px 10px; border-radius: 4px;
+  font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s;
+}
+.update-btn { background: #fff; color: var(--accent-color, #27ae60); }
+.update-btn:hover { background: var(--accent-color, #27ae60); color: #fff; }
+.update-close { background: transparent; color: inherit; font-size: 0.9rem; }
+.update-close:hover { background: rgba(255,255,255,0.2); }
+body.theme-light .update-banner {
+  background: var(--accent-color-light, #2ecc71);
+  color: var(--text-on-accent-light, #fff);
+}
+@keyframes slideIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.fade-out { animation: fadeOut 0.3s forwards; }
+@keyframes fadeOut { to { opacity: 0; transform: translateY(20px); } }
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  #dashboard-metrics { grid-template-columns: repeat(2, 1fr); }
+  #dashboard-charts { grid-template-columns: 1fr; }
+}

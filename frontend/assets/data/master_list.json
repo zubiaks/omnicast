@@ -1,0 +1,154 @@
+[
+  {
+    "id": "iptv-001",
+    "type": "iptv",
+    "name": "Canal Notícias 24h",
+    "source": "demo",
+    "original_url": "https://example.com/iptv/noticias",
+    "stream_url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+    "country": "PT",
+    "city": "Lisboa",
+    "language": "pt",
+    "category": "Notícias",
+    "tags": ["notícias", "atualidade"],
+    "status": "online",
+    "last_checked": 1693651200000,
+    "extra": {
+      "logo": "https://via.placeholder.com/200x100.png?text=Noticias+24h"
+    },
+    "collected_at": 1693650000000
+  },
+  {
+    "id": "iptv-002",
+    "type": "iptv",
+    "name": "Canal Desporto",
+    "source": "demo",
+    "original_url": "https://example.com/iptv/desporto",
+    "stream_url": "https://test-streams.mux.dev/test_001/stream.m3u8",
+    "country": "PT",
+    "city": "Porto",
+    "language": "pt",
+    "category": "Desporto",
+    "tags": ["futebol", "desporto"],
+    "status": "online",
+    "last_checked": 1693651200000,
+    "extra": {
+      "logo": "https://via.placeholder.com/200x100.png?text=Desporto"
+    },
+    "collected_at": 1693650000000
+  },
+  {
+    "id": "webcam-001",
+    "type": "webcam",
+    "name": "Praia de Carcavelos",
+    "source": "demo",
+    "original_url": "https://example.com/webcam/carcavelos",
+    "stream_url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+    "country": "PT",
+    "city": "Carcavelos",
+    "language": null,
+    "category": "nature",
+    "tags": ["praia", "surf"],
+    "status": "online",
+    "last_checked": 1693651200000,
+    "extra": {
+      "snapshot": "https://via.placeholder.com/400x225.png?text=Praia+Carcavelos"
+    },
+    "collected_at": 1693650000000
+  },
+  {
+    "id": "webcam-002",
+    "type": "webcam",
+    "name": "Centro Histórico de Évora",
+    "source": "demo",
+    "original_url": "https://example.com/webcam/evora",
+    "stream_url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+    "country": "PT",
+    "city": "Évora",
+    "language": null,
+    "category": "city",
+    "tags": ["história", "cidade"],
+    "status": "online",
+    "last_checked": 1693651200000,
+    "extra": {
+      "snapshot": "https://via.placeholder.com/400x225.png?text=Centro+Evora"
+    },
+    "collected_at": 1693650000000
+  },
+  {
+    "id": "vod-001",
+    "type": "vod",
+    "name": "Filme Aventura no Atlântico",
+    "source": "demo",
+    "original_url": "https://example.com/vod/aventura",
+    "stream_url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+    "country": "PT",
+    "city": null,
+    "language": "pt",
+    "category": "Aventura",
+    "tags": ["filme", "aventura"],
+    "status": "online",
+    "last_checked": 1693651200000,
+    "extra": {
+      "poster": "https://via.placeholder.com/300x450.png?text=Aventura+Atlantico"
+    },
+    "collected_at": 1693650000000
+  },
+  {
+    "id": "vod-002",
+    "type": "vod",
+    "name": "Documentário Vida Selvagem",
+    "source": "demo",
+    "original_url": "https://example.com/vod/selvagem",
+    "stream_url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+    "country": "PT",
+    "city": null,
+    "language": "pt",
+    "category": "Documentário",
+    "tags": ["documentário", "natureza"],
+    "status": "online",
+    "last_checked": 1693651200000,
+    "extra": {
+      "poster": "https://via.placeholder.com/300x450.png?text=Vida+Selvagem"
+    },
+    "collected_at": 1693650000000
+  },
+  {
+    "id": "radio-001",
+    "type": "radio",
+    "name": "Rádio Lusitana",
+    "source": "demo",
+    "original_url": "https://example.com/radio/lusitana",
+    "stream_url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service",
+    "country": "PT",
+    "city": "Lisboa",
+    "language": "pt",
+    "category": "Música",
+    "tags": ["música", "portuguesa"],
+    "status": "online",
+    "last_checked": 1693651200000,
+    "extra": {
+      "logo": "https://via.placeholder.com/200x200.png?text=Radio+Lusitana"
+    },
+    "collected_at": 1693650000000
+  },
+  {
+    "id": "radio-002",
+    "type": "radio",
+    "name": "Rádio Fado",
+    "source": "demo",
+    "original_url": "https://example.com/radio/fado",
+    "stream_url": "https://stream.live.vc.bbcmedia.co.uk/bbc_radio_fourlw_online_nonuk",
+    "country": "PT",
+    "city": "Coimbra",
+    "language": "pt",
+    "category": "Música",
+    "tags": ["fado", "tradicional"],
+    "status": "online",
+    "last_checked": 1693651200000,
+    "extra": {
+      "logo": "https://via.placeholder.com/200x200.png?text=Radio+Fado"
+    },
+    "collected_at": 1693650000000
+  }
+]

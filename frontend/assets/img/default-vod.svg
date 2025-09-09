@@ -1,0 +1,7 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="450" fill="#0f1115"/>
+  <rect x="220" y="110" width="360" height="220" rx="16" fill="none" stroke="#9b59b6" stroke-width="10"/>
+  <polygon points="370,160 470,220 370,280" fill="#9b59b6" opacity="0.9"/>
+  <text x="50" y="80" fill="#9b59b6" font-size="24" font-family="Inter,Segoe UI,Roboto" font-weight="700">VOD</text>
+  <text x="50" y="110" fill="#e0c4ef" font-size="16" font-family="Inter,Segoe UI,Roboto">OmniCast</text>
+</svg>

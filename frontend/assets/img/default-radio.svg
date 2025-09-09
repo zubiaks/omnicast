@@ -1,0 +1,8 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="450" fill="#0f1115"/>
+  <rect x="260" y="120" width="280" height="160" rx="20" fill="none" stroke="#e67e22" stroke-width="10"/>
+  <rect x="340" y="280" width="120" height="30" rx="8" fill="#e67e22"/>
+  <path d="M300 100 L540 60" stroke="#e67e22" stroke-width="8" stroke-linecap="round"/>
+  <text x="50" y="80" fill="#e67e22" font-size="24" font-family="Inter,Segoe UI,Roboto" font-weight="700">Rádio</text>
+  <text x="50" y="110" fill="#f6c9a2" font-size="16" font-family="Inter,Segoe UI,Roboto">OmniCast</text>
+</svg>

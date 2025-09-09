@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Omnicast — Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="../pwa/manifest.webmanifest">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body class="theme-dark">
+  <header>
+    <nav>
+      <a href="../index.html">Início</a>
+      <a href="iptv.html">IPTV</a>
+      <a href="vod.html">VOD</a>
+      <a href="webcams.html">Webcams</a>
+      <a href="radio.html">Rádios</a>
+      <a href="favoritos.html">Favoritos</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+    </nav>
+  </header>
+
+  <main id="dashboard">
+    <section class="painel ativo" id="painel-metricas">
+      <h2>Métricas do Sistema — <span id="dashboard-time"></span></h2>
+      <div id="dashboard-metrics">
+        <div class="metric" id="metric-backend"></div>
+        <div class="metric" id="metric-rede"></div>
+        <div class="metric" id="metric-sistema"></div>
+        <div class="metric" id="metric-conteudos"></div>
+      </div>
+    </section>
+
+    <section class="painel" id="painel-graficos">
+      <h2>Gráficos de Performance</h2>
+      <div id="dashboard-charts">
+        <canvas id="chart-latencia"></canvas>
+        <canvas id="chart-itens"></canvas>
+        <canvas id="chart-carregamento"></canvas>
+      </div>
+    </section>
+
+    <section class="painel" id="painel-destaques">
+      <h2>Destaques e Alertas</h2>
+      <div id="lista-destaques"></div>
+    </section>
+
+    <section id="painel-config-global" style="display:none;">
+      <h2>Configurações Globais</h2>
+      <fieldset>
+        <legend>Alertas Sonoros</legend>
+        <label><input type="checkbox" data-som="critical" checked> Alerta Crítico</label><br>
+        <label><input type="checkbox" data-som="warning" checked> Alerta de Aviso</label><br>
+        <label><input type="checkbox" data-som="info" checked> Alerta Informativo</label>
+      </fieldset>
+      <fieldset>
+        <legend>Notificações</legend>
+        <label><input type="checkbox" id="toggle-update-alert" checked> Avisar nova versão</label>
+      </fieldset>
+      <fieldset>
+        <legend>Tema</legend>
+        <label><input type="radio" name="tema" value="dark" checked> Escuro</label>
+        <label><input type="radio" name="tema" value="light"> Claro</label>
+      </fieldset>
+      <fieldset>
+        <legend>Atualização Automática</legend>
+        <label><input type="checkbox" id="toggle-auto-refresh" checked> Atualizar métricas automaticamente</label>
+      </fieldset>
+      <button id="guardar-config-global">Guardar Configuração</button>
+    </section>
+
+    <button id="abrir-config-global" style="position:absolute;top:10px;right:10px;">⚙️ Configurações</button>
+    <button id="btn-refresh-manual" style="display:none;position:absolute;top:10px;left:10px;">🔄 Atualizar</button>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('../pwa/sw.js');
+      });
+    }
+  </script>
+  <script src="../assets/js/dashboard.js" defer></script>
+</body>
+</html>

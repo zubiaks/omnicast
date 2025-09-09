@@ -1,0 +1,45 @@
+{
+  "generated_at": 1693651200000,
+  "items": [
+    {
+      "id": "iptv-001",
+      "status": "online",
+      "last_checked": 1693651200000
+    },
+    {
+      "id": "iptv-002",
+      "status": "online",
+      "last_checked": 1693651200000
+    },
+    {
+      "id": "webcam-001",
+      "status": "online",
+      "last_checked": 1693651200000
+    },
+    {
+      "id": "webcam-002",
+      "status": "online",
+      "last_checked": 1693651200000
+    },
+    {
+      "id": "vod-001",
+      "status": "online",
+      "last_checked": 1693651200000
+    },
+    {
+      "id": "vod-002",
+      "status": "online",
+      "last_checked": 1693651200000
+    },
+    {
+      "id": "radio-001",
+      "status": "online",
+      "last_checked": 1693651200000
+    },
+    {
+      "id": "radio-002",
+      "status": "online",
+      "last_checked": 1693651200000
+    }
+  ]
+}

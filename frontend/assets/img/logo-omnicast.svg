@@ -1,0 +1,22 @@
+<svg width="640" height="160" viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg{fill:#0f1115}
+      .text{fill:#e8eefc;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;font-weight:800}
+      .blue{fill:#3b82f6}
+      .green{fill:#2ecc71}
+      .purple{fill:#9b59b6}
+      .orange{fill:#e67e22}
+    </style>
+  </defs>
+  <rect class="bg" width="640" height="160" rx="16"/>
+  <g transform="translate(24,24)">
+    <circle cx="56" cy="56" r="56" fill="#171a21" />
+    <circle cx="56" cy="56" r="10" fill="#e8eefc"/>
+    <path d="M56,20 a36,36 0 0 1 0,72 a36,36 0 0 1 0,-72 Z" fill="none" stroke="#3b82f6" stroke-width="6"/>
+    <path d="M56,8 a48,48 0 0 1 0,96 a48,48 0 0 1 0,-96 Z" fill="none" stroke="#9b59b6" stroke-width="4" opacity="0.9"/>
+    <path d="M56,32 a24,24 0 0 1 0,48 a24,24 0 0 1 0,-48 Z" fill="none" stroke="#2ecc71" stroke-width="6" opacity="0.9"/>
+    <path d="M56,44 a12,12 0 0 1 0,24 a12,12 0 0 1 0,-24 Z" fill="none" stroke="#e67e22" stroke-width="6" opacity="0.9"/>
+  </g>
+  <text class="text" x="140" y="95" font-size="64">OmniCast</text>
+</svg>

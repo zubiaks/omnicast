@@ -1,0 +1,7 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="450" fill="#0f1115"/>
+  <circle cx="400" cy="225" r="120" fill="none" stroke="#2ecc71" stroke-width="16"/>
+  <circle cx="400" cy="225" r="28" fill="#2ecc71"/>
+  <text x="50" y="80" fill="#2ecc71" font-size="24" font-family="Inter,Segoe UI,Roboto" font-weight="700">Webcams</text>
+  <text x="50" y="110" fill="#b9f1cf" font-size="16" font-family="Inter,Segoe UI,Roboto">OmniCast</text>
+</svg>

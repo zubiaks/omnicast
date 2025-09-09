@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>OmniCast — Favoritos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="../favicon.ico">
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/player.css">
+  <link rel="stylesheet" href="../assets/css/favoritos.css">
+</head>
+<body>
+<header class="hero">
+  <div class="overlay">
+    <div class="header-left">
+      <img src="../assets/img/logo-omnicast.svg" alt="OmniCast" class="logo">
+      <h1>⭐ Favoritos</h1>
+    </div>
+    <div class="header-actions">
+      <a href="../index.html" class="btn">Voltar</a>
+      <div class="dropdown">
+        <button id="display-settings" class="btn" title="Definições de visualização">⚙️</button>
+        <div class="dropdown-menu" id="display-menu">
+          <button data-action="theme" class="dropdown-item">Tema: <span id="theme-label">Escuro</span></button>
+          <button data-action="viewmode" class="dropdown-item">Modo: <span id="viewmode-label">Normal</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="toolbar" aria-label="Filtrar por tipo">
+    <button class="btn active" data-tab="all">Todos <span class="count" id="count-all">0</span></button>
+    <button class="btn" style="background:var(--iptv)" data-tab="iptv">IPTV <span class="count" id="count-iptv">0</span></button>
+    <button class="btn" style="background:var(--webcam)" data-tab="webcam">Webcams <span class="count" id="count-webcam">0</span></button>
+    <button class="btn" style="background:var(--vod)" data-tab="vod">VOD <span class="count" id="count-vod">0</span></button>
+    <button class="btn" style="background:var(--radio)" data-tab="radio">Rádio <span class="count" id="count-radio">0</span></button>
+  </nav>
+
+  <section id="fav-container" class="card-grid" aria-live="polite">
+    <p class="tip">A carregar favoritos…</p>
+  </section>
+</main>
+
+<!-- Player -->
+<div id="player-modal" class="modal" aria-hidden="true" role="dialog" aria-label="Player">
+  <div class="modal-content">
+    <span class="close" onclick="closePlayer()" aria-label="Fechar">&times;</span>
+    <video id="player" class="video-js vjs-default-skin" controls preload="auto"></video>
+  </div>
+</div>
+
+<!-- Video.js -->
+<link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+<!-- Scripts globais -->
+<script src="../assets/js/utils.js"></script>
+
+<!-- Suporte HLS para .m3u8 -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<script src="../assets/js/player.js"></script>
+<script src="../assets/js/favs.js"></script>
+
+<!-- Script específico Favoritos com validação -->
+<script type="module" src="../assets/js/pages/favoritos.js"></script>
+
+<!-- Menu ⚙️ -->
+<script src="../assets/js/display-settings.js"></script>
+</body>
+</html>

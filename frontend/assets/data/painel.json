@@ -1,0 +1,25 @@
+{
+  "eventos": [
+    { "tempo": "00:00", "segundos": 0, "texto": "Abertura do programa", "tipo": "Abertura" },
+    { "tempo": "00:45", "segundos": 45, "texto": "Introdução do apresentador", "tipo": "Apresentação" },
+    { "tempo": "05:00", "segundos": 300, "texto": "Primeiro tópico: Novidades", "tipo": "Segmento" },
+    { "tempo": "08:20", "segundos": 500, "texto": "Entrevista com convidado", "tipo": "Entrevista" },
+    { "tempo": "12:45", "segundos": 765, "texto": "Anúncio patrocinado", "tipo": "Anúncio" },
+    { "tempo": "15:00", "segundos": 900, "texto": "Demonstração técnica", "tipo": "Demonstração" },
+    { "tempo": "20:10", "segundos": 1210, "texto": "Perguntas do público", "tipo": "Q&A" },
+    { "tempo": "25:00", "segundos": 1500, "texto": "Destaques do dia", "tipo": "Destaque" },
+    { "tempo": "28:30", "segundos": 1710, "texto": "Encerramento", "tipo": "Encerramento" }
+  ],
+  "capitulos": [
+    { "titulo": "Abertura e introdução", "segundos": 0 },
+    { "titulo": "Novidades e entrevista", "segundos": 300 },
+    { "titulo": "Anúncio e demonstração", "segundos": 765 },
+    { "titulo": "Q&A e destaques", "segundos": 1210 },
+    { "titulo": "Encerramento", "segundos": 1710 }
+  ],
+  "notificacoes": [
+    "Ligação estável",
+    "Nova pergunta recebida",
+    "Pico de audiência nos últimos 5 minutos"
+  ]
+}

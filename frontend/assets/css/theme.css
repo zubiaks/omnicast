@@ -1,0 +1,291 @@
+/* OmniCast — theme.css */
+
+/* =========================
+   Variáveis e temas
+========================= */
+:root {
+  --bg: #0f1115;
+  --bg-elev: #12161f;
+  --card: #171a21;
+  --muted: #96a0b5;
+  --text: #e8eefc;
+  --border: #262b36;
+  --overlay: rgba(0,0,0,0.6);
+
+  --input-bg: #12161f;
+  --input-border: #2a3242;
+  --input-text: #dde6ff;
+  --placeholder: #7c869c;
+
+  --iptv: #3b82f6;
+  --webcam: #2ecc71;
+  --vod: #9b59b6;
+  --radio: #e67e22;
+
+  --round: 10px;
+  --shadow: 0 8px 24px rgba(0,0,0,0.25);
+  --shadow-soft: 0 4px 14px rgba(0,0,0,0.2);
+  --focus: #4f46e5;
+
+  --fast: 120ms;
+  --normal: 200ms;
+
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg: #f7f9fc;
+  --bg-elev: #ffffff;
+  --card: #ffffff;
+  --muted: #5b6375;
+  --text: #101321;
+  --border: #e5e8f0;
+  --overlay: rgba(0,0,0,0.55);
+
+  --input-bg: #ffffff;
+  --input-border: #d7dce6;
+  --input-text: #101321;
+  --placeholder: #8a90a0;
+
+  color-scheme: light;
+}
+
+/* =========================
+   Reset e base
+========================= */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; border: 0; cursor: pointer; }
+input, select { font-family: inherit; }
+::selection { background: rgba(79,70,229,0.35); color: inherit; }
+
+/* Acessibilidade */
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.sr-only {
+  position: absolute !important; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* Utilitários */
+.center { text-align: center; }
+.muted { color: var(--muted); }
+.badge {
+  display: inline-block; padding: 2px 8px; border-radius: 999px;
+  background: var(--bg-elev); color: var(--muted); border: 1px solid var(--border);
+  font-size: 12px; font-weight: 600;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px; border-radius: 999px; background: var(--bg-elev);
+  border: 1px solid var(--border); color: var(--text); font-size: 12px;
+}
+
+/* =========================
+   Header e layout
+========================= */
+header {
+  position: sticky; top: 0; z-index: 50;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  background: linear-gradient(180deg, rgba(23,26,33,0.9), rgba(23,26,33,0.6));
+  backdrop-filter: saturate(140%) blur(2px);
+}
+:root[data-theme="light"] header {
+  background: linear-gradient(180deg, rgba(255,255,255,0.90), rgba(255,255,255,0.75));
+  backdrop-filter: saturate(140%) blur(6px);
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+header img.logo { height: 32px; }
+header h1 { margin: 0; font-size: 22px; letter-spacing: 0.2px; }
+.header-actions { display: flex; gap: 8px; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+
+/* =========================
+   Toolbar, inputs e selects
+========================= */
+.toolbar {
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+  margin: 8px 0 16px;
+}
+.input, .select {
+  padding: 10px 12px; border-radius: 8px; border: 1px solid var(--input-border);
+  background: var(--input-bg); color: var(--input-text); min-width: 220px;
+  transition: border-color var(--fast) ease, background var(--fast) ease, box-shadow var(--fast) ease;
+}
+.select { min-width: 160px; }
+.input:focus, .select:focus { border-color: var(--focus); box-shadow: 0 0 0 3px rgba(79,70,229,0.25); }
+.input::placeholder { color: var(--placeholder); }
+.tip { color: var(--muted); font-size: 13px; }
+
+/* =========================
+   Botões
+========================= */
+.btn {
+  display: inline-block; padding: 10px 14px; border-radius: 8px;
+  background: var(--iptv); color: #fff; font-weight: 700; font-size: 14px;
+  border: 0; cursor: pointer; transition: opacity var(--normal) ease, transform 30ms ease, box-shadow var(--fast) ease;
+  box-shadow: var(--shadow-soft);
+}
+.btn:hover { opacity: 0.95; }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-neutral {
+  background: linear-gradient(0deg, var(--bg-elev), var(--bg-elev));
+  color: var(--text); border: 1px solid var(--border);
+}
+.btn-iptv { background: var(--iptv); color: #fff; }
+.btn-webcam { background: var(--webcam); color: #fff; }
+.btn-vod { background: var(--vod); color: #fff; }
+.btn-radio { background: var(--radio); color: #fff; }
+
+/* =========================
+   Grelhas e cartões
+========================= */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.card {
+  background: var(--card); border-radius: var(--round); padding: 20px;
+  border: 1px solid var(--border); box-shadow: var(--shadow-soft);
+  transition: transform var(--normal) ease, box-shadow var(--normal) ease, border-color var(--fast) ease;
+  text-align: center;
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.card img { width: 64px; height: 64px; margin: 0 auto 12px; object-fit: contain; }
+.card h2 { margin: 0 0 8px; font-size: 18px; }
+.card p { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+
+/* =========================
+   VOD — layout comum
+========================= */
+.vod-section { margin-bottom: 24px; }
+.vod-section h2 { margin: 0 0 12px; font-size: 18px; }
+.vod-carousel {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+.vod-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px; cursor: pointer;
+  transition: transform var(--normal) ease, box-shadow var(--normal) ease, border-color var(--fast) ease;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+}
+.vod-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.vod-card img { width: 100%; height: 220px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; }
+.vod-card h3 { margin: 0; font-size: 14px; }
+
+/* =========================
+   Skeletons (shimmer)
+========================= */
+.skel {
+  position: relative; overflow: hidden;
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.12) 37%, rgba(255,255,255,0.04) 63%);
+  background-size: 400% 100%; animation: shimmer 1.2s infinite;
+  color: transparent !important; border-radius: 8px;
+}
+@keyframes shimmer {
+  0% { background-position: 0% 0; }
+  100% { background-position: -135% 0; }
+}
+
+/* =========================
+   Modos de visualização
+========================= */
+body.compact .card-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+body.compact .card { padding: 12px; }
+body.compact .card img { width: 48px; height: 48px; margin-bottom: 8px; }
+body.compact .card h2 { font-size: 14px; margin-bottom: 6px; }
+body.compact .card p { font-size: 12px; margin-bottom: 10px; }
+body.compact .btn { padding: 6px 8px; font-size: 12px; }
+body.compact .vod-carousel { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+body.compact .vod-card img { height: 180px; }
+
+body.cinema .card-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+body.cinema .card { padding: 24px; }
+body.cinema .card img { width: 96px; height: 96px; margin-bottom: 16px; }
+body.cinema .card h2 { font-size: 20px; }
+body.cinema .card p { font-size: 15px; }
+body.cinema .vod-carousel { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+body.cinema .vod-card img { height: 280px; }
+
+/* =========================
+   Dropdown (botão ⚙️)
+========================= */
+.dropdown { position: relative; }
+.dropdown-menu {
+  position: absolute; right: 0; top: 110%;
+  background: var(--bg-elev); border: 1px solid var(--border);
+  border-radius: 8px; box-shadow: var(--shadow-soft);
+  display: none; flex-direction: column; min-width: 180px; z-index: 100;
+}
+.dropdown-menu.show { display: flex; }
+.dropdown-item {
+  padding: 10px 14px; background: none; border: none; text-align: left;
+  color: var(--text); font-size: 14px; cursor: pointer;
+}
+.dropdown-item:hover { background: var(--bg); }
+
+/* =========================
+   Toast
+========================= */
+.toast {
+  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.8); color: #fff; padding: 10px 14px; border-radius: 8px;
+  font-size: 14px; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity var(--normal);
+}
+.toast.show { opacity: 1; }
+
+/* =========================
+   Responsividade
+========================= */
+@media (max-width: 1024px) { .container { padding: 14px; } }
+@media (max-width: 768px) {
+  header { padding: 12px; } header h1 { font-size: 20px; }
+  .container { padding: 12px; }
+  .card-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+}
+@media (max-width: 640px) {
+  .toolbar { gap: 10px; }
+  .input, .select { min-width: 180px; }
+}
+@media (max-width: 420px) {
+  .card-grid { grid-template-columns: 1fr; }
+  .input, .select { min-width: 100%; }
+  .header-actions { gap: 6px; }
+}
+
+/* =========================
+   Scrollbar
+========================= */
+* { scrollbar-width: thin; scrollbar-color: #3a4152 transparent; }
+*::-webkit-scrollbar { height: 10px; width: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: #3a4152; border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+*::-webkit-scrollbar-thumb:hover { background: #4a5266; }
+
+hr { border: 0; border-top: 1px solid var(--border); margin: 16px 0; }
+small, .meta { color: var(--muted); }
+.btn[data-star="on"] { background: #f59e0b; color: #1b1203; }
+.btn[data-star="off"] { background: #374151; color: #fff; }

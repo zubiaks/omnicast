@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cockpit IPTV</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="overlay">
+      <div class="header-left">
+        <img src="assets/img/logo.png" alt="Cockpit IPTV" class="logo">
+        <h1>Cockpit IPTV</h1>
+      </div>
+      <div class="display-settings">
+        <button id="display-settings" aria-haspopup="true" aria-expanded="false" title="Definições de exibição">⚙️</button>
+        <div id="display-menu" class="dropdown">
+          <div class="dropdown-item" data-action="theme">Tema: <span id="theme-label"></span></div>
+          <div class="dropdown-item" data-action="viewmode">Modo: <span id="viewmode-label"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cards principais -->
+  <main class="card-grid">
+    <a href="iptv.html" class="card iptv">
+      <img src="assets/img/icons/iptv.png" alt="IPTV">
+      <h2>IPTV</h2>
+      <p id="iptv-count">...</p>
+      <span class="badge">Fav: <span id="fav-count-iptv">0</span></span>
+    </a>
+
+    <a href="webcams.html" class="card webcam">
+      <img src="assets/img/icons/webcam.png" alt="Webcams">
+      <h2>Webcams</h2>
+      <p id="webcam-count">...</p>
+      <span class="badge">Fav: <span id="fav-count-webcam">0</span></span>
+    </a>
+
+    <a href="vod.html" class="card vod">
+      <img src="assets/img/icons/vod.png" alt="VOD">
+      <h2>VOD</h2>
+      <p id="vod-count">...</p>
+      <span class="badge">Fav: <span id="fav-count-vod">0</span></span>
+    </a>
+
+    <a href="radio.html" class="card radio">
+      <img src="assets/img/icons/radio.png" alt="Rádio">
+      <h2>Rádio</h2>
+      <p id="radio-count">...</p>
+      <span class="badge">Fav: <span id="fav-count-radio">0</span></span>
+    </a>
+  </main>
+
+  <!-- Modal do player -->
+  <div id="player-modal" class="modal" aria-hidden="true" tabindex="-1">
+    <div class="modal-content">
+      <video id="player" class="video-js vjs-default-skin" controls preload="auto"></video>
+      <button class="modal-close" onclick="closePlayer()">✖</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/oc-utils.js"></script>
+  <script src="assets/js/display-settings.js"></script>
+  <script src="assets/js/ocfavs.js"></script>
+  <script src="assets/js/home.js"></script>
+  <script src="assets/js/player.js"></script>
+
+</body>
+</html>

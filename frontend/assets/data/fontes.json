@@ -1,0 +1,30 @@
+{
+  "fontes": [
+    {
+      "tipo": "webcam",
+      "titulo": "Times Square - Nova Iorque (EUA)",
+      "src": "https://videos3.earthcam.com/fecnetwork/tsq/playlist.m3u8"
+    },
+    {
+      "tipo": "webcam",
+      "titulo": "Praia de Copacabana - Rio de Janeiro (Brasil)",
+      "src": "https://streaming.copacabana.com/live/cam1/playlist.m3u8"
+    },
+    {
+      "tipo": "webcam",
+      "titulo": "Porto de Lisboa - Portugal",
+      "src": "https://streaming.portodelisboa.pt/live/cam1/playlist.m3u8"
+    },
+    {
+      "tipo": "webcam",
+      "titulo": "Shibuya Crossing - Tóquio (Japão)",
+      "src": "https://stream.mux.com/8l3r02w4ZJ02m02v02/playlist.m3u8"
+    },
+    {
+      "tipo": "vod",
+      "titulo": "Vídeo de Demonstração Local",
+      "src": "assets/videos/demo.mp4"
+    }
+  ],
+  "intervaloSegundos": 300
+}

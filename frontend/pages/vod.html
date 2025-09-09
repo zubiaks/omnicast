@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>OmniCast — VOD</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="../favicon.ico">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="stylesheet" href="../assets/css/player.css">
+  <link rel="stylesheet" href="../assets/css/vod.css">
+</head>
+<body>
+<header class="hero" style="background-image:url('../assets/img/header-vod.jpg')">
+  <div class="overlay">
+    <div class="header-left">
+      <img src="../assets/img/logo-omnicast.svg" alt="OmniCast" class="logo">
+      <h1>VOD</h1>
+    </div>
+    <div class="header-actions">
+      <a href="../index.html" class="btn">Voltar</a>
+      <div class="dropdown">
+        <button id="display-settings" class="btn" title="Definições de visualização">⚙️</button>
+        <div class="dropdown-menu" id="display-menu">
+          <button data-action="theme" class="dropdown-item">Tema: <span id="theme-label">Escuro</span></button>
+          <button data-action="viewmode" class="dropdown-item">Modo: <span id="viewmode-label">Normal</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <!-- Toolbar -->
+  <section id="vod-toolbar" class="toolbar">
+    <input id="vod-search" class="input" type="search" placeholder="Procurar título ou categoria…">
+    <select id="vod-category" class="select"><option value="">Todas as categorias</option></select>
+    <select id="vod-sort" class="select">
+      <option value="name">Ordenar: Nome</option>
+      <option value="category">Ordenar: Categoria</option>
+    </select>
+    <button id="vod-sort-dir" class="btn" data-dir="asc" title="Alternar ordem">⇅</button>
+    <button id="vod-favs" class="btn" aria-pressed="false">⭐ Só favoritos</button>
+    <span id="vod-counts" class="tip">A carregar…</span>
+  </section>
+
+  <!-- Carrossel -->
+  <section id="vod-container" class="vod-carousel" aria-live="polite"></section>
+</main>
+
+<!-- Player -->
+<div id="player-modal" class="modal" aria-hidden="true" role="dialog" aria-label="Player">
+  <div class="modal-content">
+    <span class="close" onclick="closePlayer()" aria-label="Fechar">&times;</span>
+    <video id="player" class="video-js vjs-default-skin" controls preload="auto"></video>
+  </div>
+</div>
+
+<!-- Video.js -->
+<link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
+
+<!-- Scripts globais -->
+<script src="../assets/js/utils.js"></script>
+
+<!-- Suporte HLS para .m3u8 -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<script src="../assets/js/player.js"></script>
+<script src="../assets/js/favs.js"></script>
+<script src="../assets/js/listView.js"></script>
+
+<!-- Script específico VOD com validação -->
+<script type="module" src="../assets/js/pages/vod.js"></script>
+
+<!-- Menu ⚙️ -->
+<script src="../assets/js/display-settings.js"></script>
+</body>
+</html>
