@@ -1,23 +1,23 @@
 {
-  "eventos": [
-    { "tempo": "00:00", "segundos": 0, "texto": "Abertura do programa", "tipo": "Abertura" },
-    { "tempo": "00:45", "segundos": 45, "texto": "Introdução do apresentador", "tipo": "Apresentação" },
-    { "tempo": "05:00", "segundos": 300, "texto": "Primeiro tópico: Novidades", "tipo": "Segmento" },
-    { "tempo": "08:20", "segundos": 500, "texto": "Entrevista com convidado", "tipo": "Entrevista" },
-    { "tempo": "12:45", "segundos": 765, "texto": "Anúncio patrocinado", "tipo": "Anúncio" },
-    { "tempo": "15:00", "segundos": 900, "texto": "Demonstração técnica", "tipo": "Demonstração" },
-    { "tempo": "20:10", "segundos": 1210, "texto": "Perguntas do público", "tipo": "Q&A" },
-    { "tempo": "25:00", "segundos": 1500, "texto": "Destaques do dia", "tipo": "Destaque" },
-    { "tempo": "28:30", "segundos": 1710, "texto": "Encerramento", "tipo": "Encerramento" }
+  "events": [
+    { "time": "00:00", "seconds": 0,   "text": "Abertura do programa",         "type": "Abertura" },
+    { "time": "00:45", "seconds": 45,  "text": "Introdução do apresentador",    "type": "Apresentação" },
+    { "time": "05:00", "seconds": 300, "text": "Primeiro tópico: Novidades",    "type": "Segmento" },
+    { "time": "08:20", "seconds": 500, "text": "Entrevista com convidado",     "type": "Entrevista" },
+    { "time": "12:45", "seconds": 765, "text": "Anúncio patrocinado",          "type": "Anúncio" },
+    { "time": "15:00", "seconds": 900, "text": "Demonstração técnica",         "type": "Demonstração" },
+    { "time": "20:10", "seconds": 1210,"text": "Perguntas do público",         "type": "Q&A" },
+    { "time": "25:00", "seconds": 1500,"text": "Destaques do dia",             "type": "Destaque" },
+    { "time": "28:30", "seconds": 1710,"text": "Encerramento",                 "type": "Encerramento" }
   ],
-  "capitulos": [
-    { "titulo": "Abertura e introdução", "segundos": 0 },
-    { "titulo": "Novidades e entrevista", "segundos": 300 },
-    { "titulo": "Anúncio e demonstração", "segundos": 765 },
-    { "titulo": "Q&A e destaques", "segundos": 1210 },
-    { "titulo": "Encerramento", "segundos": 1710 }
+  "chapters": [
+    { "title": "Abertura e introdução",         "seconds": 0   },
+    { "title": "Novidades e entrevista",        "seconds": 300 },
+    { "title": "Anúncio e demonstração",        "seconds": 765 },
+    { "title": "Q&A e destaques",               "seconds": 1210},
+    { "title": "Encerramento",                  "seconds": 1710}
   ],
-  "notificacoes": [
+  "notifications": [
     "Ligação estável",
     "Nova pergunta recebida",
     "Pico de audiência nos últimos 5 minutos"

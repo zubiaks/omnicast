@@ -1,0 +1,5 @@
+date,adapter,status,items,error,responseTime(ms),errorType,executionDuration(ms)
+2025-09-12T17:20:35.000Z,pluto-vod,OK,125,,842,,950
+2025-09-12T17:20:36.000Z,pluto-live,OK,87,,915,,1020
+2025-09-12T17:20:37.000Z,radiobrowser,OK,250,,678,,780
+2025-09-12T17:20:38.000Z,rtp-play,SEM DADOS,0,"Nenhum episódio encontrado na resposta da API.",512,NO_DATA,620

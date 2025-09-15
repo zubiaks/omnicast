@@ -1,0 +1,97 @@
+<header class="oc-hero" role="banner">
+  <div class="oc-hero__overlay oc-container flex justify-between align-center gap-md">
+    <!-- Brand / Logo -->
+    <div class="oc-hero__brand flex align-center gap-sm">
+      <a href="/index.html" class="oc-hero__home-link" aria-label="Voltar ao início">
+        <img
+          src="/img/logo.png"
+          alt="OmniCast"
+          class="oc-hero__logo"
+          width="48"
+          height="48"
+          loading="lazy"
+          fetchpriority="high"
+        />
+      </a>
+      <h1 class="oc-hero__title">OmniCast</h1>
+    </div>
+
+    <!-- Navegação Principal -->
+    <nav
+      id="primary-navigation"
+      class="oc-nav flex align-center gap-md"
+      role="navigation"
+      aria-label="Menu principal"
+    >
+      <ul class="oc-nav__list flex align-center gap-md">
+        <li class="oc-nav__item">
+          <a
+            href="/index.html"
+            class="oc-nav__link oc-nav__link--active"
+            aria-current="page"
+          >
+            <img src="/img/icons/icon-home.svg" alt="" class="oc-nav__icon" />
+            <span>Início</span>
+          </a>
+        </li>
+        <li class="oc-nav__item">
+          <a href="/pages/iptv.html" class="oc-nav__link">
+            <img src="/img/icons/icon-iptv.svg" alt="" class="oc-nav__icon" />
+            <span>IPTV</span>
+          </a>
+        </li>
+        <li class="oc-nav__item">
+          <a href="/pages/webcams.html" class="oc-nav__link">
+            <img src="/img/icons/icon-webcams.svg" alt="" class="oc-nav__icon" />
+            <span>Webcams</span>
+          </a>
+        </li>
+        <li class="oc-nav__item">
+          <a href="/pages/vod.html" class="oc-nav__link">
+            <img src="/img/icons/icon-vod.svg" alt="" class="oc-nav__icon" />
+            <span>VOD</span>
+          </a>
+        </li>
+        <li class="oc-nav__item">
+          <a href="/pages/radio.html" class="oc-nav__link">
+            <img src="/img/icons/icon-radio.svg" alt="" class="oc-nav__icon" />
+            <span>Rádio</span>
+          </a>
+        </li>
+        <li class="oc-nav__item">
+          <a href="/pages/favoritos.html" class="oc-nav__link">
+            <img src="/img/icons/icon-favoritos.svg" alt="" class="oc-nav__icon" />
+            <span>Favoritos</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Dropdown de Exibição -->
+    <div class="oc-dropdown">
+      <button
+        class="oc-dropdown__trigger"
+        id="display-settings"
+        aria-haspopup="true"
+        aria-expanded="false"
+        aria-controls="display-menu"
+        aria-label="Abrir definições de exibição"
+      >
+        ⚙️
+      </button>
+      <div
+        id="display-menu"
+        class="oc-dropdown__menu"
+        role="menu"
+        hidden
+      >
+        <button class="oc-dropdown__item" data-action="theme" role="menuitem">
+          Tema: <span id="theme-label"></span>
+        </button>
+        <button class="oc-dropdown__item" data-action="viewmode" role="menuitem">
+          Modo: <span id="viewmode-label"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

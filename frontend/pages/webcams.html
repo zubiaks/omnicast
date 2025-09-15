@@ -1,85 +1,329 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <title>OmniCast — Webcams</title>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="../favicon.ico">
-  <link rel="manifest" href="../manifest.json">
-  <link rel="stylesheet" href="../assets/css/theme.css">
-  <link rel="stylesheet" href="../assets/css/player.css">
-  <link rel="stylesheet" href="../assets/css/webcams.css">
+
+  <!-- SEO -->
+  <title>OmniCast — Webcams</title>
+  <meta
+    name="description"
+    content="Explore webcams ao redor do mundo diretamente no OmniCast."
+  />
+  <link rel="canonical" href="/pages/webcams.html" />
+  <meta property="og:title" content="OmniCast — Webcams" />
+  <meta
+    property="og:description"
+    content="Explore webcams ao redor do mundo diretamente no OmniCast."
+  />
+  <meta property="og:image" content="/img/og-webcams.png" />
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#27ae60" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+  <!-- Favicons -->
+  <link
+    rel="icon"
+    href="/img/favicon.png"
+    sizes="32x32"
+    type="image/png"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="/img/icons/icon-symbol-192.png"
+    sizes="192x192"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="/img/icons/icon-symbol-512.png"
+    sizes="512x512"
+  />
+
+  <!-- CSS Global -->
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/utilities.css" />
+  <link rel="stylesheet" href="/css/theme.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/overrides.css" />
+
+  <!-- CSS desta página -->
+  <link rel="stylesheet" href="/css/webcams.css" />
 </head>
-<body>
-<header class="hero" style="background-image:url('../assets/img/header-webcams.jpg')">
-  <div class="overlay">
-    <div class="header-left">
-      <img src="../assets/img/logo-omnicast.svg" alt="OmniCast" class="logo">
-      <h1>Webcams</h1>
-    </div>
-    <div class="header-actions">
-      <a href="../index.html" class="btn">Voltar</a>
-      <div class="dropdown">
-        <button id="display-settings" class="btn" title="Definições de visualização">⚙️</button>
-        <div class="dropdown-menu" id="display-menu">
-          <button data-action="theme" class="dropdown-item">Tema: <span id="theme-label">Escuro</span></button>
-          <button data-action="viewmode" class="dropdown-item">Modo: <span id="viewmode-label">Normal</span></button>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content" tabindex="0">
+    Pular para o conteúdo
+  </a>
+
+  <!-- HERO / BANNER -->
+  <header class="oc-hero oc-hero--webcams" role="banner">
+    <div class="oc-hero__overlay oc-container flex align-center justify-between">
+      <div class="brand flex align-center gap-sm">
+        <img
+          src="/img/logo.png"
+          alt="OmniCast"
+          width="48"
+          height="48"
+          fetchpriority="high"
+        />
+        <h1 class="oc-hero__title">Webcams</h1>
+      </div>
+      <div class="flex align-center gap-sm">
+        <nav
+          id="primary-navigation"
+          role="navigation"
+          aria-label="Menu principal"
+        >
+          <ul class="oc-nav flex align-center gap-md">
+            <li>
+              <a href="/index.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-home.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>Início</span>
+              </a>
+            </li>
+            <li>
+              <a href="/pages/iptv.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-iptv.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>IPTV</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="/pages/webcams.html"
+                class="oc-nav__link oc-nav__link--active"
+                aria-current="page"
+              >
+                <img
+                  src="/img/icons/icon-webcams.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>Webcams</span>
+              </a>
+            </li>
+            <li>
+              <a href="/pages/vod.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-vod.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>VOD</span>
+              </a>
+            </li>
+            <li>
+              <a href="/pages/radio.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-radio.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>Rádio</span>
+              </a>
+            </li>
+            <li>
+              <a href="/pages/favoritos.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-favoritos.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>Favoritos</span>
+              </a>
+            </li>
+            <li>
+              <a href="/dashboard.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-dashboard.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="/config.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-configuracoes.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>Configurações</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="oc-dropdown">
+          <button
+            class="oc-dropdown__trigger"
+            id="display-settings"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="display-menu"
+            aria-label="Abrir definições"
+          >
+            ⚙️
+          </button>
+          <div
+            id="display-menu"
+            class="oc-dropdown__menu"
+            role="menu"
+            hidden
+          >
+            <button
+              class="oc-dropdown__item"
+              data-action="theme"
+              role="menuitem"
+            >
+              Tema: <span id="theme-label"></span>
+            </button>
+            <button
+              class="oc-dropdown__item"
+              data-action="viewmode"
+              role="menuitem"
+            >
+              Modo: <span id="viewmode-label"></span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main
+    id="main-content"
+    class="oc-container"
+    role="main"
+    tabindex="-1"
+  >
+    <!-- Toolbar de filtros -->
+    <div class="oc-toolbar" aria-label="Filtros Webcams">
+      <div class="oc-toolbar__item">
+        <input
+          id="webcam-search"
+          type="search"
+          class="oc-toolbar__search"
+          placeholder="Procurar webcam, país ou cidade…"
+          aria-label="Procurar webcam, país ou cidade"
+        />
+      </div>
+      <div class="oc-toolbar__item">
+        <select
+          id="webcam-country"
+          class="oc-toolbar__select"
+          aria-label="Filtrar por país"
+        >
+          <option value="">Todos os países</option>
+        </select>
+      </div>
+      <div class="oc-toolbar__item">
+        <select
+          id="webcam-city"
+          class="oc-toolbar__select"
+          aria-label="Filtrar por cidade"
+        >
+          <option value="">Todas as cidades</option>
+        </select>
+      </div>
+      <div class="oc-toolbar__item">
+        <select
+          id="webcam-sort"
+          class="oc-toolbar__select"
+          aria-label="Ordenar lista"
+        >
+          <option value="name">Nome</option>
+          <option value="country">País</option>
+          <option value="city">Cidade</option>
+        </select>
+      </div>
+      <div class="oc-toolbar__item">
+        <button
+          id="webcam-sort-dir"
+          class="oc-toolbar__button"
+          data-dir="asc"
+          aria-label="Alternar ordem"
+        >
+          ⇅
+        </button>
+      </div>
+      <div class="oc-toolbar__item">
+        <button
+          id="webcam-favs"
+          class="oc-toolbar__button"
+          aria-pressed="false"
+        >
+          ⭐ Só favoritos
+        </button>
+      </div>
+      <div class="oc-toolbar__item">
+        <span id="webcam-counts" class="oc-toolbar__count">
+          A carregar…
+        </span>
+      </div>
+    </div>
+
+    <!-- Grid de Webcams -->
+    <section
+      id="webcam-list"
+      class="oc-card-grid"
+      aria-live="polite"
+    ></section>
+
+    <!-- Carregar mais -->
+    <div class="center">
+      <button
+        id="webcam-more"
+        class="oc-btn--load-more hidden"
+        type="button"
+      >
+        Carregar mais
+      </button>
+    </div>
+
+    <div
+      id="webcam-sentinel"
+      class="visually-hidden"
+      aria-hidden="true"
+    ></div>
+  </main>
+
+  <!-- Modal de Player -->
+  <div
+    id="player-modal"
+    class="oc-modal oc-modal--hidden"
+    role="dialog"
+    aria-hidden="true"
+    aria-label="Player de vídeo"
+  >
+    <div class="oc-modal__content">
+      <button
+        id="player-close"
+        class="oc-modal__close"
+        aria-label="Fechar player"
+      >
+        ×
+      </button>
+      <video
+        id="player"
+        class="oc-modal__video video-js"
+        controls
+        preload="auto"
+      ></video>
+    </div>
   </div>
-</header>
 
-<main class="container">
-  <!-- Toolbar -->
-  <section id="webcam-toolbar" class="toolbar">
-    <input id="webcam-search" class="input" type="search" placeholder="Procurar webcam, país ou cidade…">
-    <select id="webcam-country" class="select"><option value="">Todos os países</option></select>
-    <select id="webcam-city" class="select"><option value="">Todas as cidades</option></select>
-    <select id="webcam-sort" class="select">
-      <option value="name">Ordenar: Nome</option>
-      <option value="country">Ordenar: País</option>
-      <option value="city">Ordenar: Cidade</option>
-    </select>
-    <button id="webcam-sort-dir" class="btn" data-dir="asc" title="Alternar ordem">⇅</button>
-    <button id="webcam-favs" class="btn" aria-pressed="false">⭐ Só favoritos</button>
-    <span id="webcam-counts" class="tip">A carregar…</span>
-  </section>
-
-  <!-- Grelha -->
-  <section id="webcam-list" class="card-grid" aria-live="polite"></section>
-  <div class="center">
-    <button id="webcam-more" class="btn btn-load-more" style="display:none;">Carregar mais</button>
-  </div>
-  <div id="webcam-sentinel" class="sr-only" aria-hidden="true"></div>
-</main>
-
-<!-- Player -->
-<div id="player-modal" class="modal" aria-hidden="true" role="dialog" aria-label="Player">
-  <div class="modal-content">
-    <span class="close" onclick="closePlayer()" aria-label="Fechar">&times;</span>
-    <video id="player" class="video-js vjs-default-skin" controls preload="auto"></video>
-  </div>
-</div>
-
-<!-- Video.js -->
-<link href="https://vjs.zencdn.net/8.5.2/video-js.css" rel="stylesheet" />
-<script src="https://vjs.zencdn.net/8.5.2/video.min.js"></script>
-
-<!-- Scripts globais -->
-<script src="../assets/js/utils.js"></script>
-
-<!-- Suporte HLS para .m3u8 -->
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
-<script src="../assets/js/player.js"></script>
-<script src="../assets/js/favs.js"></script>
-<script src="../assets/js/listView.js"></script>
-
-<!-- Script específico Webcams com validação -->
-<script type="module" src="../assets/js/pages/webcams.js"></script>
-
-<!-- Menu ⚙️ -->
-<script src="../assets/js/display-settings.js"></script>
+  <!-- Entrypoint único -->
+  <script type="module" src="/js/pages/webcams.js"></script>
 </body>
 </html>

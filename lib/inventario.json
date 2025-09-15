@@ -1,0 +1,28 @@
+{
+  "adapters": {
+    "pluto-vod": {
+      "status": "OK",
+      "items": 125,
+      "lastCheck": "2025-09-12T17:20:35.000Z",
+      "error": null
+    },
+    "pluto-live": {
+      "status": "OK",
+      "items": 87,
+      "lastCheck": "2025-09-12T17:20:36.000Z",
+      "error": null
+    },
+    "radiobrowser": {
+      "status": "OK",
+      "items": 250,
+      "lastCheck": "2025-09-12T17:20:37.000Z",
+      "error": null
+    },
+    "rtp-play": {
+      "status": "SEM DADOS",
+      "items": 0,
+      "lastCheck": "2025-09-12T17:20:38.000Z",
+      "error": "Nenhum episódio encontrado na resposta da API."
+    }
+  }
+}

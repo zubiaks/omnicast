@@ -1,59 +1,240 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <title>OmniCast — Rádio</title>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="../favicon.ico">
-  <link rel="manifest" href="../manifest.json">
-  <link rel="stylesheet" href="../assets/css/theme.css">
-  <link rel="stylesheet" href="../assets/css/radio.css">
+
+  <!-- SEO -->
+  <title>OmniCast — Rádio</title>
+  <meta
+    name="description"
+    content="Confira e ouça as estações de rádio disponíveis no OmniCast."
+  />
+  <link rel="canonical" href="/pages/radio.html" />
+  <meta property="og:title" content="OmniCast — Rádio" />
+  <meta
+    property="og:description"
+    content="Confira e ouça as estações de rádio disponíveis no OmniCast."
+  />
+  <meta property="og:image" content="/img/og-radio.png" />
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#27ae60" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+  <!-- Favicons -->
+  <link
+    rel="icon"
+    href="/img/favicon.png"
+    sizes="32x32"
+    type="image/png"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="/img/icons/icon-symbol-192.png"
+    sizes="192x192"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="/img/icons/icon-symbol-512.png"
+    sizes="512x512"
+  />
+
+  <!-- CSS Global -->
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/utilities.css" />
+  <link rel="stylesheet" href="/css/theme.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/overrides.css" />
+
+  <!-- CSS desta página -->
+  <link rel="stylesheet" href="/css/radio.css" />
 </head>
-<body>
-<header class="hero" style="background-image:url('../assets/img/header-radio.jpg')">
-  <div class="overlay">
-    <div class="header-left">
-      <img src="../assets/img/logo-omnicast.svg" alt="OmniCast" class="logo">
-      <h1>Rádio</h1>
-    </div>
-    <div class="header-actions">
-      <a href="../index.html" class="btn">Voltar</a>
-      <div class="dropdown">
-        <button id="display-settings" class="btn" title="Definições de visualização">⚙️</button>
-        <div class="dropdown-menu" id="display-menu">
-          <button data-action="theme" class="dropdown-item">Tema: <span id="theme-label">Escuro</span></button>
-          <button data-action="viewmode" class="dropdown-item">Modo: <span id="viewmode-label">Normal</span></button>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content" tabindex="0">
+    Pular para o conteúdo
+  </a>
+
+  <!-- HERO / BANNER -->
+  <header class="oc-hero oc-hero--radio" role="banner">
+    <div class="oc-hero__overlay oc-container flex align-center justify-between">
+      <div class="brand flex align-center gap-sm">
+        <img
+          src="/img/logo.png"
+          alt="OmniCast"
+          width="48"
+          height="48"
+          fetchpriority="high"
+        />
+        <h1 class="oc-hero__title">Rádio</h1>
+      </div>
+      <div class="flex align-center gap-sm">
+        <nav
+          id="primary-navigation"
+          role="navigation"
+          aria-label="Menu principal"
+        >
+          <ul class="oc-nav flex align-center gap-md">
+            <li>
+              <a href="/index.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-home.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>Início</span>
+              </a>
+            </li>
+            <li>
+              <a href="/pages/iptv.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-iptv.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>IPTV</span>
+              </a>
+            </li>
+            <li>
+              <a href="/pages/webcams.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-webcams.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>Webcams</span>
+              </a>
+            </li>
+            <li>
+              <a href="/pages/vod.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-vod.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>VOD</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="/pages/radio.html"
+                class="oc-nav__link oc-nav__link--active"
+                aria-current="page"
+              >
+                <img
+                  src="/img/icons/icon-radio.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>Rádio</span>
+              </a>
+            </li>
+            <li>
+              <a href="/pages/favoritos.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-favoritos.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>Favoritos</span>
+              </a>
+            </li>
+            <li>
+              <a href="/dashboard.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-dashboard.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="/config.html" class="oc-nav__link">
+                <img
+                  src="/img/icons/icon-configuracoes.svg"
+                  alt=""
+                  class="oc-nav__icon"
+                />
+                <span>Configurações</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="oc-dropdown">
+          <button
+            class="oc-dropdown__trigger"
+            id="display-settings"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="display-menu"
+            aria-label="Abrir definições"
+          >
+            ⚙️
+          </button>
+          <div
+            id="display-menu"
+            class="oc-dropdown__menu"
+            role="menu"
+            hidden
+          >
+            <button
+              class="oc-dropdown__item"
+              data-action="theme"
+              role="menuitem"
+            >
+              Tema: <span id="theme-label"></span>
+            </button>
+            <button
+              class="oc-dropdown__item"
+              data-action="viewmode"
+              role="menuitem"
+            >
+              Modo: <span id="viewmode-label"></span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<main class="container">
-  <p>Última atualização: <span id="lastUpdate">-</span></p>
-  <table id="radiosTable">
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Estado</th>
-        <th>Pontuação</th>
-        <th>Tempo de Resposta</th>
-        <th>Bitrate</th>
-        <th>Género</th>
-        <th>Música Atual</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td colspan="7">A carregar...</td></tr>
-    </tbody>
-  </table>
-</main>
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main
+    id="main-content"
+    class="oc-container"
+    role="main"
+    tabindex="-1"
+  >
+    <p class="radio-update">
+      Última atualização:
+      <time id="lastUpdate">—:—</time>
+    </p>
 
-<!-- Scripts globais -->
-<script src="../assets/js/utils.js"></script>
-<script src="../assets/js/display-settings.js"></script>
+    <div class="oc-table-container">
+      <table class="oc-table" id="radiosTable">
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Pontuação</th>
+            <th scope="col">Resposta (ms)</th>
+            <th scope="col">Bitrate</th>
+            <th scope="col">Gênero</th>
+            <th scope="col">Música Atual</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="7">A carregar…</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
 
-<!-- Script específico Rádio com possibilidade de validação -->
-<script type="module" src="../assets/js/pages/radio.js"></script>
+  <!-- Entrypoint único -->
+  <script type="module" src="/js/pages/radio.js"></script>
 </body>
 </html>

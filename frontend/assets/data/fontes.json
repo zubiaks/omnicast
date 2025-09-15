@@ -1,30 +1,60 @@
 {
-  "fontes": [
+  "refreshIntervalSeconds": 300,
+  "items": [
     {
-      "tipo": "webcam",
-      "titulo": "Times Square - Nova Iorque (EUA)",
-      "src": "https://videos3.earthcam.com/fecnetwork/tsq/playlist.m3u8"
+      "id": "webcam-times-square-usa",
+      "type": "webcam",
+      "title": "Times Square – Nova Iorque",
+      "source": "fontes.json",
+      "location": { "city": "Nova Iorque", "country": "EUA" },
+      "language": null,
+      "urls": {
+        "stream": "https://videos3.earthcam.com/fecnetwork/tsq/playlist.m3u8"
+      }
     },
     {
-      "tipo": "webcam",
-      "titulo": "Praia de Copacabana - Rio de Janeiro (Brasil)",
-      "src": "https://streaming.copacabana.com/live/cam1/playlist.m3u8"
+      "id": "webcam-copacabana-br",
+      "type": "webcam",
+      "title": "Praia de Copacabana – Rio de Janeiro",
+      "source": "fontes.json",
+      "location": { "city": "Rio de Janeiro", "country": "BR" },
+      "language": null,
+      "urls": {
+        "stream": "https://streaming.copacabana.com/live/cam1/playlist.m3u8"
+      }
     },
     {
-      "tipo": "webcam",
-      "titulo": "Porto de Lisboa - Portugal",
-      "src": "https://streaming.portodelisboa.pt/live/cam1/playlist.m3u8"
+      "id": "webcam-porto-lisboa-pt",
+      "type": "webcam",
+      "title": "Porto de Lisboa",
+      "source": "fontes.json",
+      "location": { "city": "Lisboa", "country": "PT" },
+      "language": null,
+      "urls": {
+        "stream": "https://streaming.portodelisboa.pt/live/cam1/playlist.m3u8"
+      }
     },
     {
-      "tipo": "webcam",
-      "titulo": "Shibuya Crossing - Tóquio (Japão)",
-      "src": "https://stream.mux.com/8l3r02w4ZJ02m02v02/playlist.m3u8"
+      "id": "webcam-shibuya-tokyo-jp",
+      "type": "webcam",
+      "title": "Shibuya Crossing – Tóquio",
+      "source": "fontes.json",
+      "location": { "city": "Tóquio", "country": "JP" },
+      "language": null,
+      "urls": {
+        "stream": "https://stream.mux.com/8l3r02w4ZJ02m02v02/playlist.m3u8"
+      }
     },
     {
-      "tipo": "vod",
-      "titulo": "Vídeo de Demonstração Local",
-      "src": "assets/videos/demo.mp4"
+      "id": "vod-demo-local",
+      "type": "vod",
+      "title": "Vídeo de Demonstração Local",
+      "source": "fontes.json",
+      "location": null,
+      "language": null,
+      "urls": {
+        "stream": "assets/videos/demo.mp4"
+      }
     }
-  ],
-  "intervaloSegundos": 300
+  ]
 }

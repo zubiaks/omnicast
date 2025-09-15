@@ -1,0 +1,12 @@
+[type] [área]: [descrição breve]
+
+### ✨ Novidades
+- 
+
+### 🔧 Melhorias
+- 
+
+### 🐞 Correções
+- 
+
+Refs: #

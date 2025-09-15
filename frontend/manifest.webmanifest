@@ -1,0 +1,74 @@
+{
+  "id": "/?source=pwa",
+  "name": "OmniCast Dashboard Turbo",
+  "short_name": "OmniCast",
+  "description": "Dashboard rápido e otimizado para IPTV, VOD, Webcams e Rádio.",
+  "lang": "pt-PT",
+  "dir": "ltr",
+  "start_url": "/index.html?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#27ae60",        // alinhado ao theme-color para splash consistente
+  "theme_color": "#27ae60",
+  "icons": [
+    {
+      "src": "/assets/img/icons/icon-symbol-maskable.png?v=1",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/img/icons/icon-symbol-512.png?v=1",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/icons/icon-symbol-384.png?v=1",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/icons/icon-symbol-256.png?v=1",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/icons/icon-symbol-192.png?v=1",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "IPTV",
+      "short_name": "IPTV",
+      "description": "Abrir secção IPTV",
+      "url": "/pages/iptv.html?source=pwa",
+      "icons": [{ "src": "/assets/img/icons/icon-iptv.svg?v=1", "sizes": "64x64", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "VOD",
+      "short_name": "VOD",
+      "description": "Abrir secção VOD",
+      "url": "/pages/vod.html?source=pwa",
+      "icons": [{ "src": "/assets/img/icons/icon-vod.svg?v=1", "sizes": "64x64", "type": "image/svg+xml" }]
+    }
+  ],
+  "categories": ["entertainment", "video", "music"],
+  "screenshots": [
+    {
+      "src": "/assets/img/screenshots/homescreen.png?v=1",
+      "sizes": "1920x1080",
+      "type": "image/png"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.omnicast.dashboard",
+      "id": "com.omnicast.dashboard"
+    }
+  ],
+  "prefer_related_applications": false
+}

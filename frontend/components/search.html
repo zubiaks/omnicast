@@ -1,0 +1,40 @@
+<!-- components.css já deve conter .oc-modal e .oc-modal__content -->
+<div
+  id="oc-search"
+  class="oc-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="oc-search-label"
+  hidden
+>
+  <div class="oc-modal__content oc-search">
+    <h2 id="oc-search-label" class="visually-hidden">Pesquisa</h2>
+
+    <div class="oc-search__header">
+      <input
+        id="oc-search-input"
+        class="oc-search__input"
+        type="search"
+        placeholder="Pesquisar em IPTV, VOD, Rádio, Webcams…"
+        aria-label="Pesquisa global"
+        autocomplete="off"
+        autofocus
+      />
+      <button
+        type="button"
+        class="oc-search__close"
+        aria-label="Fechar pesquisa"
+        data-close
+      >
+        ×
+      </button>
+    </div>
+
+    <ul
+      id="oc-search-results"
+      class="oc-search__results"
+      role="listbox"
+      aria-label="Resultados da pesquisa"
+    ></ul>
+  </div>
+</div>
