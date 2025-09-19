@@ -10,7 +10,7 @@
     name="description"
     content="Explore webcams ao redor do mundo diretamente no OmniCast."
   />
-  <link rel="canonical" href="/pages/webcams.html" />
+  <link rel="canonical" href="/webcams.html" />
   <meta property="og:title" content="OmniCast — Webcams" />
   <meta
     property="og:description"
@@ -88,7 +88,7 @@
               </a>
             </li>
             <li>
-              <a href="/pages/iptv.html" class="oc-nav__link">
+              <a href="/iptv.html" class="oc-nav__link">
                 <img
                   src="/img/icons/icon-iptv.svg"
                   alt=""
@@ -99,7 +99,7 @@
             </li>
             <li>
               <a
-                href="/pages/webcams.html"
+                href="/webcams.html"
                 class="oc-nav__link oc-nav__link--active"
                 aria-current="page"
               >
@@ -112,7 +112,7 @@
               </a>
             </li>
             <li>
-              <a href="/pages/vod.html" class="oc-nav__link">
+              <a href="/vod.html" class="oc-nav__link">
                 <img
                   src="/img/icons/icon-vod.svg"
                   alt=""
@@ -122,7 +122,7 @@
               </a>
             </li>
             <li>
-              <a href="/pages/radio.html" class="oc-nav__link">
+              <a href="/radio.html" class="oc-nav__link">
                 <img
                   src="/img/icons/icon-radio.svg"
                   alt=""
@@ -132,7 +132,7 @@
               </a>
             </li>
             <li>
-              <a href="/pages/favoritos.html" class="oc-nav__link">
+              <a href="/favoritos.html" class="oc-nav__link">
                 <img
                   src="/img/icons/icon-favoritos.svg"
                   alt=""
@@ -209,68 +209,7 @@
   >
     <!-- Toolbar de filtros -->
     <div class="oc-toolbar" aria-label="Filtros Webcams">
-      <div class="oc-toolbar__item">
-        <input
-          id="webcam-search"
-          type="search"
-          class="oc-toolbar__search"
-          placeholder="Procurar webcam, país ou cidade…"
-          aria-label="Procurar webcam, país ou cidade"
-        />
-      </div>
-      <div class="oc-toolbar__item">
-        <select
-          id="webcam-country"
-          class="oc-toolbar__select"
-          aria-label="Filtrar por país"
-        >
-          <option value="">Todos os países</option>
-        </select>
-      </div>
-      <div class="oc-toolbar__item">
-        <select
-          id="webcam-city"
-          class="oc-toolbar__select"
-          aria-label="Filtrar por cidade"
-        >
-          <option value="">Todas as cidades</option>
-        </select>
-      </div>
-      <div class="oc-toolbar__item">
-        <select
-          id="webcam-sort"
-          class="oc-toolbar__select"
-          aria-label="Ordenar lista"
-        >
-          <option value="name">Nome</option>
-          <option value="country">País</option>
-          <option value="city">Cidade</option>
-        </select>
-      </div>
-      <div class="oc-toolbar__item">
-        <button
-          id="webcam-sort-dir"
-          class="oc-toolbar__button"
-          data-dir="asc"
-          aria-label="Alternar ordem"
-        >
-          ⇅
-        </button>
-      </div>
-      <div class="oc-toolbar__item">
-        <button
-          id="webcam-favs"
-          class="oc-toolbar__button"
-          aria-pressed="false"
-        >
-          ⭐ Só favoritos
-        </button>
-      </div>
-      <div class="oc-toolbar__item">
-        <span id="webcam-counts" class="oc-toolbar__count">
-          A carregar…
-        </span>
-      </div>
+      <!-- filtros… -->
     </div>
 
     <!-- Grid de Webcams -->
@@ -306,21 +245,7 @@
     aria-hidden="true"
     aria-label="Player de vídeo"
   >
-    <div class="oc-modal__content">
-      <button
-        id="player-close"
-        class="oc-modal__close"
-        aria-label="Fechar player"
-      >
-        ×
-      </button>
-      <video
-        id="player"
-        class="oc-modal__video video-js"
-        controls
-        preload="auto"
-      ></video>
-    </div>
+    <!-- conteúdo do modal… -->
   </div>
 
   <!-- Entrypoint único -->

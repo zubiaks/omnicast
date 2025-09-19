@@ -1,0 +1,32 @@
+# Node modules e cache
+frontend/node_modules/
+frontend/.turbo/
+
+# Git e CI
+.git/
+.github/
+.gitlab/
+
+# Logs
+**/logs/
+*.log
+
+# Build intermediário e saída
+frontend/src/
+frontend/public/
+frontend/dist/
+
+# Ambientes virtuais
+.venv/
+backend/.venv/
+
+# Variáveis de ambiente (não incluir segredos na imagem)
+.env
+.env.local
+.env.*.local
+
+# Arquivos temporários de editor/SO
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

@@ -38,24 +38,27 @@
 
   <!-- HEADER / BANNER -->
   <header class="oc-hero" role="banner">
-    <div class="oc-hero__overlay flex justify-between align-center">
-      <!-- Logo -->
+    <div class="oc-hero__overlay oc-container flex justify-between align-center">
       <div class="header-brand flex align-center gap-sm">
         <img src="/img/logo.png" alt="OmniCast" width="48" height="48" fetchpriority="high" />
         <h1 class="site-title">OmniCast</h1>
       </div>
 
-      <!-- Navegação Principal -->
       <nav id="primary-navigation" role="navigation" aria-label="Menu principal">
         <ul class="oc-nav flex align-center gap-md">
-          <!-- Items omitidos -->
+          <li><a href="/index.html" class="oc-nav__link">Início</a></li>
+          <li><a href="/iptv.html" class="oc-nav__link">IPTV</a></li>
+          <li><a href="/vod.html" class="oc-nav__link">VOD</a></li>
+          <li><a href="/webcams.html" class="oc-nav__link">Webcams</a></li>
+          <li><a href="/radio.html" class="oc-nav__link">Rádio</a></li>
+          <li><a href="/favoritos.html" class="oc-nav__link">Favoritos</a></li>
+          <li><a href="/dashboard.html" class="oc-nav__link">Dashboard</a></li>
+          <li><a href="/config.html" class="oc-nav__link">Configurações</a></li>
         </ul>
       </nav>
 
-      <!-- Offline Banner -->
       <div id="offline-banner" role="alert" class="hide">Você está offline</div>
 
-      <!-- Botões de Definição de Exibição -->
       <div class="oc-dropdown">
         <button
           id="display-settings"
@@ -84,31 +87,31 @@
     <section aria-labelledby="home-cards-title" class="oc-card-grid grid gap-md">
       <h2 id="home-cards-title" class="visually-hidden">Acesso rápido</h2>
 
-      <a href="/pages/iptv.html" class="oc-card" role="button" aria-label="Acessar IPTV">
+      <a href="/iptv.html" class="oc-card" role="button" aria-label="Acessar IPTV">
         <img src="/img/icons/icon-iptv.svg" alt="" width="64" height="64" loading="lazy" class="oc-card__img" />
         <h3 class="oc-card__title">IPTV</h3>
         <p id="iptv-count" class="oc-card__desc">…</p>
       </a>
 
-      <a href="/pages/webcams.html" class="oc-card" role="button" aria-label="Acessar Webcams">
+      <a href="/webcams.html" class="oc-card" role="button" aria-label="Acessar Webcams">
         <img src="/img/icons/icon-webcams.svg" alt="" width="64" height="64" loading="lazy" class="oc-card__img" />
         <h3 class="oc-card__title">Webcams</h3>
         <p id="webcam-count" class="oc-card__desc">…</p>
       </a>
 
-      <a href="/pages/vod.html" class="oc-card" role="button" aria-label="Acessar VOD">
+      <a href="/vod.html" class="oc-card" role="button" aria-label="Acessar VOD">
         <img src="/img/icons/icon-vod.svg" alt="" width="64" height="64" loading="lazy" class="oc-card__img" />
         <h3 class="oc-card__title">VOD</h3>
         <p id="vod-count" class="oc-card__desc">…</p>
       </a>
 
-      <a href="/pages/radio.html" class="oc-card" role="button" aria-label="Acessar Rádio">
+      <a href="/radio.html" class="oc-card" role="button" aria-label="Acessar Rádio">
         <img src="/img/icons/icon-radio.svg" alt="" width="64" height="64" loading="lazy" class="oc-card__img" />
         <h3 class="oc-card__title">Rádio</h3>
         <p id="radio-count" class="oc-card__desc">…</p>
       </a>
 
-      <a href="/pages/favoritos.html" class="oc-card" role="button" aria-label="Meus Favoritos">
+      <a href="/favoritos.html" class="oc-card" role="button" aria-label="Meus Favoritos">
         <img src="/img/icons/icon-favoritos.svg" alt="" width="64" height="64" loading="lazy" class="oc-card__img" />
         <h3 class="oc-card__title">Favoritos</h3>
         <p id="fav-count-iptv" class="oc-card__desc">…</p>
@@ -119,7 +122,7 @@
     <section aria-labelledby="highlights-title" class="oc-highlights mb-lg">
       <h2 id="highlights-title" class="oc-highlights__heading">📌 Destaques</h2>
       <ul class="oc-highlights__list grid gap-xs">
-        <!-- Destaques omitidos -->
+        <!-- Destaques dinâmicos -->
       </ul>
     </section>
   </main>
@@ -129,15 +132,15 @@
     <p>&copy; 2025 OmniCast. Todos os direitos reservados.</p>
     <nav aria-label="Rodapé">
       <ul class="footer-links flex gap-sm">
-        <li><a href="/pages/help.html">Ajuda</a></li>
-        <li><a href="/pages/terms.html">Termos</a></li>
-        <li><a href="/pages/privacy.html">Privacidade</a></li>
+        <li><a href="/help.html">Ajuda</a></li>
+        <li><a href="/terms.html">Termos</a></li>
+        <li><a href="/privacy.html">Privacidade</a></li>
         <li><a href="/config.html">Configurações</a></li>
       </ul>
     </nav>
   </footer>
 
   <!-- Entrypoint Home -->
-  <script type="module" src="/js/home.js"></script>
+  <script type="module" src="/js/pages/home.js"></script>
 </body>
 </html>

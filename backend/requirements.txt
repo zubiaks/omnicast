@@ -1,0 +1,8 @@
+
+---
+
+### Conteúdo de `backend/requirements.txt`
+
+```text
+requests>=2.28.0
+python-dotenv>=0.21.0

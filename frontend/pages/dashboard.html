@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- SEO -->
+  <title>OmniCast — Dashboard</title>
+  <meta name="description" content="Painel completo de métricas e status dos serviços OmniCast." />
+  <link rel="canonical" href="/dashboard.html" />
+  <meta property="og:title" content="OmniCast — Dashboard" />
+  <meta property="og:description" content="Painel completo de métricas e status dos serviços OmniCast." />
+  <meta property="og:image" content="/img/og-dashboard.png" />
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#27ae60" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/img/favicon.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/img/icons/icon-symbol-192.png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/img/icons/icon-symbol-512.png" sizes="512x512" />
+
+  <!-- CSS Global -->
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/utilities.css" />
+  <link rel="stylesheet" href="/css/theme.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/overrides.css" />
+
+  <!-- CSS desta página -->
+  <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
+
+<body data-theme="light">
+  <a class="skip-link" href="#main-content" tabindex="0">Pular para o conteúdo</a>
+
+  <!-- HERO / BANNER -->
+  <header class="oc-hero" role="banner">
+    <div class="oc-hero__overlay oc-container flex justify-between align-center gap-md">
+      <div class="brand flex align-center gap-sm">
+        <img src="/img/logo.png" alt="OmniCast" width="40" height="40" fetchpriority="high" />
+        <h1 class="oc-hero__title">Dashboard</h1>
+      </div>
+
+      <div class="flex align-center gap-sm">
+        <nav id="primary-navigation" role="navigation" aria-label="Menu principal">
+          <ul class="oc-nav flex align-center gap-md">
+            <li><a href="/index.html" class="oc-nav__link">
+              <img src="/img/icons/icon-home.svg" alt="" class="oc-nav__icon" /><span>Início</span>
+            </a></li>
+            <li><a href="/iptv.html" class="oc-nav__link">
+              <img src="/img/icons/icon-iptv.svg" alt="" class="oc-nav__icon" /><span>IPTV</span>
+            </a></li>
+            <li><a href="/webcams.html" class="oc-nav__link">
+              <img src="/img/icons/icon-webcams.svg" alt="" class="oc-nav__icon" /><span>Webcams</span>
+            </a></li>
+            <li><a href="/vod.html" class="oc-nav__link">
+              <img src="/img/icons/icon-vod.svg" alt="" class="oc-nav__icon" /><span>VOD</span>
+            </a></li>
+            <li><a href="/radio.html" class="oc-nav__link">
+              <img src="/img/icons/icon-radio.svg" alt="" class="oc-nav__icon" /><span>Rádio</span>
+            </a></li>
+            <li><a href="/favoritos.html" class="oc-nav__link">
+              <img src="/img/icons/icon-favoritos.svg" alt="" class="oc-nav__icon" /><span>Favoritos</span>
+            </a></li>
+            <li><a href="/dashboard.html" class="oc-nav__link oc-nav__link--active" aria-current="page">
+              <img src="/img/icons/icon-dashboard.svg" alt="" class="oc-nav__icon" /><span>Dashboard</span>
+            </a></li>
+            <li><a href="/config.html" class="oc-nav__link">
+              <img src="/img/icons/icon-configuracoes.svg" alt="" class="oc-nav__icon" /><span>Configurações</span>
+            </a></li>
+          </ul>
+        </nav>
+
+        <div class="oc-dropdown">
+          <button id="display-settings" class="oc-dropdown__trigger" aria-haspopup="true" aria-expanded="false" aria-controls="display-menu" aria-label="Abrir definições">
+            ⚙️
+          </button>
+          <div id="display-menu" class="oc-dropdown__menu hide" role="menu">
+            <button class="oc-dropdown__item" data-action="theme" role="menuitem">
+              Tema: <span id="theme-label"></span>
+            </button>
+            <button class="oc-dropdown__item" data-action="viewmode" role="menuitem">
+              Modo: <span id="viewmode-label"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main id="main-content" class="oc-container grid gap-lg" role="main" tabindex="-1">
+
+    <!-- Sumário de KPIs -->
+    <section aria-labelledby="kpi-summary-title" class="oc-dashboard-summary oc-card-grid grid gap-md">
+      <h2 id="kpi-summary-title" class="visually-hidden">Sumário de KPIs</h2>
+
+      <article class="oc-card flex flex-col gap-xs align-start">
+        <h3 class="oc-card__title">Tempo de Resposta</h3>
+        <p class="oc-card__desc kpi-value" id="kpi-latency">— ms</p>
+      </article>
+
+      <article class="oc-card flex flex-col gap-xs align-start">
+        <h3 class="oc-card__title">Total de Canais</h3>
+        <p class="oc-card__desc kpi-value" id="kpi-channels">—</p>
+      </article>
+
+      <article class="oc-card flex flex-col gap-xs align-start">
+        <h3 class="oc-card__title">Streams VOD</h3>
+        <p class="oc-card__desc kpi-value" id="kpi-vod">—</p>
+      </article>
+
+      <article class="oc-card flex flex-col gap-xs align-start">
+        <h3 class="oc-card__title">Webcams Online</h3>
+        <p class="oc-card__desc kpi-value" id="kpi-webcams">—</p>
+      </article>
+
+      <article class="oc-card flex flex-col gap-xs align-start">
+        <h3 class="oc-card__title">Rádios Ativas</h3>
+        <p class="oc-card__desc kpi-value" id="kpi-radios">—</p>
+      </article>
+    </section>
+
+    <!-- Status dos Serviços -->
+    <section aria-labelledby="services-status-title" class="oc-section">
+      <h2 id="services-status-title" class="oc-section__title">Status dos Serviços</h2>
+
+      <div class="status-controls flex align-center gap-sm">
+        <span id="status-dot" class="status-dot"></span>
+        Último check: <span id="status-last">—</span>
+        <button id="status-refresh-btn" class="btn-refresh">🔄</button>
+        <label>
+          <input type="checkbox" id="status-auto-checkbox" />
+          Auto-refresh
+        </label>
+      </div>
+
+      <div id="status-summary" class="status-summary hide">
+        Total: <span id="status-sumTotal">0</span>
+        Online: <span id="status-sumOnline">0</span>
+        Offline: <span id="status-sumOffline">0</span>
+      </div>
+
+      <table class="oc-table oc-fullwidth">
+        <thead>
+          <tr>
+            <th>Serviço</th>
+            <th>Status</th>
+            <th>Mensagem</th>
+            <th>Última Atualização</th>
+          </tr>
+        </thead>
+        <tbody id="status-tbody">
+          <tr><td colspan="4">A carregar…</td></tr>
+        </tbody>
+      </table>
+
+      <section id="status-rawSection" class="status-rawSection hide">
+        <pre id="status-raw" class="status-raw"></pre>
+      </section>
+
+      <div id="status-err" class="status-error hide"></div>
+    </section>
+
+    <!-- Gráficos de Tendência -->
+    <section aria-labelledby="charts-title" class="oc-section grid gap-lg">
+      <div>
+        <h2 id="charts-title" class="oc-section__title">Tendência de Latência</h2>
+        <canvas id="chart-latency" width="400" height="200"></canvas>
+      </div>
+      <div>
+        <h2 class="oc-section__title">Quantidade de Itens</h2>
+        <canvas id="chart-items" width="400" height="200"></canvas>
+      </div>
+      <div>
+        <h2 class="oc-section__title">Tempo de Carregamento</h2>
+        <canvas id="chart-load" width="400" height="200"></canvas>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer oc-container" role="contentinfo">
+    <p>&copy; 2025 OmniCast. Todos os direitos reservados.</p>
+    <nav aria-label="Rodapé">
+      <ul class="footer-links flex gap-sm">
+        <li><a href="/help.html">Ajuda</a></li>
+        <li><a href="/config.html">Configurações</a></li>
+      </ul>
+    </nav>
+  </footer>
+
+  <!-- Entrypoint Dashboard -->
+  <script type="module" src="/js/pages/dashboard.js"></script>
+</body>
+</html>

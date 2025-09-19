@@ -1,0 +1,138 @@
+// frontend/js/pages/config.js
+
+import {
+  loadConfig,
+  updateConfig,
+  resetConfig,
+  resetConfigKey
+} from '../modules/configManager.js'
+import { showToast } from '../modules/alerts.js'
+
+document.addEventListener('DOMContentLoaded', () => {
+  const config = loadConfig()
+
+  // Elementos principais
+  const dropdownTrigger = document.getElementById('display-settings')
+  const dropdownMenu = document.getElementById('display-menu')
+  const themeLabel = document.getElementById('theme-label')
+  const viewmodeLabel = document.getElementById('viewmode-label')
+
+  // Controles de configuração
+  const btnResetAll = document.getElementById('btn-reset-config')
+  const btnResetKeys = document.querySelectorAll('[data-reset-key]')
+  const inputsConfig = document.querySelectorAll('[data-config]')
+  const inputsSons = document.querySelectorAll('[data-config-son]')
+
+  // Helpers
+  const updateDropdownLabels = () => {
+    themeLabel.textContent = config.tema === 'dark' ? 'Escuro' : 'Claro'
+    viewmodeLabel.textContent = config.viewmode === 'list' ? 'Lista' : 'Grade'
+  }
+
+  const applyThemeAndViewmode = () => {
+    document.documentElement.dataset.theme = config.tema
+    document.body.classList.toggle('list', config.viewmode === 'list')
+  }
+
+  const populateControls = () => {
+    inputsConfig.forEach(el => {
+      const key = el.dataset.config
+      if (el.type === 'checkbox') {
+        el.checked = Boolean(config[key])
+      } else if (el.type === 'number') {
+        el.value = Number(config[key])
+      } else {
+        el.value = config[key]
+      }
+    })
+
+    inputsSons.forEach(el => {
+      const sonKey = el.dataset.configSon
+      el.checked = Boolean(config.sonsAtivos[sonKey])
+    })
+  }
+
+  // Handlers
+  const handleConfigChange = ({ target }) => {
+    const key = target.dataset.config
+    const value =
+      target.type === 'checkbox'
+        ? target.checked
+        : target.type === 'number'
+        ? Number(target.value)
+        : target.value
+
+    const newCfg = updateConfig(key, value)
+    Object.assign(config, newCfg)
+
+    if (key === 'tema' || key === 'viewmode') {
+      applyThemeAndViewmode()
+    }
+
+    updateDropdownLabels()
+    showToast(`"${key}" atualizado`, { type: 'info' })
+  }
+
+  const handleSonToggle = ({ target }) => {
+    const sonKey = target.dataset.configSon
+    const newCfg = updateConfig('sonsAtivos', { [sonKey]: target.checked })
+    Object.assign(config, newCfg)
+    showToast(
+      `Som "${sonKey}" ${target.checked ? 'ativado' : 'desativado'}`,
+      { type: 'info' }
+    )
+  }
+
+  const resetAllConfigs = () => {
+    const defaults = resetConfig()
+    Object.assign(config, defaults)
+    populateControls()
+    updateDropdownLabels()
+    applyThemeAndViewmode()
+    showToast('Todas as configurações foram reiniciadas', { type: 'warning' })
+  }
+
+  const resetSingleKey = ({ target }) => {
+    const key = target.dataset.resetKey
+    const newCfg = resetConfigKey(key)
+    Object.assign(config, newCfg)
+    populateControls()
+    updateDropdownLabels()
+    if (key === 'tema' || key === 'viewmode') {
+      applyThemeAndViewmode()
+    }
+    showToast(`Configuração "${key}" reiniciada`, { type: 'warning' })
+  }
+
+  // Dropdown do header
+  dropdownTrigger.addEventListener('click', () => {
+    const expanded = dropdownTrigger.getAttribute('aria-expanded') === 'true'
+    dropdownTrigger.setAttribute('aria-expanded', String(!expanded))
+    dropdownMenu.hidden = expanded
+  })
+
+  document.addEventListener('click', e => {
+    if (
+      !dropdownTrigger.contains(e.target) &&
+      !dropdownMenu.contains(e.target)
+    ) {
+      dropdownTrigger.setAttribute('aria-expanded', 'false')
+      dropdownMenu.hidden = true
+    }
+  })
+
+  // Bind events
+  inputsConfig.forEach(el =>
+    el.addEventListener('change', handleConfigChange)
+  )
+  inputsSons.forEach(el => el.addEventListener('change', handleSonToggle))
+  btnResetAll.addEventListener('click', resetAllConfigs)
+  btnResetKeys.forEach(btn =>
+    btn.addEventListener('click', resetSingleKey)
+  )
+
+  // Inicialização
+  populateControls()
+  updateDropdownLabels()
+  applyThemeAndViewmode()
+})

@@ -1,0 +1,261 @@
+Visão Geral e Status de Harmonia do Projeto
+Este documento faz um levantamento completo de todos os arquivos do projeto, sua localização, responsabilidades, dependências, estado atual de revisão e próximos passos para garantir consistência e harmonia total entre módulos.
+
+1. Módulo config (frontend/js/modules/config)
+configManager.js
+
+Responsabilidade: carregar, ler e atualizar configurações; emitir evento CONFIG_CHANGE_EVENT.
+
+Dependências: armazenamento local (LocalStorage ou API).
+
+Estado: revisado e harmonizado; JSDoc completo; testes pendentes.
+
+Ligações: consumido por quase todos os demais módulos (ui, network, dashboard).
+
+configUI.js
+
+Responsabilidade: renderizar interface de configuração, validações e salvar alterações.
+
+Dependências: configManager.
+
+Estado: finalizado; restam ajustes de acessibilidade e testes de interação.
+
+Ligações: desencadeia CONFIG_CHANGE_EVENT usado por uiControls, displaySettings, dashboardCycle.
+
+index.js
+
+Responsabilidade: ponto de entrada, reexporta configManager, CONFIG_CHANGE_EVENT, configUI.
+
+Estado: finalizado; documentado.
+
+2. Módulo utils (frontend/js/modules/utils)
+eventBus.js
+
+Responsabilidade: gerenciar subscribe/emit global de eventos.
+
+Estado: revisado; testes unitários pendentes.
+
+ocUtils.js
+
+Responsabilidade: funções de “safe access” e utilitários de objeto.
+
+Estado: revisado; documentar API e criar testes.
+
+svgRenderer.js
+
+Responsabilidade: manipular e injetar SVGs inline.
+
+Estado: revisado; faltam testes de renderização e edge cases.
+
+validator-core.js
+
+Responsabilidade: esquema de validação de dados genéricos.
+
+Estado: revisado; escrever validações adicionais e testes.
+
+debounce.js (pendente)
+
+Responsabilidade: implementar debounce e throttle.
+
+Estado: ainda não existe — criar, documentar e testar.
+
+index.js
+
+Responsabilidade: reexportar todos os utilitários para import único.
+
+Estado: finalizado; garantir que toda função em utils esteja listada.
+
+3. Módulo network (frontend/js/modules/network)
+statusService.js
+
+Responsabilidade: checar endpoint de status, medir latência, emitir STATUS_EVENT e STATUS_ERROR_EVENT.
+
+Estado: finalizado com polling opcional; testes unitários necessários.
+
+Ligações: consumido em dashboardUpdater, statusDashboard.
+
+registerServiceWorker.js
+
+Responsabilidade: registrar SW, escutar atualizações e emitir eventos PWA.
+
+Estado: revisado; faltam testes de integração PWA.
+
+offlineHandler.js
+
+Responsabilidade: detectar offline/online, exibir banner acessível, retry, emitir NETWORK_OFFLINE_EVENT e NETWORK_ONLINE_EVENT.
+
+Estado: finalizado com cleanup; testes E2E pendentes.
+
+pwaUpdater.js
+
+Responsabilidade: controlar prompt de atualização PWA, notificações ao usuário.
+
+Estado: revisado; ajustar UX e escrever testes.
+
+networkService.js (mencionado por dashboardUpdater)
+
+Responsabilidade: agregação de getNetworkMetrics e getSystemMetrics.
+
+Estado: finalizado; documentar e testar.
+
+metricsService.js
+
+Responsabilidade: obter métricas de rede/sistema via API ou navegador.
+
+Estado: finalizado; adicionar mocks para testes.
+
+index.js
+
+Responsabilidade: reexportar todos os serviços de rede.
+
+Estado: finalizado e documentado.
+
+4. Módulo dashboard (frontend/js/modules/dashboard)
+dashboardCharts.js
+
+Responsabilidade: criar charts Chart.js (linhas e barras) com métodos addPoint e updateItems.
+
+Estado: finalizado; documentar config keys (dashboardMaxPoints, dashboardColors) e testes.
+
+dashboardController.js
+
+Responsabilidade: montar UI do dashboard, tabs, fetch de /api/metrics, preencher estatísticas e charts, auto‐refresh.
+
+Estado: finalizado com API de fetchAndRender, startAuto, stopAuto, cleanup; testes pendentes.
+
+dashboardCycle.js
+
+Responsabilidade: ciclar painéis automaticamente conforme panelCycleIntervalMs, emitir PANEL_CYCLE_EVENT.
+
+Estado: finalizado; testes unitários e ajustes CSS necessários.
+
+statusDashboard.js
+
+Responsabilidade: painel de status simples (uso de getStatus); exibe latência e badges.
+
+Estado: parcialmente revisado; faltam testes e harmonização visual.
+
+dashboardUpdater.js
+
+Responsabilidade: ciclo completo de atualização integrada (getStatus, getNetworkMetrics, getSystemMetrics), update de DOM, sons e animações.
+
+Estado: finalizado com cleanup; documentar config keys e escrever testes.
+
+index.js
+
+Responsabilidade: ponto de entrada, reexporta toda a API @modules/dashboard.
+
+Estado: finalizado; garante imports únicos.
+
+5. Módulo ui (frontend/js/modules/ui)
+alerts.js
+
+Responsabilidade: exibir toasts, tocar sons, animar pulso, emitir ui:toast e sound:played.
+
+Estado: finalizado; escrever testes de criação/removal de toasts e sons.
+
+componentLoader.js
+
+Responsabilidade: carregar HTML externo, injetar no DOM, executar scripts inline, emitir component:loaded/component:error.
+
+Estado: finalizado; testes de fetch e fallback necessários.
+
+displaySettings.js
+
+Responsabilidade: menu de tema e viewmode (toggle, persistência, sincronização on config change).
+
+Estado: finalizado com cleanup; ajustes de acessibilidade e testes de menu.
+
+formatSwitcher.js
+
+Responsabilidade: alternar aspect-ratio do container principal, persistir formatoInicial, reagir a config changes.
+
+Estado: finalizado; documentar e testar com root customizado.
+
+themeManager.js
+
+Responsabilidade: detectar tema inicial, aplicar classes e atributo data-theme, toggle, sync com config changes.
+
+Estado: finalizado com cleanup; testes unitários necessários.
+
+uiControls.js
+
+Responsabilidade: painel de configurações unificado (tema, alertas de update, auto‐refresh, sons, botões), atualizar configManager, reagir a config changes.
+
+Estado: finalizado; testes complexos de interação UI e config.
+
+index.js
+
+Responsabilidade: entry-point reexportando toda API @modules/ui, incluindo alerts, componentLoader, displaySettings, formatSwitcher, themeManager e uiControls.
+
+Estado: finalizado; garantir cobertura de todos os arquivos.
+
+6. Páginas (frontend/js/pages)
+Cada arquivo de página deve:
+
+Usar componentLoader para montar layout.
+
+Importar apenas de @modules/.../index.js.
+
+Inicializar módulos (initDisplaySettings, initUiControls, initDashboard, etc.).
+
+Ouvir eventos relevantes (config:changed, network:offline, panelCycle:changed).
+
+Estado: revisão ainda pendente; converter todos os imports diretos em imports via módulos centralizados e adicionar cleanup quando aplicável.
+
+Cuidados para Manter Harmonia Total
+Consistência de Configurações
+
+Usar configManager.getAll() em vez de loadConfig()/get() isolado.
+
+Documentar todas as chaves no README:
+
+offlineAlert, offlineMessage, offlineRetryMessage, offlineRestoreMessage
+
+statusEndpoint, statusTimeoutMs, statusPollIntervalMs
+
+dashboardMaxPoints, dashboardColors, dashboardLatencyThresholdMs, dashboardUpdateIntervalMs, dashboardAutoRefresh
+
+panelCycleIntervalMs
+
+formatoInicial, tema, viewmode
+
+updateAlert, autoRefresh, sonsAtivos, volume
+
+Import/Export Centralizados
+
+Todos os módulos devem reexportar via index.js no seu diretório.
+
+Páginas e outros módulos devem importar apenas de @modules/....
+
+Eventos Globais
+
+Padronizar nomes (namespace:event) e usar eventBus para comunicação entre módulos.
+
+Documentar todos os eventos no README.
+
+Cleanup e Testabilidade
+
+Toda inicialização (initX) deve retornar função de cleanup.
+
+Evitar listeners globais sem remover.
+
+Permitir injeção de root em funções DOM-centric para facilitar testes.
+
+Documentação e JSDoc
+
+Cada função pública com bloco JSDoc completo (parâmetros, retornos, typedefs, @fires).
+
+Manter exemplos de uso no README.
+
+Estilo e Acessibilidade
+
+Verificar roles, ARIA attributes, keyboard handling e mensagens assertivas (aria-live).
+
+Harmonizar classes BEM e utilitários CSS.
+
+CI/CD e Qualidade
+
+Configurar Actions para lint, type-check (se aplicável), testes unitários e E2E.
+
+Validar cobertura e garantir que novos arquivos sejam adicionados aos exports centrais.

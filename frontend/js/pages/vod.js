@@ -1,114 +1,155 @@
-// assets/js/pages/vod.js
+// frontend/js/pages/vod.js
 
-import { loadConfig } from '../modules/configManager.js';
-import { ListView } from '../modules/listView.js';
-import { validarStream } from '../modules/validator-core.js';
-import { initPlayerModal } from '../modules/player.js';
-import { toggleFavorite } from '../modules/favorites.js';
-import { buildCandidates, getFallback, applyImgFallback } from '../modules/ocUtils.js';
+import { initTheme }            from '@modules/ui/themeManager.js'
+import { initDisplaySettings }  from '@modules/ui/displaySettings.js'
+import { initUiControls }       from '@modules/ui/uiControls.js'
+import { showToast }            from '@modules/ui/alerts.js'
+
+import { initPwaUpdater }       from '@modules/network/pwaUpdater.js'
+import { initOfflineHandler }   from '@modules/network/offlineHandler.js'
+
+import { configManager }        from '@modules/config/configManager.js'
+
+import { ListView }             from '@modules/list/listView.js'
+
+import {
+  buildCandidates,
+  getFallback,
+  applyImgFallback
+} from '@modules/utils/ocUtils.js'
+import { validateStream }       from '@modules/utils/validator-core.js'
+
+import { initStreamPlayer }     from '@modules/media/streamPlayer.js'
+import { toggleFavorite }       from '@modules/media/favorites.js'
 
 /**
  * Inicializa a página de VOD:
  * - Lista paginada com busca, filtros por categoria e favoritos
- * - Validação de streams antes de incluir no listing
+ * - Validação de streams antes de exibir
  * - Player modal para reprodução de vídeo
  */
 export async function initVODPage() {
-  const cfg = loadConfig();
-  // Prepara player modal e expõe playItem para handlers de card
-  const { playItem } = initPlayerModal({ maxRetries: cfg.playerMaxRetries });
+  const cfg          = configManager.loadConfig()
+  const { playItem } = initStreamPlayer({ maxRetries: cfg.playerMaxRetries })
 
-  // Cria e configura ListView
   const view = new ListView({
-    type: 'vod',
-    containerId: 'vod-container',
+    type:           'vod',
+    containerId:    'vod-container',
     toolbar: {
-      searchId: 'vod-search',
-      sortId: 'vod-sort',
-      sortDirId: 'vod-sort-dir',
-      favBtnId: 'vod-favs',
-      countsId: 'vod-counts',
+      searchId:   'vod-search',
+      sortId:     'vod-sort',
+      sortDirId:  'vod-sort-dir',
+      favBtnId:   'vod-favs',
+      countsId:   'vod-counts',
       filters: [
         { id: 'vod-category', key: 'category' }
       ]
     },
-    // VOD traz muitos itens, sem button “Mais” (página única)
-    pageSize: Infinity,
+    pageSize:       Infinity,
     paginationMode: 'button',
-    emptyMessage: 'Nenhum título encontrado com os filtros atuais.',
+    emptyMessage:   'Nenhum título encontrado com os filtros atuais.',
 
-    // Filtra offline/online e anexa campo `online`
+    /**
+     * Valida um item de VOD verificando o stream via HEAD/HLS.
+     * @param {object} item
+     * @returns {Promise<object>} item estendido com flag `online`
+     */
     validateItem(item) {
-      const url = item.stream_url || item.urls?.stream;
-      return validarStream(url).then(res => ({ ...item, online: res.online }));
+      return validateStream(item)
+        .then(({ online }) => ({ ...item, online }))
     },
 
-    // Popula <select> de categoria
+    /**
+     * Preenche o select de categoria com opções únicas.
+     * @param {Array<object>} items
+     */
     populateFilters(items) {
-      const select = document.getElementById('vod-category');
-      const cats = [...new Set(items.map(i => i.category).filter(Boolean))].sort();
+      const select = document.getElementById('vod-category')
+      const cats   = [...new Set(items.map(i => i.category).filter(Boolean))].sort()
       select.innerHTML = [
         `<option value="">Todas as categorias</option>`,
         ...cats.map(c => `<option value="${c}">${c}</option>`)
-      ].join('');
+      ].join('')
     },
 
-    // Gera HTML de cada card VOD
+    /**
+     * Retorna o template HTML de cada card VOD.
+     * @param {object} item
+     * @param {number} idx
+     * @param {boolean} isFav
+     * @returns {string}
+     */
     card(item, idx, isFav) {
-      const name       = item.name || 'Sem título';
-      const candidates = buildCandidates(item).join('|');
-      const fallback   = getFallback('vod');
-      const category   = item.category ? ` — ${item.category}` : '';
+      const name       = item.name || 'Sem título'
+      const candidates = buildCandidates(item).join('|')
+      const fallback   = getFallback(item.type)
+      const category   = item.category ? ` — ${item.category}` : ''
+
       return `
         <div class="vod-card" tabindex="0" title="${name}">
           <img
             data-candidates="${candidates}"
-            data-fallback="${fallback}"
             alt="${name}${category}"
             loading="lazy"
           >
           <h3>${isFav ? '★ ' : ''}${name}</h3>
           <div class="actions" data-idx="${idx}">
-            <button class="btn btn-play" style="background:var(--vod)" data-action="play">
+            <button class="btn btn-play" data-action="play">
               Assistir
             </button>
-            <button class="btn btn-fav" style="background:${isFav ? '#f59e0b' : '#374151'}" data-action="fav">
+            <button class="btn btn-fav" data-action="fav">
               ${isFav ? '★' : '☆'} Favorito
             </button>
           </div>
         </div>
-      `;
+      `
     },
 
-    // Associa os eventos de play e favorito em cada render
+    /**
+     * Após renderizar:
+     * - Injeta imagens com lazy-load e fallback
+     * - Liga botões de play e favorito
+     */
     afterRender() {
-      const container = document.getElementById('vod-container');
-      applyImgFallback(container);
+      const container = document.getElementById('vod-container')
+      applyImgFallback(container)
 
       container.querySelectorAll('.actions').forEach(div => {
-        const idx  = Number(div.dataset.idx);
-        const item = view.filteredCache[idx];
+        const idx  = Number(div.dataset.idx)
+        const item = view.filteredCache[idx]
 
-        // Play abre modal e monta player
         div.querySelector('[data-action="play"]')
-           .addEventListener('click', () => playItem(item));
+           .addEventListener('click', () => playItem(item))
 
-        // Toggle favorito e reaplica filtros para atualizar UI
         div.querySelector('[data-action="fav"]')
            .addEventListener('click', () => {
-             toggleFavorite(item.id);
-             view.applyFilters();
-           });
-      });
+             toggleFavorite(item.id)
+             view.applyFilters()
+           })
+      })
     }
-  });
+  })
 
-  await view.init();
+  try {
+    await view.init()
+  } catch (err) {
+    console.error('[vod] falha ao inicializar ListView', err)
+    showToast('Erro ao carregar vídeos.', { type: 'critical' })
+  }
 }
 
-// Auto‐bootstrap quando houver container VOD
+// Bootstrap do VOD page
 document.addEventListener('DOMContentLoaded', () => {
+  // Tema, display, PWA e offline
+  initTheme()
+  initDisplaySettings()
+  const { updateAlert } = configManager.loadConfig()
+  initPwaUpdater({ updateAlert })
+  initOfflineHandler()
+  initUiControls()
+
+  // Dispara somente se existir o container
   if (document.getElementById('vod-container')) {
-    initVODPage();
+    initVODPage()
   }
-});
+})

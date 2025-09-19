@@ -1,168 +1,26 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+// frontend/js/pages/help.js
 
-  <!-- SEO -->
-  <title>Guia Rápido — OmniCast</title>
-  <meta
-    name="description"
-    content="Guia rápido de uso do PWA OmniCast: iniciar, interface, funcionalidades, atalhos e dicas."
-  />
-  <link rel="canonical" href="/pages/help.html" />
-  <meta property="og:title" content="Guia Rápido — OmniCast" />
-  <meta
-    property="og:description"
-    content="Guia rápido de uso do PWA OmniCast: iniciar, interface, funcionalidades, atalhos e dicas."
-  />
-  <meta property="og:image" content="/img/og-help.png" />
+import { initDisplaySettings } from '../modules/displaySettings.js'
+import { initPwaUpdater }      from '../modules/pwaUpdater.js'
+import { applyTheme }          from '../modules/themeManager.js'
+import { initUiControls }      from '../modules/uiControls.js'
 
-  <!-- PWA -->
-  <meta name="theme-color" content="#27ae60" />
-  <link rel="manifest" href="/manifest.webmanifest" />
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Aplica o tema salvo (light/dark)
+  applyTheme()
 
-  <!-- Favicons -->
-  <link
-    rel="icon"
-    href="/img/favicon.png"
-    sizes="32x32"
-    type="image/png"
-  />
-  <link
-    rel="apple-touch-icon"
-    href="/img/icons/icon-symbol-192.png"
-    sizes="192x192"
-  />
-  <link
-    rel="apple-touch-icon"
-    href="/img/icons/icon-symbol-512.png"
-    sizes="512x512"
-  />
+  // 2. Inicializa o menu de definições (tema e modo de visualização)
+  initDisplaySettings()
 
-  <!-- CSS Global -->
-  <link rel="stylesheet" href="/css/base.css" />
-  <link rel="stylesheet" href="/css/utilities.css" />
-  <link rel="stylesheet" href="/css/theme.css" />
-  <link rel="stylesheet" href="/css/layout.css" />
-  <link rel="stylesheet" href="/css/components.css" />
-  <link rel="stylesheet" href="/css/overrides.css" />
+  // 3. Regista o service worker e notifica sobre updates
+  initPwaUpdater()
 
-  <!-- CSS desta página -->
-  <link rel="stylesheet" href="/css/help.css" />
-</head>
+  // 4. Comportamentos de UI genéricos (skip-link, foco, atalhos globais)
+  initUiControls()
 
-<body data-theme="light">
-  <a class="skip-link" href="#main-content" tabindex="0">
-    Pular para o conteúdo
-  </a>
-
-  <!-- HEADER / INTRO -->
-  <header class="help-header oc-container" role="banner">
-    <h1 class="help-header__title">Guia Rápido — OmniCast</h1>
-    <p class="help-header__intro">
-      Bem-vindo ao <strong>OmniCast</strong>! Tire partido de todas as funcionalidades da plataforma.
-    </p>
-  </header>
-
-  <!-- SUMÁRIO -->
-  <nav aria-label="Sumário do Guia" class="help-toc oc-container">
-    <ul class="help-toc__list">
-      <li><a href="#iniciar" class="help-toc__link">1. Iniciar</a></li>
-      <li><a href="#interface" class="help-toc__link">2. Interface</a></li>
-      <li><a href="#funcionalidades" class="help-toc__link">3. Funcionalidades</a></li>
-      <li><a href="#atalhos" class="help-toc__link">4. Atalhos de Teclado</a></li>
-      <li><a href="#dicas" class="help-toc__link">5. Dicas</a></li>
-    </ul>
-  </nav>
-
-  <!-- CONTEÚDO PRINCIPAL -->
-  <main id="main-content" class="oc-container help-main" role="main" tabindex="-1">
-    <!-- 1. Iniciar -->
-    <section id="iniciar" class="help-section" aria-labelledby="iniciar-title">
-      <h2 id="iniciar-title" class="help-section__title">1. Iniciar</h2>
-      <ul class="help-list">
-        <li><code>index.html</code> ou acesse o URL configurado.</li>
-        <li>O OmniCast carrega o Dashboard com métricas e atalhos.</li>
-        <li>Não há instalação: basta ter os arquivos no diretório correto.</li>
-      </ul>
-    </section>
-
-    <!-- 2. Interface -->
-    <section id="interface" class="help-section" aria-labelledby="interface-title">
-      <h2 id="interface-title" class="help-section__title">2. Interface</h2>
-      <ul class="help-list">
-        <li>Barra superior: navegação, tema, configurações e ajuda.</li>
-        <li>Área principal: grid de IPTV, VOD, webcams ou lista de rádios.</li>
-        <li>Filtros e pesquisa refinam resultados em tempo real.</li>
-        <li>Ações: abrir stream, adicionar/remover favoritos.</li>
-      </ul>
-    </section>
-
-    <!-- 3. Funcionalidades -->
-    <section id="funcionalidades" class="help-section" aria-labelledby="funcionalidades-title">
-      <h2 id="funcionalidades-title" class="help-section__title">3. Funcionalidades</h2>
-      <ul class="help-list">
-        <li>Favoritos: acesso rápido a canais, vídeos e webcams.</li>
-        <li>Filtros dinâmicos: resultados instantâneos.</li>
-        <li>Validação de streams: só conteúdos online aparecem.</li>
-        <li>Player integrado com Picture-in-Picture e HLS.</li>
-        <li>Dashboard mostra métricas e estado dos serviços.</li>
-        <li>Configurações: tema, layout e preferências.</li>
-        <li>PWA: instale como app no desktop ou mobile.</li>
-      </ul>
-    </section>
-
-    <!-- 4. Atalhos de Teclado -->
-    <section id="atalhos" class="help-section" aria-labelledby="atalhos-title">
-      <h2 id="atalhos-title" class="help-section__title">4. Atalhos de Teclado (Player)</h2>
-      <table class="shortcut-table" aria-label="Tabela de atalhos do player">
-        <caption class="shortcut-table__caption">Teclas de atalho</caption>
-        <thead>
-          <tr><th>Tecla</th><th>Função</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Espaço</td><td>Play / Pause</td></tr>
-          <tr><td>→</td><td>Avançar 10 s</td></tr>
-          <tr><td>←</td><td>Recuar 10 s</td></tr>
-          <tr><td>M</td><td>Mudo / Som</td></tr>
-          <tr><td>F</td><td>Tela cheia</td></tr>
-          <tr><td>P</td><td>Modo apresentação</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- 5. Dicas -->
-    <section id="dicas" class="help-section" aria-labelledby="dicas-title">
-      <h2 id="dicas-title" class="help-section__title">5. Dicas</h2>
-      <ul class="help-list">
-        <li>OmniCast atualiza automaticamente se <code>master_list.json</code> ou <code>status.json</code> mudarem.</li>
-        <li>No tema claro, botões têm contraste otimizado.</li>
-        <li>Fullscreen mantém os controles visíveis.</li>
-        <li>Favoritos sincronizam em tempo real entre abas.</li>
-      </ul>
-    </section>
-  </main>
-
-  <!-- NAVEGAÇÃO RÁPIDA -->
-  <nav aria-label="Navegação OmniCast" class="help-nav oc-container">
-    <ul class="help-nav__list flex wrap gap-sm">
-      <li><a href="/dashboard.html" class="oc-btn oc-btn--accent">📊 Dashboard</a></li>
-      <li><a href="/pages/iptv.html" class="oc-btn oc-btn--iptv">📺 IPTV</a></li>
-      <li><a href="/pages/vod.html" class="oc-btn oc-btn--vod">🎬 VOD</a></li>
-      <li><a href="/pages/webcams.html" class="oc-btn oc-btn--webcam">📷 Webcams</a></li>
-      <li><a href="/pages/radio.html" class="oc-btn oc-btn--radio">📻 Rádio</a></li>
-      <li><a href="/pages/favoritos.html" class="oc-btn oc-btn--fav">⭐ Favoritos</a></li>
-      <li><a href="/config.html" class="oc-btn oc-btn--config">⚙️ Configurações</a></li>
-    </ul>
-  </nav>
-
-  <!-- FOOTER -->
-  <footer class="site-footer oc-container" role="contentinfo">
-    <p>&copy; 2025 OmniCast. Todos os direitos reservados.</p>
-  </footer>
-
-  <!-- Entrypoint único -->
-  <script type="module" src="/js/sw-register.js"></script>
-</body>
-</html>
+  // 5. Toggle de seções de FAQ (botões com data-help-toggle)
+  document.querySelectorAll('[data-help-toggle]').forEach(btn => {
+    const panel = document.querySelector(btn.dataset.helpTarget)
+    btn.addEventListener('click', () => panel.classList.toggle('expanded'))
+  })
+})

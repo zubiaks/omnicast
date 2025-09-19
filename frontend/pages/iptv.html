@@ -10,7 +10,7 @@
     name="description"
     content="Assista canais de IPTV diretamente no OmniCast."
   />
-  <link rel="canonical" href="/pages/iptv.html" />
+  <link rel="canonical" href="/iptv.html" />
   <meta property="og:title" content="OmniCast — IPTV" />
   <meta
     property="og:description"
@@ -70,143 +70,71 @@
         />
         <h1 class="oc-hero__title">IPTV</h1>
       </div>
-      <div class="flex align-center gap-sm">
-        <nav
-          id="primary-navigation"
-          role="navigation"
-          aria-label="Menu principal"
-        >
-          <ul class="oc-nav flex align-center gap-md">
-            <li>
-              <a href="/index.html" class="oc-nav__link">
-                <img
-                  src="/img/icons/icon-home.svg"
-                  alt=""
-                  class="oc-nav__icon"
-                />
-                <span>Início</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="/pages/iptv.html"
-                class="oc-nav__link oc-nav__link--active"
-                aria-current="page"
-              >
-                <img
-                  src="/img/icons/icon-iptv.svg"
-                  alt=""
-                  class="oc-nav__icon"
-                />
-                <span>IPTV</span>
-              </a>
-            </li>
-            <li>
-              <a href="/pages/webcams.html" class="oc-nav__link">
-                <img
-                  src="/img/icons/icon-webcams.svg"
-                  alt=""
-                  class="oc-nav__icon"
-                />
-                <span>Webcams</span>
-              </a>
-            </li>
-            <li>
-              <a href="/pages/vod.html" class="oc-nav__link">
-                <img
-                  src="/img/icons/icon-vod.svg"
-                  alt=""
-                  class="oc-nav__icon"
-                />
-                <span>VOD</span>
-              </a>
-            </li>
-            <li>
-              <a href="/pages/radio.html" class="oc-nav__link">
-                <img
-                  src="/img/icons/icon-radio.svg"
-                  alt=""
-                  class="oc-nav__icon"
-                />
-                <span>Rádio</span>
-              </a>
-            </li>
-            <li>
-              <a href="/pages/favoritos.html" class="oc-nav__link">
-                <img
-                  src="/img/icons/icon-favoritos.svg"
-                  alt=""
-                  class="oc-nav__icon"
-                />
-                <span>Favoritos</span>
-              </a>
-            </li>
-            <li>
-              <a href="/dashboard.html" class="oc-nav__link">
-                <img
-                  src="/img/icons/icon-dashboard.svg"
-                  alt=""
-                  class="oc-nav__icon"
-                />
-                <span>Dashboard</span>
-              </a>
-            </li>
-            <li>
-              <a href="/config.html" class="oc-nav__link">
-                <img
-                  src="/img/icons/icon-configuracoes.svg"
-                  alt=""
-                  class="oc-nav__icon"
-                />
-                <span>Configurações</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <div class="oc-dropdown">
-          <button
-            class="oc-dropdown__trigger"
-            id="display-settings"
-            aria-haspopup="true"
-            aria-expanded="false"
-            aria-controls="display-menu"
-            aria-label="Abrir definições"
-          >
-            ⚙️
-          </button>
-          <div
-            id="display-menu"
-            class="oc-dropdown__menu"
-            role="menu"
-            hidden
-          >
-            <button
-              class="oc-dropdown__item"
-              data-action="theme"
-              role="menuitem"
+      <nav id="primary-navigation" role="navigation" aria-label="Menu principal">
+        <ul class="oc-nav flex align-center gap-md">
+          <li>
+            <a href="/index.html" class="oc-nav__link">
+              <img src="/img/icons/icon-home.svg" alt="" class="oc-nav__icon" />
+              <span>Início</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="/iptv.html"
+              class="oc-nav__link oc-nav__link--active"
+              aria-current="page"
             >
-              Tema: <span id="theme-label"></span>
-            </button>
-            <button
-              class="oc-dropdown__item"
-              data-action="viewmode"
-              role="menuitem"
-            >
-              Modo: <span id="viewmode-label"></span>
-            </button>
-          </div>
-        </div>
-      </div>
+              <img src="/img/icons/icon-iptv.svg" alt="" class="oc-nav__icon" />
+              <span>IPTV</span>
+            </a>
+          </li>
+          <li>
+            <a href="/webcams.html" class="oc-nav__link">
+              <img src="/img/icons/icon-webcams.svg" alt="" class="oc-nav__icon" />
+              <span>Webcams</span>
+            </a>
+          </li>
+          <li>
+            <a href="/vod.html" class="oc-nav__link">
+              <img src="/img/icons/icon-vod.svg" alt="" class="oc-nav__icon" />
+              <span>VOD</span>
+            </a>
+          </li>
+          <li>
+            <a href="/radio.html" class="oc-nav__link">
+              <img src="/img/icons/icon-radio.svg" alt="" class="oc-nav__icon" />
+              <span>Rádio</span>
+            </a>
+          </li>
+          <li>
+            <a href="/favoritos.html" class="oc-nav__link">
+              <img src="/img/icons/icon-favoritos.svg" alt="" class="oc-nav__icon" />
+              <span>Favoritos</span>
+            </a>
+          </li>
+          <li>
+            <a href="/dashboard.html" class="oc-nav__link">
+              <img src="/img/icons/icon-dashboard.svg" alt="" class="oc-nav__icon" />
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="/config.html" class="oc-nav__link">
+              <img
+                src="/img/icons/icon-configuracoes.svg"
+                alt=""
+                class="oc-nav__icon"
+              />
+              <span>Configurações</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </header>
 
   <!-- CONTEÚDO PRINCIPAL -->
-  <main
-    id="main-content"
-    class="oc-container"
-    role="main"
-    tabindex="-1"
-  >
+  <main id="main-content" class="oc-container" role="main" tabindex="-1">
     <!-- Toolbar de filtros -->
     <div class="oc-toolbar" aria-label="Filtros IPTV">
       <div class="oc-toolbar__item">
@@ -219,83 +147,47 @@
         />
       </div>
       <div class="oc-toolbar__item">
-        <select
-          id="iptv-country"
-          class="oc-toolbar__select"
-          aria-label="Filtrar por país"
-        >
+        <select id="iptv-country" class="oc-toolbar__select" aria-label="Filtrar por país">
           <option value="">Todos os países</option>
         </select>
       </div>
       <div class="oc-toolbar__item">
-        <select
-          id="iptv-category"
-          class="oc-toolbar__select"
-          aria-label="Filtrar por categoria"
-        >
+        <select id="iptv-category" class="oc-toolbar__select" aria-label="Filtrar por categoria">
           <option value="">Todas as categorias</option>
         </select>
       </div>
       <div class="oc-toolbar__item">
-        <select
-          id="iptv-sort"
-          class="oc-toolbar__select"
-          aria-label="Ordenar lista"
-        >
+        <select id="iptv-sort" class="oc-toolbar__select" aria-label="Ordenar lista">
           <option value="name">Nome</option>
           <option value="country">País</option>
           <option value="status">Estado</option>
         </select>
       </div>
       <div class="oc-toolbar__item">
-        <button
-          id="iptv-sort-dir"
-          class="oc-toolbar__button"
-          data-dir="asc"
-          aria-label="Alternar ordem"
-        >
+        <button id="iptv-sort-dir" class="oc-toolbar__button" data-dir="asc" aria-label="Alternar ordem">
           ⇅
         </button>
       </div>
       <div class="oc-toolbar__item">
-        <button
-          id="iptv-favs"
-          class="oc-toolbar__button"
-          aria-pressed="false"
-        >
+        <button id="iptv-favs" class="oc-toolbar__button" aria-pressed="false">
           ⭐ Só favoritos
         </button>
       </div>
       <div class="oc-toolbar__item">
-        <span id="iptv-counts" class="oc-toolbar__count">
-          A carregar…
-        </span>
+        <span id="iptv-counts" class="oc-toolbar__count">A carregar…</span>
       </div>
     </div>
 
     <!-- Grid de Canais -->
-    <section
-      id="iptv-grid"
-      class="oc-card-grid"
-      aria-live="polite"
-    ></section>
+    <section id="iptv-grid" class="oc-card-grid" aria-live="polite"></section>
 
     <!-- Carregar mais -->
     <div class="center">
-      <button
-        id="iptv-more"
-        class="oc-btn--load-more hidden"
-        type="button"
-      >
+      <button id="iptv-more" class="oc-btn--load-more hidden" type="button">
         Carregar mais
       </button>
     </div>
-
-    <div
-      id="iptv-sentinel"
-      class="visually-hidden"
-      aria-hidden="true"
-    ></div>
+    <div id="iptv-sentinel" class="visually-hidden" aria-hidden="true"></div>
   </main>
 
   <!-- Modal de Player -->
@@ -307,23 +199,14 @@
     aria-label="Player de vídeo"
   >
     <div class="oc-modal__content">
-      <button
-        id="player-close"
-        class="oc-modal__close"
-        aria-label="Fechar player"
-      >
+      <button id="player-close" class="oc-modal__close" aria-label="Fechar player">
         ×
       </button>
-      <video
-        id="player"
-        class="oc-modal__video video-js"
-        controls
-        preload="auto"
-      ></video>
+      <video id="player" class="oc-modal__video video-js" controls preload="auto"></video>
     </div>
   </div>
 
-  <!-- Entrypoint único -->
+  <!-- Entrypoint IPTV -->
   <script type="module" src="/js/pages/iptv.js"></script>
 </body>
 </html>
