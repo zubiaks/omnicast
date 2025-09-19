@@ -16,3 +16,5 @@ export const mediaModule = {
   ...playerControls,
   ...favorites
 }
+
+export default mediaModule

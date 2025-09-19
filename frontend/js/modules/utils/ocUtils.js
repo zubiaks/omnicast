@@ -1,28 +1,28 @@
-// frontend/js/modules/utils/ocUtils.js
-
 import { configManager } from '@modules/config'
 
 /** Tipo padrão para fallback de ícones */
 const DEFAULT_FALLBACK_TYPE = 'vod'
 
-/** Caminho base para assets, configurable via configManager */
-const ASSETS_BASE = configManager.get('assetsBasePath') || '/assets/img'
+/** Função que devolve sempre o caminho base atual dos assets */
+function getAssetsBase() {
+  return configManager.get('assetsBasePath') || '/assets/img'
+}
 
-/** Mapa de ícones de fallback por tipo de mídia */
-const FALLBACK_ICON_MAP = {
-  iptv:   `${ASSETS_BASE}/icons/iptv.png`,
-  vod:    `${ASSETS_BASE}/icons/vod.png`,
-  webcam: `${ASSETS_BASE}/icons/webcam.png`,
-  radio:  `${ASSETS_BASE}/icons/radio.png`,
-  fav:    `${ASSETS_BASE}/icons/icon-fav.svg`
+/** Constrói dinamicamente o mapa de ícones de fallback */
+function buildFallbackIconMap() {
+  const base = getAssetsBase()
+  return {
+    iptv:   `${base}/icons/iptv.png`,
+    vod:    `${base}/icons/vod.png`,
+    webcam: `${base}/icons/webcam.png`,
+    radio:  `${base}/icons/radio.png`,
+    fav:    `${base}/icons/icon-fav.svg`
+  }
 }
 
 /**
  * Normaliza texto para comparações:
  * remove acentos, converte pra minúsculas e trim.
- *
- * @param {string} [str='']
- * @returns {string}
  */
 export function normalize(str = '') {
   return String(str)
@@ -32,12 +32,7 @@ export function normalize(str = '') {
     .toLowerCase()
 }
 
-/**
- * Escapa caracteres especiais em HTML para evitar XSS.
- *
- * @param {string} [str='']
- * @returns {string}
- */
+/** Escapa caracteres especiais em HTML para evitar XSS. */
 export function escapeHtml(str = '') {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -47,34 +42,23 @@ export function escapeHtml(str = '') {
     .replace(/'/g, '&#39;')
 }
 
-/**
- * Escapa caracteres especiais para uso dentro de RegExp.
- *
- * @param {string} [str='']
- * @returns {string}
- */
+/** Escapa caracteres especiais para uso dentro de RegExp. */
 export function escapeRegExp(str = '') {
   return String(str).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 /**
  * Retorna a URL de fallback para o tipo especificado.
- *
- * @param {string} [type=DEFAULT_FALLBACK_TYPE]
- * @returns {string}
  */
 export function getFallback(type = DEFAULT_FALLBACK_TYPE) {
   const key = String(type).toLowerCase()
-  return FALLBACK_ICON_MAP[key] || FALLBACK_ICON_MAP[DEFAULT_FALLBACK_TYPE]
+  const map = buildFallbackIconMap()
+  return map[key] || map[DEFAULT_FALLBACK_TYPE]
 }
 
 /**
  * Gera lista de URLs candidatas para imagens de item,
  * na ordem: thumb, logo, image, extras, fallback.
- *
- * @param {{thumb?: string, logo?: string, image?: string, type?: string}} item
- * @param {string[]} [extra=[]]
- * @returns {string[]}
  */
 export function buildCandidates(item = {}, extra = []) {
   const urls = [
@@ -91,9 +75,6 @@ export function buildCandidates(item = {}, extra = []) {
 /**
  * Substitui <img data-candidates="url1|url2|..."> por lazy-loading
  * com fallback em sequência.
- *
- * @param {HTMLElement|Document} [root=document]
- * @param {IntersectionObserverInit} [ioOptions={ rootMargin: '200px' }]
  */
 export function applyImgFallback(root = document, ioOptions = { rootMargin: '200px' }) {
   const images = Array.from(root.querySelectorAll('img[data-candidates]'))

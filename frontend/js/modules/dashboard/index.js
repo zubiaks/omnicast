@@ -26,3 +26,5 @@ export const dashboardModule = {
   ...statusDashboard,
   ...dashboardUpdater
 }
+
+export default dashboardModule

@@ -137,12 +137,19 @@ export function resetConfigKey(key) {
   return current
 }
 
+/** Novo método: obtém uma chave da configuração atual */
+export function get(key) {
+  const current = loadConfig()
+  return current[key]
+}
+
 /** Export agregado para compatibilidade */
 export const configManager = {
   loadConfig,
   updateConfig,
   resetConfig,
   resetConfigKey,
+  get, // 👈 agora disponível
   CONFIG_CHANGE_EVENT,
   CONFIG_RESET_EVENT
 }

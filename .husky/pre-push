@@ -1,0 +1,7 @@
+# .husky/pre-push
+#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run lint
+npm run test:unit
+npm run test:e2e

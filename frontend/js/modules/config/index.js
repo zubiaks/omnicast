@@ -12,5 +12,7 @@ import * as configUI from './configUI.js'
 /** Export agregado */
 export const configModule = {
   ...configManager,
-  ...configUI
+  ...configUI,
 }
+
+export default configModule

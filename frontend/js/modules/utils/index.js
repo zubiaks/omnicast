@@ -29,3 +29,5 @@ export const utilsModule = {
   debounce,
   throttle
 }
+
+export default utilsModule

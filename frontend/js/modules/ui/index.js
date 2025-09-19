@@ -56,3 +56,5 @@ export const uiModule = {
   ...themeManager,
   ...uiControls
 }
+
+export default uiModule

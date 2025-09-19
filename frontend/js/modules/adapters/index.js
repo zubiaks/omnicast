@@ -1,17 +1,18 @@
-import rtpAdapter from '@modules/adapters/rtpAdapter.js'
+// frontend/js/modules/adapters/index.js
+
+import rtpAdapter from './rtpAdapter.js'
 // futuros imports:
-// import hlsAdapter from '@modules/adapters/hlsAdapter.js'
-// import dashAdapter from '@modules/adapters/dashAdapter.js'
+// import hlsAdapter from './hlsAdapter.js'
+// import dashAdapter from './dashAdapter.js'
 
 import { eventBus } from '@modules/utils/eventBus.js'
 
-/**
- * @typedef {Object} PlayerAdapter
- * @property {(url: string, options?: object) => Promise<void>} connect
- * @property {() => void} play
- * @property {() => void} stop
- * @property {(cb: (err: Error) => void) => () => void} onError
- * @property {() => void} [destroy]
+/** @typedef {Object} PlayerAdapter
+ *  @property {(url: string, options?: object) => Promise<void>} connect
+ *  @property {() => void} play
+ *  @property {() => void} stop
+ *  @property {(cb: (err: Error) => void) => () => void} onError
+ *  @property {() => void} [destroy]
  */
 
 /** Mapa dos adapters disponíveis */
@@ -39,5 +40,4 @@ export const adaptersManager = {
   getAdapter
 }
 
-/** Export default para compatibilidade */
 export default adaptersManager

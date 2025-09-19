@@ -34,3 +34,5 @@ export const networkModule = {
   ...offlineHandler,
   ...pwaUpdater
 }
+
+export default networkModule

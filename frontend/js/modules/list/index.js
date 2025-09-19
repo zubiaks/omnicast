@@ -13,3 +13,5 @@ export const listModule = {
   ...listController,
   ...listView
 }
+
+export default listModule

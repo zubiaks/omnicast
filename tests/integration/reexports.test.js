@@ -20,8 +20,12 @@ describe('Reexports em modules/*/index.js', () => {
       const indexExports = Object.keys(indexMod)
 
       for (const file of files) {
-        const childMod     = await import(pathToFileURL(path.join(dirPath, file)).href)
+        const childPath    = path.join(dirPath, file)
+        const childMod     = await import(pathToFileURL(childPath).href)
         const childExports = Object.keys(childMod)
+
+        // Se o módulo não exporta nada, ignora
+        if (childExports.length === 0) continue
 
         childExports.forEach(key => {
           expect(indexExports).toContain(

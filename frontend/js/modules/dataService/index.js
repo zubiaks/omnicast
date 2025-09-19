@@ -9,3 +9,5 @@ import * as dataService from './dataService.js'
 export const dataServiceModule = {
   ...dataService
 }
+
+export default dataServiceModule
