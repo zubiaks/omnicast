@@ -19,17 +19,20 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          submodules: false      # evita erros de submódulos fantasmas
 
       - name: Setup Node.js 20.19.0
         uses: actions/setup-node@v4
         with:
           node-version: '20.19.0'
           cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            .npmrc            # invalida cache quando este arquivo mudar
 
-      - name: Install dependencies (disable optional deps)
-        env:
-          npm_config_optional: 'false'
-        run: npm ci --no-audit
+      - name: Install dependencies
+        run: npm ci --no-audit           
 
       - name: Build
         run: npm run build
