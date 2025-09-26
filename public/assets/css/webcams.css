@@ -1,0 +1,33 @@
+.webcams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.webcam-card {
+  background: #222831;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.webcam-card:hover {
+  transform: scale(1.03);
+}
+
+.webcam-snapshot {
+  width: 100%;
+  display: block;
+}
+
+.webcam-info {
+  padding: 0.5rem;
+  color: #eeeeee;
+  text-align: center;
+}
+
+.webcam-player {
+  margin-top: 1rem;
+  text-align: center;
+}

@@ -1,0 +1,7 @@
+A cada iteração:
+
+Incremente a versão no package.json.
+
+Adicione uma seção em CHANGELOG.md sob a nova versão e data.
+
+Atualize o README.md se houver mudanças de uso, configuração ou estrutura.
