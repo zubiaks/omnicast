@@ -26,8 +26,10 @@ jobs:
           node-version: '20.19.0'
           cache: 'npm'
 
-      - name: Install dependencies (skip optional)
-        run: npm ci --no-audit --no-optional
+      - name: Install dependencies (disable optional deps)
+        env:
+          npm_config_optional: 'false'
+        run: npm ci --no-audit
 
       - name: Build
         run: npm run build
