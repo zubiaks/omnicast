@@ -7,29 +7,27 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+concurrency:
+  group: ci-main-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   e2e:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 20.19.0
         uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: '20.19.0'
           cache: 'npm'
 
-      - name: Cache npm
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Install deps
-        run: npm ci
+      - name: Install dependencies (skip optional)
+        run: npm ci --no-audit --no-optional
 
       - name: Build
         run: npm run build
@@ -42,10 +40,10 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run E2E
+      - name: Run E2E tests
         run: npm run test:e2e
 
-      - name: Upload results
+      - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
