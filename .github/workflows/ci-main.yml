@@ -43,9 +43,11 @@ jobs:
       - name: Run E2E
         run: npm run test:e2e
 
-      - name: Upload results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: playwright-results
-          path: test-results/
++      - name: Upload results
++        if: always()
++        uses: actions/upload-artifact@v4
++        with:
++          name: playwright-results
++          path: test-results/
++          # opcional: defina por quantos dias manter o artefato
++          retention-days: 5
