@@ -1,4 +1,5 @@
-```markdown
+![CI](https://github.com/zubiaks/ominicast/actions/workflows/ci.yml/badge.svg?branch=develop)
+
 # OmniCast
 
 **Versão 0.1.1 – PWA Automático**
