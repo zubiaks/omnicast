@@ -34,7 +34,7 @@ jobs:
 
       - name: Start preview server
         run: |
-          npm run preview -- --port 5500 & 
+          npm run preview -- --port 5500 &
           npx wait-on http://localhost:5500
 
       - name: Install Playwright browsers
@@ -43,11 +43,10 @@ jobs:
       - name: Run E2E
         run: npm run test:e2e
 
-+      - name: Upload results
-+        if: always()
-+        uses: actions/upload-artifact@v4
-+        with:
-+          name: playwright-results
-+          path: test-results/
-+          # opcional: defina por quantos dias manter o artefato
-+          retention-days: 5
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: test-results/
+          retention-days: 5
