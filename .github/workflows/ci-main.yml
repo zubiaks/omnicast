@@ -1,56 +1,65 @@
-name: CI on main
+ name: CI on main
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+ on:
+   push:
+     branches: [ main ]
+   pull_request:
+     branches: [ main ]
+   workflow_dispatch:
 
-concurrency:
-  group: ci-main-${{ github.ref }}
-  cancel-in-progress: true
+ concurrency:
+   group: ci-main-${{ github.ref }}
+   cancel-in-progress: true
 
-jobs:
-  e2e:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+ jobs:
+-  e2e:
++  e2e:
+     runs-on: ubuntu-latest
+     timeout-minutes: 20
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          submodules: false
-          fetch-depth: 0
+     steps:
+       - name: Checkout repo
+         uses: actions/checkout@v4
+         with:
+           submodules: false
+           fetch-depth: 0
 
-      - name: Setup Node.js 20.19.0
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.19.0'
-          cache: 'npm'
-          cache-dependency-path: |
-            package-lock.json
-            .npmrc
++      - name: Validate package.json
++        run: npx jsonlint@1.6.3 package.json
 
-      - name: Install dependencies (omit optional deps)
-        run: npm ci --no-audit --omit=optional
+       - name: Setup Node.js 20.19.0
+         uses: actions/setup-node@v4
+         with:
+           node-version: '20.19.0'
+           cache: 'npm'
+           cache-dependency-path: |
+             package-lock.json
+             .npmrc
 
-      - name: Patch Rollup native module
-        run: npm install @rollup/rollup-linux-x64-gnu --no-save
+-      - name: Install dependencies (omit optional deps)
+-        run: npm ci --no-audit --omit=optional
++      - name: Install dependencies (omit optional deps)
++        run: npm ci --omit=optional
 
-      - name: Build
-        run: npm run build
++      - name: Security audit (fail on critical)
++        run: npm audit --audit-level=critical
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+       - name: Patch Rollup native module
+         run: npm install @rollup/rollup-linux-x64-gnu --no-save
 
-      - name: Run E2E tests
-        run: npm run test:e2e
+       - name: Build
+         run: npm run build
 
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-results
-          path: test-results/
-          retention-days: 5
+       - name: Install Playwright browsers
+         run: npx playwright install --with-deps
+
+       - name: Run E2E tests
+         run: npm run test:e2e
+
+       - name: Upload test results
+         if: always()
+         uses: actions/upload-artifact@v4
+         with:
+           name: playwright-results
+           path: test-results/
+           retention-days: 5
