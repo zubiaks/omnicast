@@ -1,3 +1,4 @@
+// playwright.config.js
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
@@ -5,27 +6,24 @@ export default defineConfig({
   timeout: 60000,
   retries: process.env.CI ? 2 : 0,
 
-  // 1) Reporters para JUnit e HTML dentro de test-results
   reporter: [
     ['list'],
     ['junit', { outputFile: 'test-results/junit/results.xml' }],
-    ['html',  { outputFolder: 'test-results/html-report', open: 'never' }]
+    ['html',  { outputFolder: 'html-report', open: 'never' }]
   ],
 
   use: {
     baseURL: 'http://localhost:5500',
     headless: true,
     trace: 'on-first-retry',
-
-    // 2) Capturas / vídeos / traces aqui
     outputDir: 'test-results',
   },
 
   webServer: {
-    command: 'npm run build && npm run preview -- --port 5500',
+    command: 'npm run dev:ci',
     port: 5500,
-    // Em CI você já roda preview manualmente, então podemos sempre reutilizar
     reuseExistingServer: true,
+    timeout: 120_000,
   },
 
   projects: [
