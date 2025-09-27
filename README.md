@@ -1,11 +1,12 @@
 [![CI](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions)
+[![Acessibilidade](https://github.com/zubiaks/omnicast/actions/workflows/accessibility.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/accessibility.yml)
 [![release](https://img.shields.io/github/v/release/zubiaks/omnicast?style=flat-square)](https://github.com/zubiaks/omnicast/releases/latest)
 [![license](https://img.shields.io/github/license/zubiaks/omnicast?style=flat-square)](LICENSE)
+[![Performance](https://github.com/zubiaks/omnicast/actions/workflows/lighthouse.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/lighthouse.yml)
 
 # OmniCast
 
 **Versão 1.0.0 – Lançamento Estável**
-
 
 O que há de novo:  
 - [x] PWA gerado automaticamente via `vite-plugin-pwa`  
@@ -16,6 +17,7 @@ O que há de novo:
 - [x] `hls.js` lazy-loaded em um chunk próprio  
 - [x] Bundle inicial abaixo de 600 kB; chunks separados por pacote  
 - [x] CI & E2E pipeline verde no GitHub Actions (omit optional deps + patch Rollup)  
+- [x] Testes de acessibilidade automatizados (axe-core + Playwright)  
 - [x] v1.0.0 – Lançamento estável  
 
 ---
@@ -28,6 +30,7 @@ O que há de novo:
 - [Instalação e Execução](#instalação-e-execução)  
 - [Scripts Úteis](#scripts-úteis)  
 - [Testes E2E (Playwright)](#testes-e2e-playwright)  
+- [Testes de Acessibilidade](#testes-de-acessibilidade)  
 - [Configuração do Vite](#configuração-do-vite)  
 - [Router Code-Split](#router-code-split)  
 - [Lazy-Load de HLS](#lazy-load-de-hls)  
@@ -46,7 +49,8 @@ O que há de novo:
 
 ## Visão Geral
 
-OmniCast é uma Progressive Web App de streaming que reúne demos de IPTV, VOD, rádio e webcams. Esta versão 1.0.0 consolida build otimizado, testes ponta a ponta e pipeline de CI estável.
+OmniCast é uma Progressive Web App de streaming que reúne demos de IPTV, VOD, rádio e webcams.  
+Esta versão 1.0.0 consolida build otimizado, testes ponta a ponta, acessibilidade automatizada e pipeline de CI estável.  
 
 ---
 
@@ -54,7 +58,7 @@ OmniCast é uma Progressive Web App de streaming que reúne demos de IPTV, VOD, 
 
 - Versão: 1.0.0  
 - Data: 2025-09-27  
-- Status: Lançamento estável com PWA, cache inteligente, code-split e CI/E2E verde  
+- Status: Lançamento estável com PWA, cache inteligente, code-split, CI/E2E e acessibilidade verde  
 
 ---
 
@@ -102,44 +106,79 @@ npm install
 ## Scripts Úteis
 
 ```bash
-# Desenvolvimento com Vite
-npm run dev
-
-# Preview de build estável em porta 5500
-npm run preview
-
-# Iniciar dev server para CI (porta 5500, sem clearScreen)
-npm run dev:ci
-
-# Testes E2E headless
-npm run test:e2e
-
-# Testes E2E com interface
-npm run test:e2e:headed
-
-# Abrir relatório HTML após E2E
-npm run test:e2e:report
+npm run dev                # desenvolvimento com Vite
+npm run dev:ci             # dev server para CI (porta 5500, sem clearScreen)
+npm run build              # build de produção
+npm run preview            # preview do build em localhost
+npm run test:e2e           # testes E2E headless (Playwright)
+npm run test:e2e:headed    # testes E2E com interface
+npm run test:e2e:report    # abrir relatório HTML
 ```
 
 ---
 
 ## Testes E2E (Playwright)
 
-Pré-requisitos: Node.js, npm sem optional deps  
+Pré-requisitos: Node.js, npm sem optional deps
 
 ```bash
-# Instala Playwright e browsers
 npm ci --no-audit --omit=optional
 npx playwright install --with-deps
-
-# Executa os testes em todos os browsers (Chromium, Firefox, WebKit)
 npm run test:e2e
+```
 
-# Executa os testes com GUI (ver cliques e navegações)
-npm run test:e2e:headed
+Os resultados JUnit são gerados em `test-results/junit`, o relatório HTML em `html-report`.  
 
-# Gera relatório HTML em 'html-report'
-npm run test:e2e:report
+---
+
+## Testes de Acessibilidade
+
+Os testes automatizados usam Playwright + axe-core para garantir conformidade WCAG2A/AA.
+
+Instalação:
+
+```bash
+npm install --save-dev @axe-core/playwright
+```
+
+Em `tests/accessibility.spec.js`:
+
+```js
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test.describe('Acessibilidade Básica', () => {
+  test('home sem violações WCAG2AA', async ({ page }) => {
+    await page.goto('/');
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .analyze();
+    expect(results.violations).toHaveLength(0);
+  });
+});
+```
+
+Workflow em `.github/workflows/accessibility.yml`:
+
+```yaml
+name: Acessibilidade
+
+on:
+  push: { branches: [ main ] }
+  pull_request: { branches: [ main ] }
+
+jobs:
+  axe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - run: npm ci --no-audit --omit=optional
+      - run: npx playwright install --with-deps
+      - run: npx playwright test tests/accessibility.spec.js
 ```
 
 ---
@@ -216,7 +255,7 @@ case 'iptv': {
 
 ## Lazy-Load de HLS
 
-Carregamento dinâmico em `js/hls-loader.js`:
+Em `js/hls-loader.js`:
 
 ```js
 let HlsConstructor
@@ -263,7 +302,7 @@ workbox: {
 }
 ```
 
-Teste no DevTools simulando rede offline.
+Testar no DevTools simulando rede offline.
 
 ---
 
@@ -280,7 +319,7 @@ export function hideSpinner() {
 }
 ```
 
-Inclua o CSS em `index.html` com `spinner.css`.
+Inclua o CSS em `index.html`.
 
 ---
 
@@ -298,7 +337,7 @@ export function showToast(message, type) {
 }
 ```
 
-Inclua `toast.css` em `index.html`.
+Inclua o CSS em `index.html`.
 
 ---
 
@@ -321,7 +360,7 @@ Páginas suportadas: Home, IPTV, VOD, Rádio, Webcams, Not Found.
 
 Para gerar relatório de chunks:
 
-1. Instale o plugin:
+1. Instale:
    ```bash
    npm install --save-dev rollup-plugin-visualizer
    ```
@@ -352,7 +391,6 @@ name: CI on main
 on:
   push: { branches: [ main ] }
   pull_request: { branches: [ main ] }
-  workflow_dispatch:
 
 jobs:
   e2e:
@@ -379,13 +417,13 @@ jobs:
 
 ## Contribuindo
 
-Leia o guia em [CONTRIBUTING.md](.github/CONTRIBUTING.md) antes de abrir issues ou PRs. Use nosso template em `.github/ISSUE_TEMPLATE` e `.github/PULL_REQUEST_TEMPLATE`.
+Leia o guia em [CONTRIBUTING.md](.github/CONTRIBUTING.md) antes de abrir issues ou PRs. Use nossos templates em `.github/ISSUE_TEMPLATE` e `.github/PULL_REQUEST_TEMPLATE`.  
 
 ---
 
 ## Licença
 
-MIT License. Veja o arquivo [LICENSE](LICENSE).
+MIT License. Veja o arquivo [LICENSE](LICENSE).  
 
 ---
 
