@@ -9,11 +9,12 @@
     "preview": "vite preview",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
-    "test:e2e:report": "playwright show-report",
+    "test:e2e:report": "playwright show-report"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.1",
     "@vitejs/plugin-legacy": "^7.2.1",
+    "jsonlint": "^1.6.3",
     "vite": "^7.1.7",
     "vite-plugin-pwa": "^1.0.3",
     "vite-plugin-tsconfig-paths": "^1.4.1"
