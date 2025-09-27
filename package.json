@@ -10,7 +10,6 @@
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:report": "playwright show-report",
-    "postinstall": "npm install @rollup/rollup-${npm_config_platform}-${npm_config_arch}-gnu --no-save"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.1",
