@@ -23,11 +23,21 @@ jobs:
           submodules: false
           fetch-depth: 0
 
-      - name: Debug npm config
-        run: npm config list
+      - name: Setup Node.js 20.19.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+          cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            .npmrc
 
       - name: Install dependencies (omit optional deps)
         run: npm ci --no-audit --omit=optional
+
+      - name: Patch Rollup native module
+        # este pacote é opcional, mas o Rollup “native.js” vai chamar ele de qualquer forma
+        run: npm install @rollup/rollup-linux-x64-gnu --no-save
 
       - name: Build
         run: npm run build
