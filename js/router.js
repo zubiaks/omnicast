@@ -1,43 +1,25 @@
 // js/router.js
 import { showSpinner, hideSpinner } from './utils/spinner.js'
-import {
-  renderHome,
-  renderIptv,
-  renderVod,
-  renderRadio,
-  renderWebcams,
-  renderNotFound
-} from './pages/index.js'
 
 export function initRouter(container) {
   let cleanupCurrent = null
 
-  // Realça o link ativo no menu
   function highlightNav(route) {
     document.querySelectorAll('.site-nav a').forEach(link => {
-      // link.getAttribute('href') é algo como "#/iptv"
       const linkRoute = link.getAttribute('href').replace('#/', '')
       link.classList.toggle('active', linkRoute === route)
     })
   }
 
-  // Trata a rota atual
   async function handleRoute() {
-    // extraí "home" de "#" ou "#/home"
-    const raw = location.hash.startsWith('#/') 
-      ? location.hash.slice(2) 
-      : ''
+    const raw   = location.hash.startsWith('#/') ? location.hash.slice(2) : ''
     const route = raw || 'home'
 
     highlightNav(route)
 
-    // cleanup da página anterior
     if (typeof cleanupCurrent === 'function') {
-      try {
-        cleanupCurrent()
-      } catch (err) {
-        console.error('[Router] cleanup error:', err)
-      }
+      try { cleanupCurrent() }
+      catch (err) { console.error('[Router] cleanup error:', err) }
       cleanupCurrent = null
     }
 
@@ -46,38 +28,46 @@ export function initRouter(container) {
 
     try {
       switch (route) {
-        case 'home':
+        case 'home': {
+          const { renderHome } = await import('./pages/home.js')
           cleanupFn = renderHome(container)
           break
-        case 'iptv':
+        }
+        case 'iptv': {
+          const { renderIptv } = await import('./pages/iptv.js')
           cleanupFn = await renderIptv(container)
           break
-        case 'vod':
-          cleanupFn = await renderVod(container)
+        }
+        case 'vod': {
+          const { renderVod } = await import('./pages/vod.js')
+          cleanupFn = renderVod(container)
           break
-        case 'radio':
-          cleanupFn = await renderRadio(container)
+        }
+        case 'radio': {
+          const { renderRadio } = await import('./pages/radio.js')
+          cleanupFn = renderRadio(container)
           break
-        case 'webcams':
-          cleanupFn = await renderWebcams(container)
+        }
+        case 'webcams': {
+          const { renderWebcams } = await import('./pages/webcams.js')
+          cleanupFn = renderWebcams(container)
           break
-        default:
+        }
+        default: {
+          const { renderNotFound } = await import('./pages/not-found.js')
           cleanupFn = renderNotFound(container)
+        }
       }
     } catch (err) {
       console.error('[Router] render error:', err)
+      const { renderNotFound } = await import('./pages/not-found.js')
       cleanupFn = renderNotFound(container)
     }
 
     hideSpinner()
-
-    // armazena cleanup retornado pela página
-    if (typeof cleanupFn === 'function') {
-      cleanupCurrent = cleanupFn
-    }
+    if (typeof cleanupFn === 'function') cleanupCurrent = cleanupFn
   }
 
   window.addEventListener('hashchange', handleRoute)
-  // inicializa na carga
   handleRoute()
 }

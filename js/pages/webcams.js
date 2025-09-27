@@ -1,4 +1,6 @@
+// js/pages/webcams.js
 import { showToast } from '@/utils/toast.js'
+import { loadHls } from '../hls-loader.js'
 
 export async function renderWebcams(container) {
   console.log('[Webcams] renderWebcams start')
@@ -11,10 +13,10 @@ export async function renderWebcams(container) {
       <div id="webcam-player" class="webcam-player"></div>
     </section>
   `
-  const gridEl = container.querySelector('#webcams-grid')
-  const playerEl = container.querySelector('#webcam-player')
-  let cams = []
-  let refreshInterval
+  const gridEl     = container.querySelector('#webcams-grid')
+  const playerEl   = container.querySelector('#webcam-player')
+  let cams         = []
+  let refreshTimer = null
 
   try {
     const res = await fetch('/data/webcams.json', { cache: 'no-store' })
@@ -30,19 +32,6 @@ export async function renderWebcams(container) {
           <div class="webcam-info">${c.name}</div>
         </div>
       `).join('')
-
-    function refresh() {
-      cams.forEach((c, i) => {
-        const img = gridEl.querySelector(
-          '.webcam-card[data-index="' + i + '"] .webcam-snapshot'
-        )
-        if (img) img.src = `${c.snapshotUrl}?t=${Date.now()}`
-      })
-      console.log('[Webcams] snapshots refreshed')
-    }
-
-    refreshInterval = setInterval(refresh, 30000)
-    console.log('[Webcams] refreshInterval started')
   } catch (err) {
     console.error('[Webcams] fetch failed:', err)
     gridEl.textContent = 'Falha ao carregar webcams.'
@@ -50,7 +39,19 @@ export async function renderWebcams(container) {
     return
   }
 
-  gridEl.addEventListener('click', e => {
+  function refreshSnapshots() {
+    cams.forEach((c, i) => {
+      const img = gridEl.querySelector(
+        `.webcam-card[data-index="${i}"] .webcam-snapshot`
+      )
+      if (img) img.src = `${c.snapshotUrl}?t=${Date.now()}`
+    })
+    console.log('[Webcams] snapshots refreshed')
+  }
+  refreshTimer = setInterval(refreshSnapshots, 30_000)
+  console.log('[Webcams] refreshInterval started')
+
+  const onCardClick = async e => {
     const card = e.target.closest('.webcam-card')
     if (!card) return
 
@@ -60,19 +61,39 @@ export async function renderWebcams(container) {
       return showToast('Nenhum stream disponível.', 'error')
     }
 
-    playerEl.innerHTML = `
-      <video controls autoplay style="width:100%;height:auto">
-        <source src="${cam.streamUrl}" type="application/x-mpegURL" />
-        Seu navegador não suporta esse formato.
-      </video>
-    `
+    gridEl.querySelectorAll('.webcam-card.active')
+      .forEach(c => c.classList.remove('active'))
+    card.classList.add('active')
+
+    playerEl.innerHTML = `<video class="webcam-video" controls autoplay style="width:100%;height:auto"></video>`
+    const video = playerEl.querySelector('video')
+
+    if (cam.streamUrl.endsWith('.m3u8')) {
+      const Hls = await loadHls()
+      if (Hls.isSupported()) {
+        const hls = new Hls()
+        hls.loadSource(cam.streamUrl)
+        hls.attachMedia(video)
+        hls.on(Hls.Events.ERROR, (_evt, data) => {
+          console.error('[Webcams] HLS error:', data)
+          showToast(`Stream error: ${data.type}`, 'error')
+        })
+      } else {
+        video.src = cam.streamUrl
+      }
+    } else {
+      video.src = cam.streamUrl
+    }
+
     showToast(`Reproduzindo: ${cam.name}`, 'success')
-  })
+  }
+
+  gridEl.addEventListener('click', onCardClick)
 
   console.log('[Webcams] renderWebcams end')
 
   return () => {
-    clearInterval(refreshInterval)
-    gridEl.removeEventListener('click', onGridClick)
+    clearInterval(refreshTimer)
+    gridEl.removeEventListener('click', onCardClick)
   }
 }

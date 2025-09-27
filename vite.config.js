@@ -9,6 +9,7 @@ export default defineConfig({
   root: '.',
   base: './',
   publicDir: 'public',
+
   server: {
     port: 5500,
     strictPort: true,
@@ -17,14 +18,18 @@ export default defineConfig({
       'Cache-Control': 'no-store, max-age=0'
     }
   },
+
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'js')
     }
   },
+
   plugins: [
     tsconfigPaths(),
-    legacy({ targets: ['defaults', 'not IE 11'] }),
+    legacy({
+      targets: ['defaults', 'not IE 11']
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: { enabled: false },
@@ -32,10 +37,10 @@ export default defineConfig({
       includeAssets: [
         'favicon.svg',
         'robots.txt',
-        'public/data/iptv-channels.json',
-        'public/data/vod-videos.json',
-        'public/data/radio-stations.json',
-        'public/data/webcams.json'
+        'data/iptv-channels.json',
+        'data/vod-videos.json',
+        'data/radio-stations.json',
+        'data/webcams.json'
       ],
       manifest: {
         name: 'OmniCast',
@@ -75,11 +80,28 @@ export default defineConfig({
       }
     })
   ],
+
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
-      input: path.resolve(__dirname, 'index.html')
-    }
+      input: path.resolve(__dirname, 'index.html'),
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            const dirs = id.split('node_modules/')[1].split('/')
+            return dirs[0]
+          }
+        },
+        assetFileNames(assetInfo) {
+          if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+            return 'assets/css/[name]-[hash][extname]'
+          }
+          return 'assets/[name]-[hash][extname]'
+        }
+      }
+    },
+    sourcemap: false
   }
 })

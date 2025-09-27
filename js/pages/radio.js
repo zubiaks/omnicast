@@ -1,3 +1,4 @@
+// js/pages/radio.js
 import { showToast } from '@/utils/toast.js'
 
 export async function renderRadio(container) {
@@ -11,7 +12,7 @@ export async function renderRadio(container) {
       <div id="radio-player" class="radio-player"></div>
     </section>
   `
-  const listEl = container.querySelector('#radio-list')
+  const listEl   = container.querySelector('#radio-list')
   const playerEl = container.querySelector('#radio-player')
   let currentAudio
 
@@ -32,16 +33,18 @@ export async function renderRadio(container) {
     return
   }
 
-  listEl.addEventListener('click', e => {
+  const onStationClick = e => {
     const btn = e.target.closest('.radio-station-btn')
     if (!btn) return
 
-    const url = btn.dataset.url
+    const url  = btn.dataset.url
     const name = btn.textContent
 
     listEl.querySelectorAll('.radio-station-btn.active')
       .forEach(b => b.classList.remove('active'))
     btn.classList.add('active')
+
+    if (currentAudio) currentAudio.pause()
 
     playerEl.innerHTML = `
       <audio controls autoplay style="width:100%">
@@ -49,7 +52,6 @@ export async function renderRadio(container) {
         Seu navegador não suporta áudio HTML5.
       </audio>
     `
-    if (currentAudio) currentAudio.pause()
     currentAudio = playerEl.querySelector('audio')
     currentAudio.addEventListener('error', () => {
       console.error('[Radio] audio error')
@@ -57,7 +59,14 @@ export async function renderRadio(container) {
     })
 
     showToast(`Tocando: ${name}`, 'success')
-  })
+  }
+
+  listEl.addEventListener('click', onStationClick)
 
   console.log('[Radio] renderRadio end')
+
+  return () => {
+    listEl.removeEventListener('click', onStationClick)
+    if (currentAudio) currentAudio.pause()
+  }
 }

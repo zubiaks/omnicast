@@ -1,5 +1,5 @@
 // js/pages/iptv.js
-import Hls from 'hls.js'
+import { loadHls } from '../hls-loader.js'
 import { showToast } from '@/utils/toast.js'
 
 export async function renderIptv(container) {
@@ -18,18 +18,14 @@ export async function renderIptv(container) {
   let hlsInstance
 
   try {
-    // força buscar sempre a versão mais recente, evitando 304
     const res = await fetch('/data/iptv-channels.json', { cache: 'no-store' })
     if (!res.ok) throw new Error(res.statusText)
     const channels = await res.json()
     console.log(`[IPTV] fetched ${channels.length} channels`)
 
     listEl.innerHTML = channels
-      .map(ch => `
-        <button class="iptv-channel-btn" data-url="${ch.streamUrl}">
-          ${ch.name}
-        </button>
-      `).join('')
+      .map(ch => `<button class="iptv-channel-btn" data-url="${ch.streamUrl}">${ch.name}</button>`)
+      .join('')
     showToast('Canais IPTV carregados com sucesso!', 'success')
   } catch (err) {
     console.error('[IPTV] fetch failed:', err)
@@ -38,7 +34,7 @@ export async function renderIptv(container) {
     return
   }
 
-  listEl.addEventListener('click', e => {
+  const onChannelClick = async e => {
     const btn = e.target.closest('.iptv-channel-btn')
     if (!btn) return
 
@@ -50,9 +46,7 @@ export async function renderIptv(container) {
       .forEach(b => b.classList.remove('active'))
     btn.classList.add('active')
 
-    playerEl.innerHTML = `
-      <video id="iptv-video" controls autoplay style="width:100%;height:100%"></video>
-    `
+    playerEl.innerHTML = `<video id="iptv-video" controls autoplay style="width:100%;height:100%"></video>`
     const video = playerEl.querySelector('#iptv-video')
 
     if (hlsInstance) {
@@ -60,8 +54,9 @@ export async function renderIptv(container) {
       hlsInstance = null
     }
 
+    const Hls = await loadHls()
     if (Hls.isSupported()) {
-      hlsInstance = new Hls()
+      hlsInstance = new Hls({ debug: false })
       hlsInstance.loadSource(url)
       hlsInstance.attachMedia(video)
       hlsInstance.on(Hls.Events.ERROR, (_evt, data) => {
@@ -79,7 +74,14 @@ export async function renderIptv(container) {
     }
 
     showToast(`Reproduzindo: ${name}`, 'success')
-  })
+  }
+
+  listEl.addEventListener('click', onChannelClick)
 
   console.log('[IPTV] renderIptv end')
+
+  return () => {
+    listEl.removeEventListener('click', onChannelClick)
+    if (hlsInstance) hlsInstance.destroy()
+  }
 }

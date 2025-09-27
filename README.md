@@ -1,14 +1,19 @@
-![CI](https://github.com/zubiaks/ominicast/actions/workflows/ci.yml/badge.svg?branch=develop)
+![CI](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml/badge.svg?branch=main)
 
 # OmniCast
 
-**Versão 0.1.1 – PWA Automático**
+**Versão 1.0.0 – Lançamento Estável**
 
 O que há de novo:  
 - [x] PWA gerado automaticamente via `vite-plugin-pwa`  
 - [x] Auto-update do Service Worker com notificação de nova versão  
 - [x] Runtime caching inteligente para HLS streams e assets estáticos  
 - [x] Fallback offline customizado em `/offline.html`  
+- [x] Router com imports dinâmicos para cada página  
+- [x] `hls.js` lazy-loaded em um chunk próprio  
+- [x] Bundle inicial abaixo de 600 kB; chunks separados por pacote  
+- [x] CI & E2E pipeline verde no GitHub Actions (omit optional deps + patch Rollup)  
+- [x] v1.0.0 – Lançamento estável  
 
 ---
 
@@ -18,16 +23,15 @@ O que há de novo:
 - [Status da Versão](#status-da-versão)  
 - [Estrutura do Projeto](#estrutura-do-projeto)  
 - [Instalação e Execução](#instalação-e-execução)  
-- [Configurando o Vite](#configurando-o-vite)  
+- [Configuração do Vite](#configuração-do-vite)  
+- [Router Code-Split](#router-code-split)  
+- [Lazy-Load de HLS](#lazy-load-de-hls)  
 - [Uso da PWA Avançada](#uso-da-pwa-avançada)  
-- [Atualização Automática (SW)](#atualização-automática-sw)  
 - [Fallback Offline](#fallback-offline)  
 - [Uso do Spinner Global](#uso-do-spinner-global)  
 - [Uso das Toast Notifications](#uso-das-toast-notifications)  
-- [Uso da página IPTV](#uso-da-página-iptv)  
-- [Uso da página VOD](#uso-da-página-vod)  
-- [Uso da página Rádio](#uso-da-página-rádio)  
-- [Uso da página Webcams](#uso-da-página-webcams)  
+- [Páginas: Home, IPTV, VOD, Rádio, Webcams](#páginas-home-iptv-vod-rádio-webcams)  
+- [CI & E2E](#ci--e2e)  
 - [Dicas de Troubleshooting](#dicas-de-troubleshooting)  
 - [Contribuindo](#contribuindo)  
 - [Licença](#licença)  
@@ -37,17 +41,16 @@ O que há de novo:
 
 ## Visão Geral
 
-Esta release consolida a demo de streaming (v0.1.0) e adiciona uma PWA totalmente autônoma:  
-o service worker é gerado e atualizado automaticamente, media e assets são cacheados em runtime,  
-e um fallback offline customizado garante boa experiência mesmo sem conexão.
+OmniCast é uma PWA de streaming que agrupa demos de IPTV, VOD, rádio e webcams.  
+Esta versão 1.0.0 consolida build otimizado, testes ponta a ponta e pipeline de CI estável.
 
 ---
 
 ## Status da Versão
 
-- Versão: 0.1.1  
-- Data de Lançamento: 2025-09-26  
-- Status: PWA com update automático, cache inteligente e offline fallback  
+- **Versão**: 1.0.0  
+- **Data**: 2025-09-27  
+- **Status**: Lançamento estável com PWA, cache inteligente, code-split, CI/E2E verde  
 
 ---
 
@@ -60,25 +63,13 @@ omnicast/
 ├─ public/
 │  ├─ manifest.webmanifest
 │  ├─ offline.html
-│  └─ assets/
-│     ├─ css/
-│     │  ├─ base.css
-│     │  ├─ layout.css
-│     │  ├─ spinner.css
-│     │  ├─ toast.css
-│     │  ├─ iptv.css
-│     │  ├─ vod.css
-│     │  ├─ radio.css
-│     │  └─ webcams.css
-│     └─ data/
-│        ├─ iptv-channels.json
-│        ├─ vod-videos.json
-│        ├─ radio-stations.json
-│        └─ webcams.json
+│  └─ assets/css/…
+│  └─ data/…
 ├─ js/
 │  ├─ main.js
 │  ├─ router.js
-│  ├─ sw.js         ← gerado/atualizado pelo plugin PWA
+│  ├─ hls-loader.js
+│  ├─ sw.js           ← gerado pelo plugin PWA
 │  ├─ utils/
 │  │  ├─ spinner.js
 │  │  └─ toast.js
@@ -96,80 +87,141 @@ omnicast/
 
 ## Instalação e Execução
 
-1. Clone o repositório.  
-2. No diretório raiz, instale dependências e inicie em dev:
-   ```bash
-   npm install
-   npm run dev
-   ```  
-3. Para forçar cache limpo e atualizar SW:
-   ```bash
-   npm run dev -- --force
-   ```  
-4. Acesse `http://localhost:5500/`.  
+Clone o repositório e instale dependências:
+
+```bash
+git clone https://github.com/zubiaks/omnicast.git
+cd omnicast
+npm install
+```
+
+Para desenvolvimento:
+
+```bash
+npm run dev
+# com cache forçado:
+npm run dev -- --force
+```
+
+Abra `http://localhost:5500/` no navegador.
 
 ---
 
-## Configurando o Vite
-
-No `vite.config.js`, certifique-se de ter:
+## Configuração do Vite
 
 ```js
-import path from 'path'
 import { defineConfig } from 'vite'
+import path from 'path'
 import tsconfigPaths from 'vite-plugin-tsconfig-paths'
 import legacy from '@vitejs/plugin-legacy'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
-  // ... root, base, publicDir, server, resolve ...
+  root: '.',
+  base: './',
+  publicDir: 'public',
+
+  resolve: {
+    alias: { '@': path.resolve(__dirname, 'js') }
+  },
+
   plugins: [
     tsconfigPaths(),
     legacy({ targets: ['defaults', 'not IE 11'] }),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: [
-        'favicon.svg',
-        'robots.txt',
-        'data/iptv-channels.json',
-        'data/vod-videos.json',
-        'data/radio-stations.json',
-        'data/webcams.json'
-      ],
-      manifest: {
-        name: 'OmniCast', short_name: 'OmniCast',
-        start_url: './', display: 'standalone'
-      },
       workbox: {
-        cleanupOutdatedCaches: true,
-        globPatterns: ['**/*.{js,css,html,json,svg,png}'],
         navigateFallback: '/offline.html',
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/test-streams\.mux\.dev\/.*\.m3u8$/,
-            handler: 'NetworkFirst',
-            options: { cacheName: 'hls-streams', expiration: { maxEntries: 20, maxAgeSeconds: 3600 } }
+            urlPattern: /\/$/,
+            handler: 'NetworkFirst'
           },
           {
-            urlPattern: /\.(?:js|css|html|json)$/,
-            handler: 'StaleWhileRevalidate',
-            options: { cacheName: 'static-assets', expiration: { maxEntries: 100, maxAgeSeconds: 86400 } }
+            urlPattern: /\.(js|css)$/,
+            handler: 'CacheFirst'
           }
         ]
       }
     })
   ],
-  build: { /* unchanged */ }
+
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+    chunkSizeWarningLimit: 600,
+    sourcemap: false,
+    rollupOptions: {
+      input: path.resolve(__dirname, 'index.html'),
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id.split('node_modules/')[1].split('/')[0]
+          }
+        },
+        assetFileNames(assetInfo) {
+          return assetInfo.name?.endsWith('.css')
+            ? 'assets/css/[name]-[hash][extname]'
+            : 'assets/[name]-[hash][extname]'
+        }
+      }
+    }
+  }
 })
 ```
 
 ---
 
+## Router Code-Split
+
+No `js/router.js`, cada rota carrega sua página via import dinâmico:
+
+```js
+case 'iptv': {
+  const { renderIptv } = await import('./pages/iptv.js')
+  cleanupFn = await renderIptv(container)
+  break
+}
+// mesmo padrão para vod.js, radio.js, webcams.js, home.js, not-found.js
+```
+
+Isso gera um chunk separado por página, mantendo o bundle inicial mínimo.
+
+---
+
+## Lazy-Load de HLS
+
+Em `js/hls-loader.js`:
+
+```js
+let HlsConstructor
+export async function loadHls() {
+  if (!HlsConstructor) {
+    const mod = await import('hls.js')
+    HlsConstructor = mod.default
+  }
+  return HlsConstructor
+}
+```
+
+E em `js/pages/iptv.js`:
+
+```js
+import { loadHls } from '../hls-loader.js'
+
+const Hls = await loadHls()
+const hls = new Hls()
+```
+
+`hls.js` fica em um chunk próprio, baixado apenas quando necessário.
+
+---
+
 ## Uso da PWA Avançada
 
-### Atualização Automática (SW)
+### Registro e Auto-Update do SW
 
-No `js/main.js`:
+Em `js/main.js`:
 
 ```js
 import { registerSW } from 'virtual:pwa-register'
@@ -183,26 +235,23 @@ const updateSW = registerSW({
     showToast('App pronto para uso offline.', 'success')
   }
 })
-
 document.addEventListener('click', e => {
-  if (e.target.matches('.toast--info')) {
-    updateSW(true) // skipWaiting + reload
-  }
+  if (e.target.matches('.toast--info')) updateSW(true)
 })
 ```
 
-### Fallback Offline
+---
 
-- Garanta que em `vite.config.js` você tenha `navigateFallback: '/offline.html'`.  
-- Em `public/offline.html`, use paths root-relative nos links de CSS:
+## Fallback Offline
+
+- `navigateFallback: '/offline.html'` configurado no `vite.config.js`.  
+- Em `public/offline.html`, use caminhos root-relative:
 
   ```html
   <link rel="stylesheet" href="/assets/css/base.css" />
-  <link rel="stylesheet" href="/assets/css/layout.css" />
-  <link rel="stylesheet" href="/assets/css/offline.css" />
   ```
 
-- Teste com rede “Offline” no DevTools: qualquer rota deve exibir o `offline.html`.
+Teste no DevTools simulando rede offline.
 
 ---
 
@@ -214,14 +263,18 @@ Em `index.html`:
 <link rel="stylesheet" href="./assets/css/spinner.css" />
 ```
 
-Módulos:
+Em `js/utils/spinner.js`:
 
 ```js
-import { showSpinner, hideSpinner } from '@/utils/spinner.js'
-showSpinner()
-await fetchData()
-hideSpinner()
+export function showSpinner() {
+  document.body.classList.add('spinner--visible')
+}
+export function hideSpinner() {
+  document.body.classList.remove('spinner--visible')
+}
 ```
+
+Chame antes e depois de requisições para exibir o spinner.
 
 ---
 
@@ -233,76 +286,124 @@ Em `index.html`:
 <link rel="stylesheet" href="./assets/css/toast.css" />
 ```
 
-Módulos:
+Em `js/utils/toast.js`:
 
 ```js
-import { showToast } from '@/utils/toast.js'
-showToast('Sucesso!', 'success')
-showToast('Erro!', 'error')
+export function showToast(message, type) {
+  const el = document.createElement('div')
+  el.className = `toast toast--${type}`
+  el.textContent = message
+  document.body.appendChild(el)
+  setTimeout(() => el.remove(), 5000)
+}
 ```
 
 ---
 
-## Uso da página IPTV
+## Páginas: Home, IPTV, VOD, Rádio, Webcams
 
-1. Importe `assets/css/iptv.css`.  
-2. Configure `public/data/iptv-channels.json`.  
-3. Acesse `#/iptv` e selecione um canal.
+Cada módulo em `js/pages/*.js` exporta `renderXxx(container)` e retorna uma função de cleanup.
 
 ---
 
-## Uso da página VOD
+## CI & E2E
 
-1. Importe `assets/css/vod.css`.  
-2. Configure `public/data/vod-videos.json`.  
-3. Acesse `#/vod` e reproduza vídeos.
+A pipeline de CI roda em pushes ou PRs na branch `main` e executa testes ponta a ponta via Playwright, garantindo build estável e relatórios:
 
----
+```yaml
+name: CI on main
 
-## Uso da página Rádio
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
 
-1. Importe `assets/css/radio.css`.  
-2. Configure `public/data/radio-stations.json`.  
-3. Acesse `#/radio` e toque rádio.
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
 
----
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+          fetch-depth: 0
 
-## Uso da página Webcams
+      - name: Setup Node.js 20.19.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+          cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            .npmrc
 
-1. Importe `assets/css/webcams.css`.  
-2. Configure `public/data/webcams.json`.  
-3. Acesse `#/webcams` e veja câmeras.
+      - name: Install dependencies (omit optional deps)
+        run: npm ci --no-audit --omit=optional
+
+      - name: Patch Rollup native module
+        run: npm install @rollup/rollup-linux-x64-gnu --no-save
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: test-results/
+          retention-days: 5
+```
+
+E no `playwright.config.js`:
+
+```js
+webServer: {
+  command: 'npm run build && npm run preview -- --port 5500',
+  port: 5500,
+  reuseExistingServer: true
+},
+```
 
 ---
 
 ## Dicas de Troubleshooting
 
-- Hard reload (Ctrl + Shift + R) após build.  
-- Unregister SW e limpe Cache Storage em DevTools.  
-- Teste offline e atualizações de SW.
+- Hard reload (Ctrl+Shift+R) após build.  
+- Unregister SW e limpe Cache Storage no DevTools.  
+- Execute `npm run dev -- --force` para forçar rebuild.  
+- Use Rollup Visualizer para analisar chunks.
 
 ---
 
 ## Contribuindo
 
-1. Fork & clone.  
-2. `npm install` e `npm run dev`.  
-3. Abra PR com descrições e screenshots.
+1. Fork & clone o repositório  
+2. `npm install` & `npm run dev`  
+3. Abra uma PR com descrição clara, prints e testes se aplicável  
 
 ---
 
 ## Licença
 
-Distributed under the MIT License. See `LICENSE`.
+MIT License. Consulte o arquivo `LICENSE` para detalhes.
 
 ---
 
 ## Roadmap
 
 - [x] v0.1.0 – Streaming Demo  
-- [x] v0.1.1 – PWA Automático (vite-plugin-pwa)  
-- [ ] v1.0.0 – Testes E2E e CI  
+- [x] v0.1.1 – PWA Automático & Code-Split  
+- [x] v1.0.0 – Lançamento Estável  
 - [ ] v1.1.0 – Acessibilidade & Performance  
 ```
-
-Altere seu `README.md` para este conteúdo e marque a entrada v0.1.1 no Roadmap. Assim sua documentação refletirá a nova PWA automática e os fluxos de atualização/fallback.

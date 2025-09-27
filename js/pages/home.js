@@ -1,5 +1,4 @@
 // js/pages/home.js
-
 export function renderHome(container) {
   console.log('[Home] renderHome start')
   container.innerHTML = `

@@ -1,3 +1,4 @@
+// js/pages/vod.js
 import { showToast } from '@/utils/toast.js'
 
 export async function renderVod(container) {
@@ -11,7 +12,7 @@ export async function renderVod(container) {
       <div id="vod-player" class="vod-player"></div>
     </section>
   `
-  const gridEl = container.querySelector('#vod-grid')
+  const gridEl   = container.querySelector('#vod-grid')
   const playerEl = container.querySelector('#vod-player')
 
   try {
@@ -35,13 +36,13 @@ export async function renderVod(container) {
     return
   }
 
-  gridEl.addEventListener('click', e => {
+  const onVideoClick = e => {
     const btn = e.target.closest('.vod-item')
     if (!btn) return
 
-    const url = btn.dataset.url
+    const url    = btn.dataset.url
     const poster = btn.dataset.poster
-    const title = btn.querySelector('span').textContent
+    const title  = btn.querySelector('span').textContent
 
     gridEl.querySelectorAll('.vod-item.active')
       .forEach(b => b.classList.remove('active'))
@@ -53,6 +54,7 @@ export async function renderVod(container) {
         Seu navegador não suporta vídeo HTML5.
       </video>
     `
+
     const video = playerEl.querySelector('video')
     video.addEventListener('error', () => {
       console.error('[VOD] video error')
@@ -60,7 +62,13 @@ export async function renderVod(container) {
     })
 
     showToast(`Reproduzindo: ${title}`, 'success')
-  })
+  }
+
+  gridEl.addEventListener('click', onVideoClick)
 
   console.log('[VOD] renderVod end')
+
+  return () => {
+    gridEl.removeEventListener('click', onVideoClick)
+  }
 }
