@@ -1,8 +1,10 @@
 ![CI](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml/badge.svg?branch=main)
+![npm](https://img.shields.io/npm/v/omnicast)
+![license](https://img.shields.io/github/license/zubiaks/omnicast)
 
 # OmniCast
 
-**Versão 1.0.0 – Lançamento Estável**
+Versão 1.0.0 – Lançamento Estável
 
 O que há de novo:  
 - [x] PWA gerado automaticamente via `vite-plugin-pwa`  
@@ -23,16 +25,18 @@ O que há de novo:
 - [Status da Versão](#status-da-versão)  
 - [Estrutura do Projeto](#estrutura-do-projeto)  
 - [Instalação e Execução](#instalação-e-execução)  
+- [Scripts Úteis](#scripts-úteis)  
+- [Testes E2E (Playwright)](#testes-e2e-playwright)  
 - [Configuração do Vite](#configuração-do-vite)  
 - [Router Code-Split](#router-code-split)  
 - [Lazy-Load de HLS](#lazy-load-de-hls)  
-- [Uso da PWA Avançada](#uso-da-pwa-avançada)  
+- [PWA Avançada](#pwa-avançada)  
 - [Fallback Offline](#fallback-offline)  
-- [Uso do Spinner Global](#uso-do-spinner-global)  
-- [Uso das Toast Notifications](#uso-das-toast-notifications)  
-- [Páginas: Home, IPTV, VOD, Rádio, Webcams](#páginas-home-iptv-vod-rádio-webcams)  
-- [CI & E2E](#ci--e2e)  
-- [Dicas de Troubleshooting](#dicas-de-troubleshooting)  
+- [Spinner Global](#spinner-global)  
+- [Toast Notifications](#toast-notifications)  
+- [Páginas do App](#páginas-do-app)  
+- [Performance & Bundle Analysis](#performance--bundle-analysis)  
+- [CI & E2E no GitHub Actions](#ci--e2e-no-github-actions)  
 - [Contribuindo](#contribuindo)  
 - [Licença](#licença)  
 - [Roadmap](#roadmap)  
@@ -41,16 +45,15 @@ O que há de novo:
 
 ## Visão Geral
 
-OmniCast é uma PWA de streaming que agrupa demos de IPTV, VOD, rádio e webcams.  
-Esta versão 1.0.0 consolida build otimizado, testes ponta a ponta e pipeline de CI estável.
+OmniCast é uma Progressive Web App de streaming que reúne demos de IPTV, VOD, rádio e webcams. Esta versão 1.0.0 consolida build otimizado, testes ponta a ponta e pipeline de CI estável.
 
 ---
 
 ## Status da Versão
 
-- **Versão**: 1.0.0  
-- **Data**: 2025-09-27  
-- **Status**: Lançamento estável com PWA, cache inteligente, code-split, CI/E2E verde  
+- Versão: 1.0.0  
+- Data: 2025-09-27  
+- Status: Lançamento estável com PWA, cache inteligente, code-split e CI/E2E verde  
 
 ---
 
@@ -64,22 +67,20 @@ omnicast/
 │  ├─ manifest.webmanifest
 │  ├─ offline.html
 │  └─ assets/css/…
-│  └─ data/…
 ├─ js/
 │  ├─ main.js
 │  ├─ router.js
 │  ├─ hls-loader.js
-│  ├─ sw.js           ← gerado pelo plugin PWA
 │  ├─ utils/
 │  │  ├─ spinner.js
 │  │  └─ toast.js
 │  └─ pages/
 │     ├─ home.js
-│     ├─ not-found.js
 │     ├─ iptv.js
 │     ├─ vod.js
 │     ├─ radio.js
-│     └─ webcams.js
+│     ├─ webcams.js
+│     └─ not-found.js
 └─ package.json
 ```
 
@@ -95,15 +96,50 @@ cd omnicast
 npm install
 ```
 
-Para desenvolvimento:
+---
+
+## Scripts Úteis
 
 ```bash
+# Desenvolvimento com Vite
 npm run dev
-# com cache forçado:
-npm run dev -- --force
+
+# Preview de build estável em porta 5500
+npm run preview
+
+# Iniciar dev server para CI (porta 5500, sem clearScreen)
+npm run dev:ci
+
+# Testes E2E headless
+npm run test:e2e
+
+# Testes E2E com interface
+npm run test:e2e:headed
+
+# Abrir relatório HTML após E2E
+npm run test:e2e:report
 ```
 
-Abra `http://localhost:5500/` no navegador.
+---
+
+## Testes E2E (Playwright)
+
+Pré-requisitos: Node.js, npm sem optional deps  
+
+```bash
+# Instala Playwright e browsers
+npm ci --no-audit --omit=optional
+npx playwright install --with-deps
+
+# Executa os testes em todos os browsers (Chromium, Firefox, WebKit)
+npm run test:e2e
+
+# Executa os testes com GUI (ver cliques e navegações)
+npm run test:e2e:headed
+
+# Gera relatório HTML em 'html-report'
+npm run test:e2e:report
+```
 
 ---
 
@@ -120,11 +156,9 @@ export default defineConfig({
   root: '.',
   base: './',
   publicDir: 'public',
-
   resolve: {
     alias: { '@': path.resolve(__dirname, 'js') }
   },
-
   plugins: [
     tsconfigPaths(),
     legacy({ targets: ['defaults', 'not IE 11'] }),
@@ -133,19 +167,12 @@ export default defineConfig({
       workbox: {
         navigateFallback: '/offline.html',
         runtimeCaching: [
-          {
-            urlPattern: /\/$/,
-            handler: 'NetworkFirst'
-          },
-          {
-            urlPattern: /\.(js|css)$/,
-            handler: 'CacheFirst'
-          }
+          { urlPattern: /\/$/, handler: 'NetworkFirst' },
+          { urlPattern: /\.(js|css)$/, handler: 'CacheFirst' }
         ]
       }
     })
   ],
-
   build: {
     outDir: 'dist',
     emptyOutDir: true,
@@ -174,7 +201,7 @@ export default defineConfig({
 
 ## Router Code-Split
 
-No `js/router.js`, cada rota carrega sua página via import dinâmico:
+Em `js/router.js`, cada rota carrega sua página via import dinâmico:
 
 ```js
 case 'iptv': {
@@ -182,16 +209,13 @@ case 'iptv': {
   cleanupFn = await renderIptv(container)
   break
 }
-// mesmo padrão para vod.js, radio.js, webcams.js, home.js, not-found.js
 ```
-
-Isso gera um chunk separado por página, mantendo o bundle inicial mínimo.
 
 ---
 
 ## Lazy-Load de HLS
 
-Em `js/hls-loader.js`:
+Carregamento dinâmico em `js/hls-loader.js`:
 
 ```js
 let HlsConstructor
@@ -204,24 +228,11 @@ export async function loadHls() {
 }
 ```
 
-E em `js/pages/iptv.js`:
-
-```js
-import { loadHls } from '../hls-loader.js'
-
-const Hls = await loadHls()
-const hls = new Hls()
-```
-
-`hls.js` fica em um chunk próprio, baixado apenas quando necessário.
-
 ---
 
-## Uso da PWA Avançada
+## PWA Avançada
 
-### Registro e Auto-Update do SW
-
-Em `js/main.js`:
+Registro e auto-update do SW em `js/main.js`:
 
 ```js
 import { registerSW } from 'virtual:pwa-register'
@@ -233,7 +244,6 @@ const updateSW = registerSW({
   },
   onOfflineReady() {
     showToast('App pronto para uso offline.', 'success')
-  }
 })
 document.addEventListener('click', e => {
   if (e.target.matches('.toast--info')) updateSW(true)
@@ -244,24 +254,19 @@ document.addEventListener('click', e => {
 
 ## Fallback Offline
 
-- `navigateFallback: '/offline.html'` configurado no `vite.config.js`.  
-- Em `public/offline.html`, use caminhos root-relative:
+Configurado em `vite.config.js`:
 
-  ```html
-  <link rel="stylesheet" href="/assets/css/base.css" />
-  ```
+```js
+workbox: {
+  navigateFallback: '/offline.html'
+}
+```
 
 Teste no DevTools simulando rede offline.
 
 ---
 
-## Uso do Spinner Global
-
-Em `index.html`:
-
-```html
-<link rel="stylesheet" href="./assets/css/spinner.css" />
-```
+## Spinner Global
 
 Em `js/utils/spinner.js`:
 
@@ -274,17 +279,11 @@ export function hideSpinner() {
 }
 ```
 
-Chame antes e depois de requisições para exibir o spinner.
+Inclua o CSS em `index.html` com `spinner.css`.
 
 ---
 
-## Uso das Toast Notifications
-
-Em `index.html`:
-
-```html
-<link rel="stylesheet" href="./assets/css/toast.css" />
-```
+## Toast Notifications
 
 Em `js/utils/toast.js`:
 
@@ -298,105 +297,94 @@ export function showToast(message, type) {
 }
 ```
 
----
-
-## Páginas: Home, IPTV, VOD, Rádio, Webcams
-
-Cada módulo em `js/pages/*.js` exporta `renderXxx(container)` e retorna uma função de cleanup.
+Inclua `toast.css` em `index.html`.
 
 ---
 
-## CI & E2E
+## Páginas do App
 
-A pipeline de CI roda em pushes ou PRs na branch `main` e executa testes ponta a ponta via Playwright, garantindo build estável e relatórios:
+Cada módulo em `js/pages/*.js` exporta:
+
+```js
+export async function renderXxx(container) {
+  // ...
+  return cleanupFn
+}
+```
+
+Páginas suportadas: Home, IPTV, VOD, Rádio, Webcams, Not Found.
+
+---
+
+## Performance & Bundle Analysis
+
+Para gerar relatório de chunks:
+
+1. Instale o plugin:
+   ```bash
+   npm install --save-dev rollup-plugin-visualizer
+   ```
+2. Adicione no `vite.config.js`:
+   ```js
+   import visualizer from 'rollup-plugin-visualizer'
+   // …
+   plugins: [
+     …,
+     visualizer({ filename: './dist/stats.html' })
+   ]
+   ```
+3. Rode:
+   ```bash
+   npm run build
+   open dist/stats.html
+   ```
+
+---
+
+## CI & E2E no GitHub Actions
+
+Workflow `ci-main.yml` roda em pushes/PRs na `main`:
 
 ```yaml
 name: CI on main
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  push: { branches: [ main ] }
+  pull_request: { branches: [ main ] }
   workflow_dispatch:
 
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          submodules: false
-          fetch-depth: 0
-
-      - name: Setup Node.js 20.19.0
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20.19.0'
           cache: 'npm'
-          cache-dependency-path: |
-            package-lock.json
-            .npmrc
-
-      - name: Install dependencies (omit optional deps)
-        run: npm ci --no-audit --omit=optional
-
-      - name: Patch Rollup native module
-        run: npm install @rollup/rollup-linux-x64-gnu --no-save
-
-      - name: Build
-        run: npm run build
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
-      - name: Run E2E tests
-        run: npm run test:e2e
-
-      - name: Upload test results
+      - run: npm ci --no-audit --omit=optional
+      - run: npm install @rollup/rollup-linux-x64-gnu --no-save
+      - run: npm run build
+      - run: npx playwright install --with-deps
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
           name: playwright-results
           path: test-results/
-          retention-days: 5
 ```
-
-E no `playwright.config.js`:
-
-```js
-webServer: {
-  command: 'npm run build && npm run preview -- --port 5500',
-  port: 5500,
-  reuseExistingServer: true
-},
-```
-
----
-
-## Dicas de Troubleshooting
-
-- Hard reload (Ctrl+Shift+R) após build.  
-- Unregister SW e limpe Cache Storage no DevTools.  
-- Execute `npm run dev -- --force` para forçar rebuild.  
-- Use Rollup Visualizer para analisar chunks.
 
 ---
 
 ## Contribuindo
 
-1. Fork & clone o repositório  
-2. `npm install` & `npm run dev`  
-3. Abra uma PR com descrição clara, prints e testes se aplicável  
+Leia o guia em [CONTRIBUTING.md](.github/CONTRIBUTING.md) antes de abrir issues ou PRs. Use nosso template em `.github/ISSUE_TEMPLATE` e `.github/PULL_REQUEST_TEMPLATE`.
 
 ---
 
 ## Licença
 
-MIT License. Consulte o arquivo `LICENSE` para detalhes.
+MIT License. Veja o arquivo [LICENSE](LICENSE).
 
 ---
 
@@ -406,4 +394,8 @@ MIT License. Consulte o arquivo `LICENSE` para detalhes.
 - [x] v0.1.1 – PWA Automático & Code-Split  
 - [x] v1.0.0 – Lançamento Estável  
 - [ ] v1.1.0 – Acessibilidade & Performance  
+- [ ] v1.2.0 – Mocks de API & Testes de Componentes  
+- [ ] v2.0.0 – Novas funcionalidades de usuário  
+
+Para acompanhar o progresso, veja nosso [GitHub Projects](https://github.com/zubiaks/omnicast/projects).  
 ```

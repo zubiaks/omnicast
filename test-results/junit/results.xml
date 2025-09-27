@@ -1,0 +1,26 @@
+<testsuites id="" name="" tests="6" failures="0" skipped="1" errors="0" time="19.553651">
+<testsuite name="iptv.spec.js" timestamp="2025-09-27T20:25:25.608Z" hostname="chromium" tests="2" failures="0" skipped="0" time="3.654" errors="0">
+<testcase name="Página IPTV › exibe instruções e o botão de demo" classname="iptv.spec.js" time="1.819">
+</testcase>
+<testcase name="Página IPTV › reproduz o canal de demo HLS" classname="iptv.spec.js" time="1.835">
+</testcase>
+</testsuite>
+<testsuite name="iptv.spec.js" timestamp="2025-09-27T20:25:25.608Z" hostname="firefox" tests="2" failures="0" skipped="0" time="11.259" errors="0">
+<testcase name="Página IPTV › exibe instruções e o botão de demo" classname="iptv.spec.js" time="6.847">
+</testcase>
+<testcase name="Página IPTV › reproduz o canal de demo HLS" classname="iptv.spec.js" time="4.412">
+</testcase>
+</testsuite>
+<testsuite name="iptv.spec.js" timestamp="2025-09-27T20:25:25.608Z" hostname="webkit" tests="2" failures="0" skipped="1" time="3.4" errors="0">
+<testcase name="Página IPTV › exibe instruções e o botão de demo" classname="iptv.spec.js" time="1.666">
+</testcase>
+<testcase name="Página IPTV › reproduz o canal de demo HLS" classname="iptv.spec.js" time="1.734">
+<properties>
+<property name="skip" value="WebKit headless não suporta HLS via MSE">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+</testsuites>
