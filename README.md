@@ -1,10 +1,11 @@
-![CI](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml/badge.svg?branch=main)
-![npm](https://img.shields.io/npm/v/omnicast)
-![license](https://img.shields.io/github/license/zubiaks/omnicast)
+[![CI](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions)
+[![release](https://img.shields.io/github/v/release/zubiaks/omnicast?style=flat-square)](https://github.com/zubiaks/omnicast/releases/latest)
+[![license](https://img.shields.io/github/license/zubiaks/omnicast?style=flat-square)](LICENSE)
 
 # OmniCast
 
-Versão 1.0.0 – Lançamento Estável
+**Versão 1.0.0 – Lançamento Estável**
+
 
 O que há de novo:  
 - [x] PWA gerado automaticamente via `vite-plugin-pwa`  
