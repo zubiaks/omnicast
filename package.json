@@ -10,8 +10,7 @@
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:report": "playwright show-report",
-+   // este script pós-instalação “patcha” o native build do Rollup
-+   "postinstall": "npm install @rollup/rollup-${npm_config_platform}-${npm_config_arch}-gnu --no-save"
+    "postinstall": "npm install @rollup/rollup-${npm_config_platform}-${npm_config_arch}-gnu --no-save"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.1",
