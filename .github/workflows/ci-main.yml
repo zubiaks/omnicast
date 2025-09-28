@@ -43,6 +43,11 @@ jobs:
       - name: Security audit (fail on critical)
         run: npm audit --audit-level=critical
 
+      - name: Snyk test
+        run: npx snyk test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
       - name: Patch Rollup native module
         run: npm install @rollup/rollup-linux-x64-gnu --no-save
 
