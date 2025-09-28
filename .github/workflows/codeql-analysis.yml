@@ -1,3 +1,5 @@
+# .github/workflows/codeql-analysis.yml
+
 name: CodeQL
 
 on:
@@ -22,6 +24,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          repository: zubiaks/omnicast
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3.30.5
