@@ -24,10 +24,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          repository: zubiaks/omnicast
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+        # Remova completamente qualquer 'with: repository:' aqui,
+        # para garantir que o Action use o repositório que disparou o workflow.
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3.30.5
