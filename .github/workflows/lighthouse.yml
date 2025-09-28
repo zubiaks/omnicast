@@ -15,12 +15,8 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - name: Checkout omnicast
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          repository: zubiaks/omnicast
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -32,13 +28,14 @@ jobs:
             .npmrc
 
       - name: Install dependencies
-        run: npm ci --no-audit --omit=optional
+        # Não omita as optional dependencies: o Rollup precisa do binário nativo
+        run: npm ci --no-audit
 
       - name: Install Lighthouse CI
         run: npm install -g @lhci/cli@0.10.x
 
-      - name: List workspace (debug)
-        run: ls -R .
-
       - name: Run Lighthouse CI
+        # Forneça o token para que o upload para GitHub funcione
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: lhci autorun --config=.lighthouserc.cjs
