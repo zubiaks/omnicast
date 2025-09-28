@@ -1,16 +1,22 @@
+// tests/accessibility.spec.js
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const paths = [
-  '/',         // home.js
-  '/iptv',     // iptv.js
-  '/vod',      // vod.js
-  '/radio',    // radio.js
-  '/webcams',  // webcams.js
-  '/404'       // not-found.js — opcional, testa rota inexistente
-];
+const paths = ['/', '/iptv', '/vod', '/radio', '/webcams', '/404'];
 
 test.describe('Acessibilidade WCAG2A/AA em todas as páginas', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.route('**/public/data/iptv-channels.json', route =>
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify([
+          { id: 'demo', name: 'Canal Demo', url: 'https://demo.stream/hls.m3u8' }
+        ]),
+      })
+    );
+  });
+
   for (const path of paths) {
     test(`rota "${path}" sem violações`, async ({ page }) => {
       await page.goto(path);

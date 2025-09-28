@@ -1,23 +1,26 @@
 {
   "name": "omnicast",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "scripts": {
+    "setup": "npm ci --no-audit --omit=optional && npx playwright install --with-deps",
     "dev": "vite",
     "dev:ci": "vite --port 5500 --clearScreen false",
     "build": "vite build",
     "preview": "vite preview",
-    "test:e2e": "playwright test",
-    "test:e2e:headed": "playwright test --headed",
-    "test:e2e:report": "playwright show-report"
+    "serve:dist": "serve -s dist -l 5500",
+    "test:e2e": "npx playwright test",
+    "test:e2e:headed": "npx playwright test --headed",
+    "test:e2e:report": "npx playwright show-report"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
     "@playwright/test": "^1.55.1",
     "@vitejs/plugin-legacy": "^7.2.1",
     "jsonlint": "^1.6.3",
-    "msw": "^2.11.3",
+    "serve": "^14.0.0",
+    "snyk": "^1.1299.1",
     "vite": "^7.1.7",
     "vite-plugin-pwa": "^1.0.3",
     "vite-plugin-tsconfig-paths": "^1.4.1"

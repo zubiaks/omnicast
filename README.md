@@ -6,19 +6,14 @@
 
 # OmniCast
 
-**Versão 1.0.0 – Lançamento Estável**
+**Versão 1.1.0 – Documentação & Onboarding**
 
-O que há de novo:  
-- [x] PWA gerado automaticamente via `vite-plugin-pwa`  
-- [x] Auto-update do Service Worker com notificação de nova versão  
-- [x] Runtime caching inteligente para HLS streams e assets estáticos  
-- [x] Fallback offline customizado em `/offline.html`  
-- [x] Router com imports dinâmicos para cada página  
-- [x] `hls.js` lazy-loaded em um chunk próprio  
-- [x] Bundle inicial abaixo de 600 kB; chunks separados por pacote  
-- [x] CI & E2E pipeline verde no GitHub Actions (omit optional deps + patch Rollup)  
-- [x] Testes de acessibilidade automatizados (axe-core + Playwright)  
-- [x] v1.0.0 – Lançamento estável  
+O que há de novo:
+- [x] Script `npm run setup` para dependencies + Playwright browsers  
+- [x] Seção “Primeiros Passos” no README  
+- [x] CONTRIBUTING.md com guia de Issues/PRs e Conventional Commits  
+- [x] Templates de Issue e Pull Request  
+- [x] Docs de troubleshooting e CI setup em `docs/`  
 
 ---
 
@@ -28,6 +23,7 @@ O que há de novo:
 - [Status da Versão](#status-da-versão)  
 - [Estrutura do Projeto](#estrutura-do-projeto)  
 - [Instalação e Execução](#instalação-e-execução)  
+- [Primeiros Passos](#primeiros-passos)  
 - [Scripts Úteis](#scripts-úteis)  
 - [Testes E2E (Playwright)](#testes-e2e-playwright)  
 - [Testes de Acessibilidade](#testes-de-acessibilidade)  
@@ -50,15 +46,15 @@ O que há de novo:
 ## Visão Geral
 
 OmniCast é uma Progressive Web App de streaming que reúne demos de IPTV, VOD, rádio e webcams.  
-Esta versão 1.0.0 consolida build otimizado, testes ponta a ponta, acessibilidade automatizada e pipeline de CI estável.  
+Esta release foca em tornar o projeto fácil de instalar, contribuir e manter, além de manter toda a infraestrutura de PWA, testes E2E e acessibilidade já estabelecida.
 
 ---
 
 ## Status da Versão
 
-- Versão: 1.0.0  
-- Data: 2025-09-27  
-- Status: Lançamento estável com PWA, cache inteligente, code-split, CI/E2E e acessibilidade verde  
+- Versão: 1.1.0  
+- Data: 2025-10-01  
+- Status: Documentação & Onboarding  
 
 ---
 
@@ -66,6 +62,14 @@ Esta versão 1.0.0 consolida build otimizado, testes ponta a ponta, acessibilida
 
 ```
 omnicast/
+├─ docs/
+│  ├─ troubleshooting.md
+│  └─ ci-setup.md
+├─ .github/
+│  ├─ ISSUE_TEMPLATE/
+│  │  └─ bug_report.yml
+│  └─ PULL_REQUEST_TEMPLATE/
+│     └─ pull_request_template.md
 ├─ index.html
 ├─ vite.config.js
 ├─ public/
@@ -86,7 +90,9 @@ omnicast/
 │     ├─ radio.js
 │     ├─ webcams.js
 │     └─ not-found.js
-└─ package.json
+├─ CONTRIBUTING.md
+├─ package.json
+└─ README.md
 ```
 
 ---
@@ -103,16 +109,58 @@ npm install
 
 ---
 
+## Primeiros Passos
+
+Siga estas etapas para deixar seu ambiente pronto:
+
+1. Instalar dependências e omit optional deps  
+   ```bash
+   npm ci --no-audit --omit=optional
+   ```
+
+2. Executar o script de setup  
+   ```bash
+   npm run setup
+   ```
+   Isso roda:
+   - `npm ci --no-audit --omit=optional`  
+   - `npx playwright install --with-deps`
+
+3. Iniciar servidor de desenvolvimento  
+   ```bash
+   npm run dev
+   ```
+   Acesse `http://localhost:3000` (ou `http://localhost:5500` via `npm run dev:ci`).
+
+4. Build & SPA-fallback  
+   ```bash
+   npm run build
+   npm run serve:dist
+   ```
+   Acesse `http://localhost:5500`.
+
+5. Rodar testes E2E e acessibilidade  
+   ```bash
+   npm run test:e2e
+   npm run test:e2e:report
+   ```
+
+> 💡 Dica: sempre rode `npm run setup` após clonar para evitar problemas de dependências e Playwright.
+
+---
+
 ## Scripts Úteis
 
 ```bash
-npm run dev                # desenvolvimento com Vite
-npm run dev:ci             # dev server para CI (porta 5500, sem clearScreen)
-npm run build              # build de produção
-npm run preview            # preview do build em localhost
-npm run test:e2e           # testes E2E headless (Playwright)
-npm run test:e2e:headed    # testes E2E com interface
-npm run test:e2e:report    # abrir relatório HTML
+npm run setup           # install deps + Playwright browsers
+npm run dev             # dev server com Vite
+npm run dev:ci          # dev server (porta 5500, clearScreen: false)
+npm run build           # build de produção
+npm run preview         # preview do build localmente
+npm run serve:dist      # serve dist com SPA-fallback
+npm run test:e2e        # E2E headless
+npm run test:e2e:headed # E2E com interface
+npm run test:e2e:report # abrir relatório HTML
 ```
 
 ---
@@ -123,19 +171,17 @@ Pré-requisitos: Node.js, npm sem optional deps
 
 ```bash
 npm ci --no-audit --omit=optional
-npx playwright install --with-deps
+npm run setup
 npm run test:e2e
 ```
 
-Os resultados JUnit são gerados em `test-results/junit`, o relatório HTML em `html-report`.  
+Resultados JUnit em `test-results/junit`, relatório HTML em `html-report`.
 
 ---
 
 ## Testes de Acessibilidade
 
-Os testes automatizados usam Playwright + axe-core para garantir conformidade WCAG2A/AA.
-
-Instalação:
+Automatizado com Playwright + axe-core (WCAG2A/AA):
 
 ```bash
 npm install --save-dev @axe-core/playwright
@@ -147,283 +193,98 @@ Em `tests/accessibility.spec.js`:
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-test.describe('Acessibilidade Básica', () => {
-  test('home sem violações WCAG2AA', async ({ page }) => {
-    await page.goto('/');
-    const results = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa'])
-      .analyze();
-    expect(results.violations).toHaveLength(0);
-  });
+test.describe('Acessibilidade WCAG2A/AA', () => {
+  for (const path of ['/', '/iptv', '/vod', '/radio', '/webcams', '/404']) {
+    test(`rota "${path}" sem violações`, async ({ page }) => {
+      await page.goto(path);
+      const results = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa'])
+        .analyze();
+      expect(results.violations).toHaveLength(0);
+    });
+  }
 });
-```
-
-Workflow em `.github/workflows/accessibility.yml`:
-
-```yaml
-name: Acessibilidade
-
-on:
-  push: { branches: [ main ] }
-  pull_request: { branches: [ main ] }
-
-jobs:
-  axe:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          cache: 'npm'
-      - run: npm ci --no-audit --omit=optional
-      - run: npx playwright install --with-deps
-      - run: npx playwright test tests/accessibility.spec.js
 ```
 
 ---
 
 ## Configuração do Vite
 
-```js
-import { defineConfig } from 'vite'
-import path from 'path'
-import tsconfigPaths from 'vite-plugin-tsconfig-paths'
-import legacy from '@vitejs/plugin-legacy'
-import { VitePWA } from 'vite-plugin-pwa'
-
-export default defineConfig({
-  root: '.',
-  base: './',
-  publicDir: 'public',
-  resolve: {
-    alias: { '@': path.resolve(__dirname, 'js') }
-  },
-  plugins: [
-    tsconfigPaths(),
-    legacy({ targets: ['defaults', 'not IE 11'] }),
-    VitePWA({
-      registerType: 'autoUpdate',
-      workbox: {
-        navigateFallback: '/offline.html',
-        runtimeCaching: [
-          { urlPattern: /\/$/, handler: 'NetworkFirst' },
-          { urlPattern: /\.(js|css)$/, handler: 'CacheFirst' }
-        ]
-      }
-    })
-  ],
-  build: {
-    outDir: 'dist',
-    emptyOutDir: true,
-    chunkSizeWarningLimit: 600,
-    sourcemap: false,
-    rollupOptions: {
-      input: path.resolve(__dirname, 'index.html'),
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return id.split('node_modules/')[1].split('/')[0]
-          }
-        },
-        assetFileNames(assetInfo) {
-          return assetInfo.name?.endsWith('.css')
-            ? 'assets/css/[name]-[hash][extname]'
-            : 'assets/[name]-[hash][extname]'
-        }
-      }
-    }
-  }
-})
-```
+Veja `vite.config.js` para detalhes de PWA, code-split e output customizado. Plugins:
+- `vite-plugin-tsconfig-paths`
+- `@vitejs/plugin-legacy`
+- `vite-plugin-pwa`
 
 ---
 
 ## Router Code-Split
 
-Em `js/router.js`, cada rota carrega sua página via import dinâmico:
-
-```js
-case 'iptv': {
-  const { renderIptv } = await import('./pages/iptv.js')
-  cleanupFn = await renderIptv(container)
-  break
-}
-```
+Cada rota carrega seu módulo via import dinâmico em `js/router.js`.
 
 ---
 
 ## Lazy-Load de HLS
 
-Em `js/hls-loader.js`:
-
-```js
-let HlsConstructor
-export async function loadHls() {
-  if (!HlsConstructor) {
-    const mod = await import('hls.js')
-    HlsConstructor = mod.default
-  }
-  return HlsConstructor
-}
-```
+Loader em `js/hls-loader.js` faz import dinâmico de `hls.js`.
 
 ---
 
 ## PWA Avançada
 
-Registro e auto-update do SW em `js/main.js`:
-
-```js
-import { registerSW } from 'virtual:pwa-register'
-import { showToast } from '@/utils/toast.js'
-
-const updateSW = registerSW({
-  onNeedRefresh() {
-    showToast('Nova versão disponível! Clique para atualizar.', 'info')
-  },
-  onOfflineReady() {
-    showToast('App pronto para uso offline.', 'success')
-})
-document.addEventListener('click', e => {
-  if (e.target.matches('.toast--info')) updateSW(true)
-})
-```
+Registro e auto-update do SW via `virtual:pwa-register` em `js/main.js`.
 
 ---
 
 ## Fallback Offline
 
-Configurado em `vite.config.js`:
-
-```js
-workbox: {
-  navigateFallback: '/offline.html'
-}
-```
-
-Testar no DevTools simulando rede offline.
+`navigateFallback: '/offline.html'` configurado no Workbox.
 
 ---
 
 ## Spinner Global
 
-Em `js/utils/spinner.js`:
-
-```js
-export function showSpinner() {
-  document.body.classList.add('spinner--visible')
-}
-export function hideSpinner() {
-  document.body.classList.remove('spinner--visible')
-}
-```
-
-Inclua o CSS em `index.html`.
+Funções `showSpinner()` e `hideSpinner()` em `js/utils/spinner.js`.
 
 ---
 
 ## Toast Notifications
 
-Em `js/utils/toast.js`:
-
-```js
-export function showToast(message, type) {
-  const el = document.createElement('div')
-  el.className = `toast toast--${type}`
-  el.textContent = message
-  document.body.appendChild(el)
-  setTimeout(() => el.remove(), 5000)
-}
-```
-
-Inclua o CSS em `index.html`.
+Função `showToast(message, type)` em `js/utils/toast.js`.
 
 ---
 
 ## Páginas do App
 
-Cada módulo em `js/pages/*.js` exporta:
-
-```js
-export async function renderXxx(container) {
-  // ...
-  return cleanupFn
-}
-```
-
-Páginas suportadas: Home, IPTV, VOD, Rádio, Webcams, Not Found.
+Módulos em `js/pages/*.js` exportam `renderXxx(container)` que retorna `cleanupFn`.
 
 ---
 
 ## Performance & Bundle Analysis
 
-Para gerar relatório de chunks:
-
-1. Instale:
-   ```bash
-   npm install --save-dev rollup-plugin-visualizer
-   ```
-2. Adicione no `vite.config.js`:
-   ```js
-   import visualizer from 'rollup-plugin-visualizer'
-   // …
-   plugins: [
-     …,
-     visualizer({ filename: './dist/stats.html' })
-   ]
-   ```
-3. Rode:
-   ```bash
-   npm run build
-   open dist/stats.html
-   ```
+Use `rollup-plugin-visualizer` para gerar relatório de chunks.
 
 ---
 
 ## CI & E2E no GitHub Actions
 
-Workflow `ci-main.yml` roda em pushes/PRs na `main`:
+Workflows:  
+- `ci-main.yml` – testes E2E + build  
+- `accessibility.yml` – testes de acessibilidade  
+- `lighthouse.yml` – performance / Core Web Vitals  
 
-```yaml
-name: CI on main
-
-on:
-  push: { branches: [ main ] }
-  pull_request: { branches: [ main ] }
-
-jobs:
-  e2e:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.19.0'
-          cache: 'npm'
-      - run: npm ci --no-audit --omit=optional
-      - run: npm install @rollup/rollup-linux-x64-gnu --no-save
-      - run: npm run build
-      - run: npx playwright install --with-deps
-      - run: npm run test:e2e
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-results
-          path: test-results/
-```
+ badge no topo do README.
 
 ---
 
 ## Contribuindo
 
-Leia o guia em [CONTRIBUTING.md](.github/CONTRIBUTING.md) antes de abrir issues ou PRs. Use nossos templates em `.github/ISSUE_TEMPLATE` e `.github/PULL_REQUEST_TEMPLATE`.  
+Leia [CONTRIBUTING.md](CONTRIBUTING.md) e use os templates em `.github/ISSUE_TEMPLATE` e `.github/PULL_REQUEST_TEMPLATE`.
 
 ---
 
 ## Licença
 
-MIT License. Veja o arquivo [LICENSE](LICENSE).  
+MIT License. Veja [LICENSE](LICENSE).
 
 ---
 
@@ -432,9 +293,14 @@ MIT License. Veja o arquivo [LICENSE](LICENSE).
 - [x] v0.1.0 – Streaming Demo  
 - [x] v0.1.1 – PWA Automático & Code-Split  
 - [x] v1.0.0 – Lançamento Estável  
-- [ ] v1.1.0 – Acessibilidade & Performance  
-- [ ] v1.2.0 – Mocks de API & Testes de Componentes  
-- [ ] v2.0.0 – Novas funcionalidades de usuário  
+- [x] v1.1.0 – Documentação & Onboarding  
+- [ ] v1.2.0 – Segurança & Manutenção Automática  
+- [ ] v1.3.0 – Monitoramento de Performance & Budgets  
+- [ ] v1.4.0 – Acessibilidade Avançada (WCAG 2.1 AA/AAA)  
+- [ ] v1.5.0 – Testes Unitários & Storybook  
+- [ ] v1.6.0 – Regressão Visual (Playwright Snapshots)  
+- [ ] v1.7.0 – PWA Avançado (Push, Background Sync, Web Share)  
+- [ ] v2.0.0 – Novos Features (autenticação, favoritos, APIs externas)
 
 Para acompanhar o progresso, veja nosso [GitHub Projects](https://github.com/zubiaks/omnicast/projects).  
 ```
