@@ -1,6 +1,4 @@
-# .github/workflows/lighthouse.yml
 name: Performance Budget
-
 on:
   push:
     branches: [ main ]
@@ -11,14 +9,11 @@ on:
 jobs:
   lhci:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-
+    timeout-minutes: 20
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
@@ -26,13 +21,10 @@ jobs:
             package-lock.json
             .npmrc
 
-      - name: Install dependencies
-        run: npm ci --no-audit
-
-      - name: Install Lighthouse CI
-        run: npm install -g @lhci/cli@0.10.x
+      - run: npm ci --no-audit
+      - run: npm install -g @lhci/cli
 
       - name: Run Lighthouse CI
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: lhci autorun --config=.lighthouserc.cjs
+        run: |
+          # roda o autorun apontando ao seu .lighthouserc.cjs
+          lhci autorun --config ./.lighthouserc.cjs
