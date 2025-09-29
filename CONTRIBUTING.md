@@ -1,4 +1,3 @@
-```markdown
 # CONTRIBUTING.md
 
 Obrigado por considerar contribuir com o OmniCast!  
