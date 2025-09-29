@@ -1,0 +1,8 @@
+[
+  {
+    "id": 1,
+    "name": "Demo Cam",
+    "snapshotUrl": "https://picsum.photos/seed/webcam1/640/360",
+    "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+  }
+]

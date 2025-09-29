@@ -1,0 +1,1 @@
+System.register([],function(e,n){"use strict";return{execute:function(){e("renderHome",function(e){console.log("[Home] renderHome start"),e.innerHTML='\n    <section class="hero">\n      <h2>Bem-vindo ao OmniCast</h2>\n      <p>Escolha uma categoria no menu acima para começar.</p>\n    </section>\n  ',console.log("[Home] renderHome end")})}}});

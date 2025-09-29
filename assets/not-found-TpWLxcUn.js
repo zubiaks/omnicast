@@ -1,0 +1,1 @@
+function n(o){console.log("[NotFound] renderNotFound start"),o.innerHTML="\n    <section>\n      <h2>404</h2>\n      <p>Seção não encontrada.</p>\n    </section>\n  ",console.log("[NotFound] renderNotFound end")}export{n as renderNotFound};

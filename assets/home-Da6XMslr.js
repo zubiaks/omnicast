@@ -1,0 +1,1 @@
+function o(e){console.log("[Home] renderHome start"),e.innerHTML='\n    <section class="hero">\n      <h2>Bem-vindo ao OmniCast</h2>\n      <p>Escolha uma categoria no menu acima para começar.</p>\n    </section>\n  ',console.log("[Home] renderHome end")}export{o as renderHome};
