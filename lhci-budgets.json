@@ -1,0 +1,52 @@
+[
+  {
+    "path": "/",
+    "timings": [
+      { "metric": "first-contentful-paint",    "budget": 2000 },
+      { "metric": "largest-contentful-paint",  "budget": 2500 },
+      { "metric": "interactive",               "budget": 5000 },
+      { "metric": "total-blocking-time",       "budget": 300  },
+      { "metric": "cumulative-layout-shift",   "budget": 0.10 }
+    ]
+  },
+  {
+    "path": "/iptv",
+    "timings": [
+      { "metric": "first-contentful-paint",    "budget": 2000 },
+      { "metric": "largest-contentful-paint",  "budget": 2500 },
+      { "metric": "interactive",               "budget": 5000 },
+      { "metric": "total-blocking-time",       "budget": 300  },
+      { "metric": "cumulative-layout-shift",   "budget": 0.10 }
+    ]
+  },
+  {
+    "path": "/vod",
+    "timings": [
+      { "metric": "first-contentful-paint",    "budget": 2000 },
+      { "metric": "largest-contentful-paint",  "budget": 2500 },
+      { "metric": "interactive",               "budget": 5000 },
+      { "metric": "total-blocking-time",       "budget": 300  },
+      { "metric": "cumulative-layout-shift",   "budget": 0.10 }
+    ]
+  },
+  {
+    "path": "/radio",
+    "timings": [
+      { "metric": "first-contentful-paint",    "budget": 2000 },
+      { "metric": "largest-contentful-paint",  "budget": 2500 },
+      { "metric": "interactive",               "budget": 5000 },
+      { "metric": "total-blocking-time",       "budget": 300  },
+      { "metric": "cumulative-layout-shift",   "budget": 0.10 }
+    ]
+  },
+  {
+    "path": "/webcams",
+    "timings": [
+      { "metric": "first-contentful-paint",    "budget": 2000 },
+      { "metric": "largest-contentful-paint",  "budget": 2500 },
+      { "metric": "interactive",               "budget": 5000 },
+      { "metric": "total-blocking-time",       "budget": 300  },
+      { "metric": "cumulative-layout-shift",   "budget": 0.10 }
+    ]
+  }
+]
