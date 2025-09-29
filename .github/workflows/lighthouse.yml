@@ -1,5 +1,4 @@
 # .github/workflows/lighthouse.yml
-
 name: Performance Budget
 
 on:
@@ -28,14 +27,12 @@ jobs:
             .npmrc
 
       - name: Install dependencies
-        # Não omita as optional dependencies: o Rollup precisa do binário nativo
         run: npm ci --no-audit
 
       - name: Install Lighthouse CI
         run: npm install -g @lhci/cli@0.10.x
 
       - name: Run Lighthouse CI
-        # Forneça o token para que o upload para GitHub funcione
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: lhci autorun --config=.lighthouserc.cjs

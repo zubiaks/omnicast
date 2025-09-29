@@ -1,4 +1,4 @@
-// lighthouserc.cjs
+// .lighthouserc.cjs
 module.exports = {
   ci: {
     collect: {
@@ -11,8 +11,11 @@ module.exports = {
       ],
       numberOfRuns: 3,
       startServerCommand: 'npm run build && npm run preview -- --port 5500',
-      startServerReadyPattern: 'Local:' ,
-      startServerTimeout: 120000
+      startServerReadyPattern: 'Local:',
+      startServerTimeout: 120000,
+      launchOptions: {
+        chromeFlags: ['--no-sandbox', '--headless']
+      }
     },
     assert: {
       assertions: {

@@ -1,5 +1,3 @@
-# .github/workflows/codeql-analysis.yml
-
 name: CodeQL
 
 on:
@@ -11,6 +9,7 @@ on:
     - cron: '0 0 * * 0'
 
 permissions:
+  contents: read           # ← necessário para checkout em repositório privado
   actions: read
   security-events: write
 
@@ -20,11 +19,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1) DEBUG: confirme qual slug o runner está vendo
-      - name: Debug GITHUB_REPOSITORY
-        run: echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
-
-      # 2) Checkout sem “repository:” customizado — usa o repo que disparou o workflow
       - name: Checkout code
         uses: actions/checkout@v4
         with:
