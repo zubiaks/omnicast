@@ -20,6 +20,7 @@
     "@playwright/test": "^1.55.1",
     "@vitejs/plugin-legacy": "^7.2.1",
     "jsonlint": "^1.6.3",
+    "puppeteer": "^24.22.3",
     "serve": "^14.0.0",
     "snyk": "^1.1299.1",
     "vite": "^7.1.7",
