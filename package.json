@@ -1,8 +1,8 @@
 {
   "name": "omnicast",
   "version": "1.3.0",
-  "private": true,
   "type": "module",
+  "homepage": "https://zubiaks.github.io/omnicast",
   "scripts": {
     "setup": "npm ci --no-audit --omit=optional && npx playwright install --with-deps",
     "dev": "vite",
@@ -12,13 +12,19 @@
     "serve:dist": "serve -s dist -l 5500",
     "test:e2e": "npx playwright test",
     "test:e2e:headed": "npx playwright test --headed",
-    "test:e2e:report": "npx playwright show-report"
+    "test:e2e:report": "npx playwright show-report",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "hls.js": "^1.6.13"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.55.1",
     "@vitejs/plugin-legacy": "^7.2.1",
+    "gh-pages": "^6.3.0",
     "jsonlint": "^1.6.3",
     "puppeteer": "^24.22.3",
     "serve": "^14.0.0",
@@ -27,12 +33,17 @@
     "vite-plugin-pwa": "^1.0.3",
     "vite-plugin-tsconfig-paths": "^1.4.1"
   },
-  "dependencies": {
-    "hls.js": "^1.6.13"
-  },
   "overrides": {
     "nomnom": {
       "underscore": "1.13.4"
     }
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zubiaks/omnicast.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zubiaks/omnicast/issues"
+  },
+  "license": "MIT"
 }
