@@ -1,3 +1,4 @@
+# .github/workflows/lighthouse.yml
 name: Performance Budget
 on:
   push:
@@ -25,6 +26,4 @@ jobs:
       - run: npm install -g @lhci/cli
 
       - name: Run Lighthouse CI
-        run: |
-          # roda o autorun apontando ao seu .lighthouserc.cjs
-          lhci autorun --config ./.lighthouserc.cjs
+        run: lhci autorun --config ./.lighthouserc.cjs
