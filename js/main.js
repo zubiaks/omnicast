@@ -3,7 +3,6 @@
 import { initRouter } from './router.js'
 import { registerSW } from 'virtual:pwa-register'
 import { showToast } from '@/utils/toast.js'
-import { getCLS, getFID, getLCP, getFCP } from 'web-vitals'
 
 /**
  * Envia métrica para o endpoint de monitoring via Beacon API
@@ -21,11 +20,14 @@ function sendToMonitoring(metric) {
   navigator.sendBeacon('/api/metrics', blob)
 }
 
-// Instrumentação de Web Vitals
-getCLS(sendToMonitoring)
-getFID(sendToMonitoring)
-getLCP(sendToMonitoring)
-getFCP(sendToMonitoring)
+// Instrumentação de Web Vitals via import dinâmico
+;(async () => {
+  const { getCLS, getFID, getLCP, getFCP } = await import('web-vitals')
+  getCLS(sendToMonitoring)
+  getFID(sendToMonitoring)
+  getLCP(sendToMonitoring)
+  getFCP(sendToMonitoring)
+})()
 
 const container = document.querySelector('#main-content')
 initRouter(container)
