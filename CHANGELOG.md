@@ -19,6 +19,21 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [1.3.0] – 2025-10-03
+
+### Adicionado
+- Instrumentação de Web Vitals (FCP, LCP, CLS, FID) com `web-vitals`  
+- Função `sendToMonitoring()` usando Beacon API para envio de métricas a `/api/metrics`  
+- Documentação de monitoring em `docs/monitoring.md`
+
+### Alterado
+- _(nenhuma mudança)_
+
+### Corrigido
+- _(nenhuma mudança)_
+
+---
+
 ## [1.2.0] – 2025-10-02
 
 ### Adicionado
@@ -79,12 +94,12 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 ### Adicionado
 - Integração de `vite-plugin-pwa` em `vite.config.js` com `registerType: 'autoUpdate'`  
 - `workbox.runtimeCaching` configurado para:
-  - HLS streams (`NetworkFirst`, cacheName `hls-streams`)
-  - Assets estáticos (`StaleWhileRevalidate`, cacheName `static-assets`)
+  - HLS streams (`NetworkFirst`, cacheName `hls-streams`)  
+  - Assets estáticos (`StaleWhileRevalidate`, cacheName `static-assets`)  
 - `navigateFallback: '/offline.html'` para SPA e fallback customizado  
 - Registro de SW em `js/main.js` usando `virtual:pwa-register` com:
-  - `onNeedRefresh()` → toast “Nova versão disponível! Clique para atualizar.”
-  - `onOfflineReady()` → toast “App pronto para uso offline.”
+  - `onNeedRefresh()` → toast “Nova versão disponível! Clique para atualizar.”  
+  - `onOfflineReady()` → toast “App pronto para uso offline.”  
 - Clique no toast de informação invoca `updateSW(true)` (skipWaiting + reload)  
 - Router refatorado para imports dinâmicos, gerando chunks separados por página  
 - Lazy-load de `hls.js` isolado em chunk próprio  
@@ -203,12 +218,13 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 - Layout básico em `index.html` e `js/main.js`  
 - Páginas placeholder em `js/pages/*.js`  
 - Scripts NPM (`npm run dev`, `npm run build`)  
-- Estrutura de estilos em `public/assets/css/base.css` e `layout.css`  
+- Estrutura de estilos em `public/assets/css/base.css` e `layout.css`
 
 ---
 
-[Unreleased]: https://github.com/zubiaks/omnicast/compare/v1.2.0...HEAD  
-[1.2.0]:     https://github.com/zubiaks/omnicast/releases/tag/v1.2.0  
+[Unreleased]: https://github.com/zubiaks/omnicast/compare/v1.3.0...HEAD  
+[1.3.0]:     https://github.com/zubiaks/omnicast/releases/tag/v1.3.0  
+[1.2.0]:     https://github.com/zubiaks/omnicast/compare/v1.2.0...v1.3.0  
 [1.1.0]:     https://github.com/zubiaks/omnicast/releases/tag/v1.1.0  
 [1.0.0]:     https://github.com/zubiaks/omnicast/releases/tag/v1.0.0  
 [0.1.1]:     https://github.com/zubiaks/omnicast/releases/tag/v0.1.1  

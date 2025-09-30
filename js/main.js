@@ -4,6 +4,31 @@ import { initRouter } from './router.js'
 import { registerSW } from 'virtual:pwa-register'
 import { showToast } from '@/utils/toast.js'
 
+/**
+ * Envia métrica para o endpoint de monitoring via Beacon API
+ * @param {{name: string, value: number, delta: number, id?: string}} metric
+ */
+function sendToMonitoring(metric) {
+  const payload = {
+    name: metric.name,
+    value: metric.value,
+    delta: metric.delta,
+    href: window.location.href,
+    timestamp: Date.now()
+  }
+  const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
+  navigator.sendBeacon('/api/metrics', blob)
+}
+
+// Instrumentação de Web Vitals via import dinâmico
+;(async () => {
+  const { getCLS, getFID, getLCP, getFCP } = await import('web-vitals')
+  getCLS(sendToMonitoring)
+  getFID(sendToMonitoring)
+  getLCP(sendToMonitoring)
+  getFCP(sendToMonitoring)
+})()
+
 const container = document.querySelector('#main-content')
 initRouter(container)
 
