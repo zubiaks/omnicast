@@ -1,7 +1,7 @@
 {
-  "http://localhost:5500/": "https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1759187638786-93515.report.html",
-  "http://localhost:5500/iptv": "https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1759187639619-14034.report.html",
-  "http://localhost:5500/vod": "https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1759187640706-88629.report.html",
-  "http://localhost:5500/radio": "https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1759187641545-75378.report.html",
-  "http://localhost:5500/webcams": "https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1759187642325-91424.report.html"
+  "http://localhost:5500/": "https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1759231222904-76536.report.html",
+  "http://localhost:5500/iptv": "https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1759231223740-43195.report.html",
+  "http://localhost:5500/vod": "https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1759231224553-57824.report.html",
+  "http://localhost:5500/radio": "https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1759231225257-31903.report.html",
+  "http://localhost:5500/webcams": "https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1759231225726-66502.report.html"
 }
