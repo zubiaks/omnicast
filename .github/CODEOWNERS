@@ -1,0 +1,16 @@
+# .github/CODEOWNERS
+
+# Default owner for everything
+*       @zubiaks
+
+# Docs
+/docs/  @zubiaks
+
+# Front-end JavaScript
+/js/    @zubiaks
+
+# Back-end (Express + métricas)
+/server/ @zubiaks
+
+# CI/CD workflows
+.github/workflows/  @zubiaks
