@@ -1,3 +1,16 @@
+# [1.4.0](https://github.com/zubiaks/omnicast/compare/v1.3.0...v1.4.0) (2025-10-01)
+
+
+### Bug Fixes
+
+* **ci:** remover comentários do lhci-budgets.json para JSON válido ([a0fa6b3](https://github.com/zubiaks/omnicast/commit/a0fa6b33569d32e5fb921aad27b5fe526ffb2d4b))
+* **monitoring:** carregar web-vitals dinamicamente para build funcionar ([4c9934e](https://github.com/zubiaks/omnicast/commit/4c9934e245e72823a28e6b004b4e7335b41d6a5c))
+
+
+### Features
+
+* **monitoring:** instrumentar Web Vitals e performance budgets ([96e4eb8](https://github.com/zubiaks/omnicast/commit/96e4eb8cee337dc555a1fb7fa084ed835f1f86a2))
+
 # Changelog
 
 Todas as alterações significativas neste projeto são documentadas aqui.  
@@ -232,4 +245,4 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 [0.0.4]:     https://github.com/zubiaks/omnicast/releases/tag/v0.0.4  
 [0.0.3]:     https://github.com/zubiaks/omnicast/releases/tag/v0.0.3  
 [0.0.2]:     https://github.com/zubiaks/omnicast/releases/tag/v0.0.2  
-[0.0.1]:     https://github.com/zubiaks/omnicast/releases/tag/v0.0.1  
+[0.0.1]:     https://github.com/zubiaks/omnicast/releases/tag/v0.0.1
