@@ -3,6 +3,9 @@
   "version": "1.3.0",
   "type": "module",
   "homepage": "https://zubiaks.github.io/omnicast",
+  "engines": {
+    "node": ">=20.8.1"
+  },
   "scripts": {
     "setup": "npm ci --no-audit --omit=optional && npx playwright install --with-deps",
     "dev": "vite",
