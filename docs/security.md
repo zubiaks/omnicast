@@ -1,11 +1,10 @@
-```markdown
-# Segurança
+# docs/security.md
 
 Este documento descreve como o OmniCast protege seu código, dependências e detecta vulnerabilidades.
 
 ---
 
-## Dependabot
+## 1. Dependabot
 
 Atualizações automáticas de dependências e alertas de vulnerabilidades via Dependabot.
 
@@ -26,7 +25,7 @@ updates:
 
 ---
 
-## npm audit
+## 2. npm audit
 
 Verificação de vulnerabilidades de runtime no pipeline de CI.
 
@@ -41,24 +40,24 @@ Verificação de vulnerabilidades de runtime no pipeline de CI.
 
 ---
 
-## Snyk
+## 3. Snyk
 
 Scanner complementar que encontra vulnerabilidades em dependências e sugere correções.
 
-### Instalação local
+### 3.1 Instalação local
 
 ```bash
 npm install --save-dev @snyk/cli
 ```
 
-### Configuração de token
+### 3.2 Configuração de token
 
 1. Gere um token em https://app.snyk.io/account  
 2. Adicione um segredo no repositório em **Settings → Secrets and variables → Actions**  
    - Nome: `SNYK_TOKEN`  
    - Valor: token copiado da sua conta Snyk  
 
-### Exemplo de step no CI
+### 3.3 Exemplo de step no CI
 
 ```yaml
 - name: Snyk test
@@ -69,11 +68,11 @@ npm install --save-dev @snyk/cli
 
 ---
 
-## GitHub CodeQL
+## 4. GitHub CodeQL
 
 Análise estática de código em busca de vulnerabilidades e más práticas.
 
-### Requisitos
+### 4.1 Requisitos
 
 - Repositório **público** ou com **GitHub Advanced Security** habilitado  
 - Permissões no workflow:
@@ -84,9 +83,10 @@ Análise estática de código em busca de vulnerabilidades e más práticas.
     checks: write
     security-events: write
   ```
+
 - Token: `${{ secrets.GITHUB_TOKEN }}` (gerado automaticamente)  
 
-### Workflow
+### 4.2 Workflow
 
 Localização: `.github/workflows/codeql-analysis.yml`
 
@@ -113,24 +113,21 @@ Principais steps:
 - uses: github/codeql-action/analyze@v3
 ```
 
-Se o repositório for privado e não tiver Advanced Security, o upload SARIF falhará com 422. Neste caso você pode:
-
-- Tornar o repositório público  
-- Executar o CodeQL localmente:
-
-  ```bash
-  gh repo clone zubiaks/omnicast
-  cd omnicast
-  gh codeql analyze \
-    --language javascript \
-    --output results.sarif
-  ```
+> Se o repositório for privado e não tiver Advanced Security, o upload SARIF falhará com 422. Neste caso considere:
+> - Tornar o repositório público  
+> - Executar o CodeQL localmente com:
+>   ```bash
+>   gh repo clone zubiaks/omnicast
+>   gh codeql analyze \
+>     --language javascript \
+>     --output results.sarif
+>   ```
 
 ---
 
-## Resumo das proteções
+## 5. Resumo das Proteções
 
 - Dependabot: atualização automática de dependências e alertas  
 - npm audit: falha no CI para vulnerabilidades críticas  
 - Snyk: análise complementar com relatórios e PRs de correção  
-- CodeQL: varredura estática de código (via GitHub Actions ou CLI)
+- CodeQL: varredura estática de código (via GitHub Actions ou CLI)  

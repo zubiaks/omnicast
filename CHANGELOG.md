@@ -39,12 +39,12 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 ### Adicionado
 - Workflow `codeql-analysis.yml` com CodeQL Action v3.30.5 para varredura estática de segurança  
 - Configuração de performance budget via Lighthouse CI em `.lighthouserc.cjs`  
-- Upload de relatórios LHCI para `temporary-public-storage`  
+- Upload de relatórios LHCI para `temporary-public-storage`
 
 ### Alterado
 - Remoção de `--omit=optional` no `npm ci` para garantir instalação de binários nativos do Rollup  
 - Lighthouse workflow (`lighthouse.yml`) passando `LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}`  
-- Ajuste de permissões no CodeQL workflow (`contents: read`, `checks: write`, `security-events: write`)  
+- Ajuste de permissões no CodeQL workflow (`contents: read`, `checks: write`, `security-events: write`)
 
 ### Corrigido
 - Erro `MODULE_NOT_FOUND` para `@rollup/rollup-linux-x64-gnu`  
@@ -81,11 +81,11 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 - Pipeline de CI/E2E completo no GitHub Actions com cache de dependências e upload de artefatos  
 - Workflow Lighthouse CI (`lighthouse.yml`) e badge de Performance no README  
 - Badge de status de release e licença no README  
-- Stub de rede via Playwright em todos os testes E2E  
+- Stub de rede via Playwright em todos os testes E2E
 
 ### Alterado
 - Script `serve:dist` agora usa `serve -s dist -l 5500` para suporte a SPA‐fallback  
-- Route stubbing nativo do Playwright substitui MSW nos testes E2E  
+- Route stubbing nativo do Playwright substitui MSW nos testes E2E
 
 ---
 
@@ -93,21 +93,16 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 
 ### Adicionado
 - Integração de `vite-plugin-pwa` em `vite.config.js` com `registerType: 'autoUpdate'`  
-- `workbox.runtimeCaching` configurado para:
-  - HLS streams (`NetworkFirst`, cacheName `hls-streams`)  
-  - Assets estáticos (`StaleWhileRevalidate`, cacheName `static-assets`)  
+- `workbox.runtimeCaching` configurado para: HLS streams (`NetworkFirst`, cacheName `hls-streams`); Assets estáticos (`StaleWhileRevalidate`, cacheName `static-assets`)  
 - `navigateFallback: '/offline.html'` para SPA e fallback customizado  
-- Registro de SW em `js/main.js` usando `virtual:pwa-register` com:
-  - `onNeedRefresh()` → toast “Nova versão disponível! Clique para atualizar.”  
-  - `onOfflineReady()` → toast “App pronto para uso offline.”  
-- Clique no toast de informação invoca `updateSW(true)` (skipWaiting + reload)  
+- Registro de SW em `js/main.js` usando `virtual:pwa-register` com `onNeedRefresh()` e `onOfflineReady()`  
 - Router refatorado para imports dinâmicos, gerando chunks separados por página  
-- Lazy-load de `hls.js` isolado em chunk próprio  
+- Lazy-load de `hls.js` isolado em chunk próprio
 
 ### Corrigido
 - Caminhos de `includeAssets` apontando corretamente para `public/data/*.json`  
 - Fallback offline customizado em `/offline.html` com links root-relative  
-- Cache-Control `no-store` no dev server para evitar respostas 304 em JSON  
+- Cache-Control `no-store` no dev server para evitar respostas 304 em JSON
 
 ---
 
@@ -118,10 +113,10 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 - Streaming demo em páginas IPTV, VOD, Rádio e Webcams com placeholders de thumbnail  
 - Logs de início/fim de renderização em `home.js` e `not-found.js`  
 - Console logs de fetch em `js/pages/*` para diagnóstico  
-- Feedback via toast ao carregar listas e reproduzir mídia  
+- Feedback via toast ao carregar listas e reproduzir mídia
 
 ### Corrigido
-- Remoção de comentário em `public/data/iptv-channels.json` para evitar falha de parse  
+- Remoção de comentário em `public/data/iptv-channels.json` para evitar falha de parse
 
 ---
 
@@ -132,12 +127,12 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 - Link do manifesto e meta `theme-color` em `<head>` de `index.html`  
 - Service Worker em `js/sw.js` com pré-cache de shell e `offline.html`  
 - Página de fallback em `public/offline.html` e estilos em `public/assets/css/offline.css`  
-- Registro do SW em `js/main.js` no evento `load`  
+- Registro do SW em `js/main.js` no evento `load`
 
 ### Corrigido
 - Fallback offline apenas em `event.request.mode === 'navigate'`  
 - Cache busting no evento `activate` para remover caches antigos  
-- Garantia de pré-cache de CSS necessários à página offline  
+- Garantia de pré-cache de CSS necessários à página offline
 
 ---
 
@@ -145,10 +140,10 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 
 ### Adicionado
 - Spinner global de carregamento em `js/utils/spinner.js` e `public/assets/css/spinner.css`  
-- Integração do spinner no roteamento (`js/router.js`)  
+- Integração do spinner no roteamento (`js/router.js`)
 
 ### Corrigido
-- Cleanup de intervalos e listeners após cada renderização  
+- Cleanup de intervalos e listeners após cada renderização
 
 ---
 
@@ -157,12 +152,12 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 ### Adicionado
 - JSON de webcams em `public/data/webcams.json`  
 - Estilos em `public/assets/css/webcams.css`  
-- Página Webcams em `js/pages/webcams.js` com grid e atualização automática de snapshots  
+- Página Webcams em `js/pages/webcams.js` com grid e atualização automática de snapshots
 
 ### Corrigido
 - Imports relativos no `js/router.js`  
 - Adição de módulos `home.js` e `not-found.js` para fallback de rota  
-- Ajuste de `root` e `base` no `vite.config.js` para servir pasta `js/`  
+- Ajuste de `root` e `base` no `vite.config.js` para servir pasta `js/`
 
 ---
 
@@ -171,7 +166,7 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 ### Adicionado
 - JSON de estações em `public/data/radio-stations.json`  
 - Estilos Rádio em `public/assets/css/radio.css`  
-- Página Rádio em `js/pages/radio.js` com player `<audio>`  
+- Página Rádio em `js/pages/radio.js` com player `<audio>`
 
 ---
 
@@ -180,7 +175,7 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 ### Adicionado
 - JSON de vídeos em `public/data/vod-videos.json`  
 - Estilos VOD em `public/assets/css/vod.css`  
-- Página VOD em `js/pages/vod.js` com cards e player HTML5  
+- Página VOD em `js/pages/vod.js` com cards e player HTML5
 
 ---
 
@@ -189,17 +184,17 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 ### Adicionado
 - JSON estático de canais em `public/data/iptv-channels.json`  
 - Estilos IPTV em `public/assets/css/iptv.css`  
-- Integração HLS.js em `js/pages/iptv.js`  
+- Integração HLS.js em `js/pages/iptv.js`
 
 ---
 
 ## [0.0.3] – 2025-09-25
 
 ### Adicionado
-- Sistema de Toast Notifications em `js/utils/toast.js` e `public/assets/css/toast.css`  
+- Sistema de Toast Notifications em `js/utils/toast.js` (`toast.css`)
 
 ### Removido
-- Import de `toast.css` em `js/main.js`  
+- Import de `toast.css` em `js/main.js`
 
 ---
 
@@ -207,7 +202,7 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 
 ### Adicionado
 - Roteamento hash e funções de renderização em `js/router.js`  
-- Destaque de link ativo no menu via `highlightNav`  
+- Destaque de link ativo no menu via `highlightNav`
 
 ---
 

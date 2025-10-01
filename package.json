@@ -17,6 +17,8 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@influxdata/influxdb-client": "^1.35.0",
+    "express-prom-bundle": "^8.0.0",
     "hls.js": "^1.6.13",
     "web-vitals": "^5.1.0"
   },

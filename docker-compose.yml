@@ -1,0 +1,60 @@
+services:
+  influxdb:
+    image: influxdb:2.6
+    container_name: influxdb
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=omnicast
+      - DOCKER_INFLUXDB_INIT_PASSWORD=omnicast123
+      - DOCKER_INFLUXDB_INIT_ORG=omnicast
+      - DOCKER_INFLUXDB_INIT_BUCKET=metrics
+      - DOCKER_INFLUXDB_INIT_RETENTION=72h
+
+  grafana:
+    image: grafana/grafana:9.5.10
+    container_name: grafana
+    depends_on:
+      - influxdb
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+
+  streams:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: omnicast-streams
+    depends_on:
+      - influxdb
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      - INFLUX_URL=http://influxdb:8086
+      - INFLUX_TOKEN=omnicast123
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+      args:
+        VITE_API_URL: http://omnicast-streams:5000
+        VITE_SUPABASE_URL: ${SUPABASE_URL}
+        VITE_SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+    container_name: omnicast-web
+    depends_on:
+      - streams
+    ports:
+      - "4173:80"
+
+volumes:
+  influxdb-data:
+  grafana-data:

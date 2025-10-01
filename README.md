@@ -1,42 +1,38 @@
 [![CI](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml)
 [![Acessibilidade](https://github.com/zubiaks/omnicast/actions/workflows/accessibility.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/accessibility.yml)
 [![Performance](https://github.com/zubiaks/omnicast/actions/workflows/lighthouse.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/lighthouse.yml)
-[![release](https://img.shields.io/github/v/release/zubiaks/omnicast?style=flat-square)](https://github.com/zubiaks/omnicast/releases/latest)
-[![license](https://img.shields.io/github/license/zubiaks/omnicast?style=flat-square)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/zubiaks/omnicast?style=flat-square)](https://github.com/zubiaks/omnicast/releases/latest)
+[![License](https://img.shields.io/github/license/zubiaks/omnicast?style=flat-square)](LICENSE)
 
 # OmniCast
 
-**Versão 1.2.0 – Segurança & Manutenção Automática**
+**Versão 1.3.0 – Instrumentação de Web Vitals, Monitoramento & Budgets**
 
-O que há de novo:  
-- [x] Integração do CodeQL Action v3.30.5 para análise estática de segurança  
-- [x] Budget de performance via Lighthouse CI com arquivo de budgets JSON  
-- [x] Ajustes nos workflows de CI e performance para Windows e Linux  
-- [x] Documentação de segurança e performance no CHANGELOG.md  
+O que há de novo:
+- Coleta de Web Vitals (FCP, LCP, CLS, FID) usando `web-vitals`  
+- Envio de métricas via Beacon API para `/api/metrics`  
+- Budgets de performance definidos em `lhci-budgets.json`  
+- Integrações de segurança: Dependabot, CodeQL, Snyk, npm audit  
 
 ---
 
 ## Sumário
 
 - [Visão Geral](#visão-geral)  
-- [Status da Versão](#status-da-versão)  
-- [Estrutura do Projeto](#estrutura-do-projeto)  
-- [Instalação e Execução](#instalação-e-execução)  
-- [Primeiros Passos](#primeiros-passos)  
-- [Scripts Úteis](#scripts-úteis)  
-- [Testes E2E (Playwright)](#testes-e2e-playwright)  
-- [Testes de Acessibilidade](#testes-de-acessibilidade)  
-- [Configuração do Vite](#configuração-do-vite)  
-- [Router Code-Split](#router-code-split)  
-- [Lazy-Load de HLS](#lazy-load-de-hls)  
-- [PWA Avançada](#pwa-avançada)  
-- [Fallback Offline](#fallback-offline)  
-- [Spinner Global](#spinner-global)  
-- [Toast Notifications](#toast-notifications)  
-- [Páginas do App](#páginas-do-app)  
-- [Performance & Bundle Analysis](#performance--bundle-analysis)  
-- [CI & E2E no GitHub Actions](#ci--e2e-no-github-actions)  
+- [Pré-requisitos](#pré-requisitos)  
+- [Instalação](#instalação)  
+  - [Com Docker Compose](#com-docker-compose)  
+  - [Sem Docker (Node.js)](#sem-docker-nodejs)  
+- [Variáveis de Ambiente](#variáveis-de-ambiente)  
+- [API Endpoints](#api-endpoints)  
+- [Exemplos de Uso](#exemplos-de-uso)  
+- [Monitoramento & Web Vitals](#monitoramento--web-vitals)  
+- [Performance Budgets](#performance-budgets)  
+- [CI/CD & Workflows](#cicd--workflows)  
+- [Segurança](#segurança)  
+- [Troubleshooting](#troubleshooting)  
 - [Contribuindo](#contribuindo)  
+- [Código de Conduta](#código-de-conduta)  
 - [Licença](#licença)  
 - [Roadmap](#roadmap)  
 
@@ -44,271 +40,195 @@ O que há de novo:
 
 ## Visão Geral
 
-OmniCast é uma Progressive Web App modular para streaming de IPTV, VOD, rádio e webcams, desenhada para ser leve, extensível e fácil de contribuir.
+OmniCast é uma Progressive Web App modular para demonstração de streaming de IPTV, VOD, rádio e webcams.  
+No back-end Node.js, oferece rotas autenticadas via Supabase e coleta métricas de performance em InfluxDB.
 
 ---
 
-## Status da Versão
+## Pré-requisitos
 
-- Versão: **1.2.0**  
-- Data de Release: **2025-10-01**  
-- Foco: Segurança & Manutenção Automática  
-
----
-
-## Estrutura do Projeto
-
-```
-omnicast/
-├─ docs/
-│  ├─ troubleshooting.md
-│  └─ ci-setup.md
-├─ .github/
-│  ├─ ISSUE_TEMPLATE/
-│  ├─ PULL_REQUEST_TEMPLATE/
-│  └─ workflows/
-│     ├─ ci-main.yml
-│     ├─ accessibility.yml
-│     ├─ lighthouse.yml
-│     └─ codeql-analysis.yml
-├─ index.html
-├─ vite.config.js
-├─ public/
-│  ├─ manifest.webmanifest
-│  ├─ offline.html
-│  └─ assets/css/
-├─ js/
-│  ├─ main.js
-│  ├─ router.js
-│  ├─ hls-loader.js
-│  ├─ utils/
-│  └─ pages/
-├─ .lighthouserc.cjs
-├─ lhci-budgets.json
-├─ CONTRIBUTING.md
-├─ package.json
-├─ CHANGELOG.md
-└─ README.md
-```
+- Docker Engine & Docker Compose v2+  
+- Node.js 18+  
+- Conta e projeto no Supabase  
+- (Opcional) Grafana para visualização de métricas  
 
 ---
 
-## Instalação e Execução
+## Instalação
 
-Clone e instale dependências:
+### Com Docker Compose
 
-```bash
-git clone https://github.com/zubiaks/omnicast.git
-cd omnicast
-npm install
-```
-
----
-
-## Primeiros Passos
-
-1. Instale sem opcionais  
+1. Clone o repositório:
    ```bash
-   npm ci --no-audit --omit=optional
+   git clone https://github.com/zubiaks/omnicast.git
+   cd omnicast
    ```
-2. Setup (Playwright browsers)  
+2. Defina variáveis em `.env` (veja [Variáveis de Ambiente](#variáveis-de-ambiente)).  
+3. Inicie os serviços:
    ```bash
+   docker compose up -d
+   ```
+4. Acesse:
+   - API: http://localhost:5000  
+   - InfluxDB Explorer: http://localhost:8086  
+   - Grafana: http://localhost:3000  
+
+### Sem Docker (Node.js)
+
+1. Navegue até o servidor:
+   ```bash
+   cd omnicast/server
+   ```
+2. Instale dependências:
+   ```bash
+   npm ci
    npm run setup
    ```
-3. Desenvolvimento  
+3. Crie `.env` na raiz de `server/` (veja [Variáveis de Ambiente](#variáveis-de-ambiente)).  
+4. Inicie:
    ```bash
-   npm run dev
-   ```
-4. Build & Preview  
-   ```bash
-   npm run build
-   npm run preview -- --port 5500
-   ```
-5. Testes E2E  
-   ```bash
-   npm run test:e2e
-   npm run test:e2e:report
+   node index.js
    ```
 
 ---
 
-## Scripts Úteis
+## Variáveis de Ambiente
 
-```bash
-npm run setup
-npm run dev
-npm run dev:ci
-npm run build
-npm run preview
-npm run serve:dist
-npm run test:e2e
-npm run test:e2e:headed
-npm run test:e2e:report
+Crie `server/.env` com:
+
+```ini
+SUPABASE_URL=https://<SEU_PROJETO>.supabase.co
+SUPABASE_ANON_KEY=<anon key>
+SUPABASE_SERVICE_ROLE_KEY=<service_role key>
+INFLUX_URL=http://influxdb:8086
+INFLUX_TOKEN=<influx token>
+INFLUX_ORG=<influx org>
+INFLUX_BUCKET=metrics
+PORT=5000
 ```
 
 ---
 
-## Testes E2E (Playwright)
+## API Endpoints
 
-Cobertura de fluxos críticos, sem alterações nesta versão.
+1. **Health Check**  
+   `GET /`  
+   Retorna `{ "status": "ok" }`
 
----
+2. **Login Supabase**  
+   `POST /auth/v1/token?grant_type=password`  
+   - Headers:  
+     - `apikey: SUPABASE_ANON_KEY`  
+     - `Content-Type: application/json`  
+   - Body:
+     ```json
+     { "email": "user@example.com", "password": "Password123" }
+     ```
+   - Resposta:  
+     ```json
+     { "access_token": "...", "refresh_token": "...", ... }
+     ```
 
-## Testes de Acessibilidade
-
-Integrado ao CI via axe-core, sem alterações nesta versão.
-
----
-
-## Configuração do Vite
-
-Otimizações padrão para dev e prod, sem alterações nesta versão.
-
----
-
-## Router Code-Split
-
-Roteamento modular por página, sem alterações nesta versão.
-
----
-
-## Lazy-Load de HLS
-
-Carregamento dinâmico do módulo HLS, sem alterações nesta versão.
-
----
-
-## PWA Avançada
-
-Service Worker e manifest configurados, sem alterações nesta versão.
+3. **Streams Protegidos**  
+   `GET /streams`  
+   - Header: `Authorization: Bearer <access_token>`  
+   - Resposta:
+     ```json
+     [
+       { "id":1, "title":"Canal A", "url":"https://.../x36xhzz.m3u8" },
+       { "id":2, "title":"Canal B", "url":"https://.../stream.m3u8" }
+     ]
+     ```
+   - Sem token ou inválido: `401 Unauthorized`
 
 ---
 
-## Fallback Offline
+## Exemplos de Uso
 
-Página offline personalizada, sem alterações nesta versão.
+### PowerShell
+
+```powershell
+# Carrega .env
+Get-Content .\.env |
+  Where-Object { $_ -and $_ -notmatch '^\s*#' } |
+  ForEach-Object {
+    $kv = $_ -split '=',2
+    Set-Item Env:\$($kv[0]) $kv[1]
+  }
+
+# Login
+$body = @{ email="user@example.com"; password="Password123" } | ConvertTo-Json
+$resp = Invoke-RestMethod -Uri "$env:SUPABASE_URL/auth/v1/token?grant_type=password" `
+  -Method POST -Headers @{ apikey=$env:SUPABASE_ANON_KEY; "Content-Type"="application/json" } `
+  -Body $body
+$token = $resp.access_token
+
+# Chamada streams
+curl.exe -H "Authorization: Bearer $token" http://localhost:5000/streams
+```
+
+### cURL (Linux/macOS)
+
+```bash
+curl -X POST "$SUPABASE_URL/auth/v1/token?grant_type=password" \
+  -H "apikey: $SUPABASE_ANON_KEY" \
+  -H "Content-Type: application/json" \
+  --data '{"email":"user@example.com","password":"Password123"}'
+```
 
 ---
 
-## Spinner Global
+## Monitoramento & Web Vitals
 
-Indicador de carregamento global reutilizável, sem alterações nesta versão.
-
----
-
-## Toast Notifications
-
-Sistema de notificações leve, sem alterações nesta versão.
-
----
-
-## Páginas do App
-
-- Home  
-- IPTV  
-- VOD  
-- Rádio  
-- Webcams  
-- Not Found  
-
----
-
-## Performance & Bundle Analysis
-
-Implementamos budgets de performance versionados com LHCI:
-
-1. **Budget File** na raiz: `lhci-budgets.json`  
-   ```json
-   [
-     {
-       "path": "/",
-       "timings": [
-         { "metric": "first-contentful-paint",    "budget": 2000 },
-         { "metric": "largest-contentful-paint",  "budget": 2500 },
-         { "metric": "interactive",               "budget": 5000 },
-         { "metric": "total-blocking-time",       "budget": 300  },
-         { "metric": "cumulative-layout-shift",   "budget": 0.10 }
-       ]
-     },
-     { "path": "/iptv",   "timings": [ … ] },
-     { "path": "/vod",    "timings": [ … ] },
-     { "path": "/radio",  "timings": [ … ] },
-     { "path": "/webcams","timings": [ … ] }
-   ]
+1. Instale:
+   ```bash
+   npm install web-vitals --save
    ```
-
-2. **Configuração LHCI**: `.lighthouserc.cjs`
+2. Em `js/main.js`:
    ```js
-   module.exports = {
-     ci: {
-       collect: { /* URLs e comandos */ },
-       assert: {
-         budgetsFile: './lhci-budgets.json'
-       },
-       upload: { target: 'temporary-public-storage' }
+   import { getCLS, getFID, getLCP, getFCP } from 'web-vitals'
+
+   function sendToMonitoring(metric) {
+     const payload = {
+       name: metric.name,
+       value: metric.value,
+       delta: metric.delta,
+       href: window.location.href,
+       timestamp: Date.now()
      }
-   };
+     const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
+     navigator.sendBeacon('/api/metrics', blob)
+   }
+
+   getCLS(sendToMonitoring)
+   getFID(sendToMonitoring)
+   getLCP(sendToMonitoring)
+   getFCP(sendToMonitoring)
+   ```
+3. No InfluxDB Explorer:
+   ```flux
+   from(bucket:"metrics")
+     |> range(start: -5m)
+     |> filter(fn: (r) => r._measurement == "http_request")
    ```
 
-3. **Workflow**: `.github/workflows/lighthouse.yml`
-   ```yaml
-   name: Performance Budget
-   on: [ push, pull_request, workflow_dispatch ]
-   jobs:
-     lhci:
-       runs-on: ubuntu-latest
-       steps:
-         - uses: actions/checkout@v4
-         - uses: actions/setup-node@v4
-           with:
-             node-version: '20.x'
-             cache: npm
-         - run: npm ci --no-audit
-         - run: npm install -g @lhci/cli
-         - run: lhci autorun --config ./.lighthouserc.cjs
-   ```
+---
 
-**Rodando local**:
-```bash
-npx lhci autorun --config ./.lighthouserc.cjs
+## Performance Budgets
+
+Arquivo `lhci-budgets.json`:
+
+```json
+[
+  { "metric": "largest-contentful-paint", "budget": 2500 },
+  { "metric": "cumulative-layout-shift",  "budget": 0.1   },
+  { "metric": "first-input-delay",        "budget": 100   }
+]
 ```
-Falha apenas se algum timing ultrapassar o budget.
 
----
+Configuração em `.lighthouserc.cjs`:
 
-## CI & E2E no GitHub Actions
-
-- **ci-main.yml** – build, lint e E2E  
-- **accessibility.yml** – acessibilidade  
-- **lighthouse.yml** – performance budget  
-- **codeql-analysis.yml** – segurança estática  
-
----
-
-## Contribuindo
-
-Veja [CONTRIBUTING.md](CONTRIBUTING.md) e use os templates em `.github`.
-
----
-
-## Licença
-
-MIT License. Veja [LICENSE](LICENSE).
-
----
-
-## Roadmap
-
-- [x] v0.1.0 – Streaming Demo  
-- [x] v0.1.1 – PWA & Code-Split  
-- [x] v1.0.0 – Lançamento Estável  
-- [x] v1.1.0 – Documentação & Onboarding  
-- [x] v1.2.0 – Segurança & Performance Automática  
-- [ ] v1.3.0 – Monitoramento de Performance & Budgets  
-- [ ] v1.4.0 – Acessibilidade Avançada (WCAG 2.1 AA/AAA)  
-- [ ] v1.5.0 – Testes Unitários & Storybook  
-- [ ] v1.6.0 – Regressão Visual (Playwright Snapshots)  
-- [ ] v1.7.0 – PWA Avançado (Push, Background Sync, Web Share)  
-- [ ] v2.0.0 – Autenticação, Favoritos, APIs Externas  
-
-Para acompanhar, veja [Projects](https://github.com/zubiaks/omnicast/projects).
+```js
+module.exports = {
+  ci: {
+    collect:
