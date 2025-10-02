@@ -3,6 +3,7 @@
 [![Performance Budget](https://github.com/zubiaks/omnicast/actions/workflows/lighthouse-ci.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/lighthouse-ci.yml)
 [![Release](https://img.shields.io/github/v/release/zubiaks/omnicast?style=flat-square)](https://github.com/zubiaks/omnicast/releases/latest)
 [![License](https://img.shields.io/github/license/zubiaks/omnicast?style=flat-square)](LICENSE)
+[![Metrics Smoke](https://github.com/zubiaks/omnicast/actions/workflows/metrics-smoke.yml/badge.svg)](https://github.com/zubiaks/omnicast/actions/workflows/metrics-smoke.yml)
 
 # OmniCast
 
