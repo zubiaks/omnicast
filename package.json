@@ -18,10 +18,13 @@
     "test:e2e:report": "npx playwright show-report",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "test:rls": "node scripts/test-rls.js"
   },
   "dependencies": {
     "@influxdata/influxdb-client": "^1.35.0",
+    "@supabase/supabase-js": "^2.58.0",
+    "dotenv": "^10.0.0",
     "express-prom-bundle": "^8.0.0",
     "hls.js": "^1.6.13",
     "web-vitals": "^5.1.0"
