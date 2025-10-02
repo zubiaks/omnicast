@@ -21,8 +21,7 @@ jobs:
           node-version: '20.x'
 
       - name: Install deps & Playwright browsers
-        run: |
-          npm run setup
+        run: npm run setup
 
       - name: Run all tests
         run: npm test

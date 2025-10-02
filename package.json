@@ -7,7 +7,7 @@
     "node": ">=20.8.1"
   },
   "scripts": {
-    "setup": "npm ci --no-audit --omit=optional && npx playwright install --with-deps",
+    "setup": "npm install --no-audit --omit=optional && npx playwright install --with-deps",
     "dev": "vite",
     "dev:ci": "vite --port 5500 --clearScreen false",
     "build": "vite build",
