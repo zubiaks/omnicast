@@ -1,10 +1,18 @@
 // scripts/smoke-metrics.js
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 import { InfluxDB } from '@influxdata/influxdb-client';
 
+// Carrega .env que já está na raiz do projeto
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, '../.env'), override: true });
+
 async function run() {
-  const url = process.env.INFLUX_URL;
-  const token = process.env.INFLUX_TOKEN;
-  const org = process.env.INFLUX_ORG;
+  const url    = process.env.INFLUX_URL;
+  const token  = process.env.INFLUX_TOKEN;
+  const org    = process.env.INFLUX_ORG;
   const bucket = process.env.INFLUX_BUCKET;
 
   if (!url || !token || !org || !bucket) {
@@ -12,7 +20,7 @@ async function run() {
     process.exit(1);
   }
 
-  const client = new InfluxDB({ url, token });
+  const client   = new InfluxDB({ url, token });
   const queryApi = client.getQueryApi(org);
   const fluxQuery = `
     from(bucket:"${bucket}")
