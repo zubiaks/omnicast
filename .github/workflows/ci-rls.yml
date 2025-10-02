@@ -1,4 +1,3 @@
-# .github/workflows/ci.yml
 name: CI
 
 on:
@@ -10,15 +9,29 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.19.0]
+
+    name: CI on Node ${{ matrix.node-version }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Validate Node.js version from .nvmrc
+        run: |
+          REQUIRED_NODE=$(cat .nvmrc)
+          CURRENT_NODE=$(node -v | sed 's/v//')
+          if [ "$CURRENT_NODE" != "$REQUIRED_NODE" ]; then
+            echo "⚠️ CI está rodando com Node $CURRENT_NODE, mas .nvmrc exige $REQUIRED_NODE"
+          fi
 
       - name: Install deps & Playwright browsers
         run: npm run setup

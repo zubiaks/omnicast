@@ -1,4 +1,4 @@
-# docs/security.md
+# Security
 
 Este documento descreve como o OmniCast protege seu código, dependências e detecta vulnerabilidades.
 
@@ -9,8 +9,8 @@ Este documento descreve como o OmniCast protege seu código, dependências e det
 Atualizações automáticas de dependências e alertas de vulnerabilidades via Dependabot.
 
 - Arquivo de configuração: `.github/dependabot.yml`  
-- Atualizações de versão e de segurança rodando semanalmente  
-- Recebimento de PRs automáticos para corrigir dependências vulneráveis  
+- Atualizações rodando semanalmente  
+- PRs automáticos gerados para corrigir dependências vulneráveis
 
 Exemplo de `.github/dependabot.yml`:
 
@@ -36,7 +36,7 @@ Verificação de vulnerabilidades de runtime no pipeline de CI.
     run: npm audit --audit-level=critical
   ```
 
-- Se existirem vulnerabilidades críticas, o CI falha  
+- O CI falha se existirem vulnerabilidades críticas  
 
 ---
 
@@ -57,7 +57,7 @@ npm install --save-dev @snyk/cli
    - Nome: `SNYK_TOKEN`  
    - Valor: token copiado da sua conta Snyk  
 
-### 3.3 Exemplo de step no CI
+### 3.3 Step no CI
 
 ```yaml
 - name: Snyk test
@@ -74,7 +74,7 @@ Análise estática de código em busca de vulnerabilidades e más práticas.
 
 ### 4.1 Requisitos
 
-- Repositório **público** ou com **GitHub Advanced Security** habilitado  
+- Repositório público ou com GitHub Advanced Security habilitado  
 - Permissões no workflow:
 
   ```yaml
@@ -84,7 +84,7 @@ Análise estática de código em busca de vulnerabilidades e más práticas.
     security-events: write
   ```
 
-- Token: `${{ secrets.GITHUB_TOKEN }}` (gerado automaticamente)  
+- Token: `${{ secrets.GITHUB_TOKEN }}` (fornecido pelo Actions)
 
 ### 4.2 Workflow
 
@@ -94,7 +94,7 @@ Gatilhos:
 
 - `push` na `main`  
 - `pull_request` na `main`  
-- Cron semanal (`'0 0 * * 0'`)  
+- Execução semanal via cron (`'0 0 * * 0'`)
 
 Principais steps:
 
@@ -113,21 +113,28 @@ Principais steps:
 - uses: github/codeql-action/analyze@v3
 ```
 
-> Se o repositório for privado e não tiver Advanced Security, o upload SARIF falhará com 422. Neste caso considere:
-> - Tornar o repositório público  
-> - Executar o CodeQL localmente com:
->   ```bash
->   gh repo clone zubiaks/omnicast
->   gh codeql analyze \
->     --language javascript \
->     --output results.sarif
->   ```
+> Se o repositório for privado sem Advanced Security, o upload SARIF falhará com 422.  
+> Considere tornar o repositório público ou executar localmente:
+
+```bash
+gh repo clone zubiaks/omnicast
+gh codeql analyze \
+  --language javascript \
+  --output results.sarif
+```
 
 ---
 
 ## 5. Resumo das Proteções
 
-- Dependabot: atualização automática de dependências e alertas  
+- Dependabot: alertas e PRs semanais para dependências vulneráveis  
 - npm audit: falha no CI para vulnerabilidades críticas  
-- Snyk: análise complementar com relatórios e PRs de correção  
-- CodeQL: varredura estática de código (via GitHub Actions ou CLI)  
+- Snyk: análise complementar com relatórios detalhados  
+- CodeQL: varredura estática de código via GitHub Actions ou CLI  
+
+---
+
+## Referências
+
+- [Dependabot config](.github/dependabot.yml)  
+- [CodeQL workflow](.github/workflows/codeql-analysis.yml)  

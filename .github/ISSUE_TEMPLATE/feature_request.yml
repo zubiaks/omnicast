@@ -1,0 +1,32 @@
+name: "✨ Feature request"
+about: "Sugestão de melhoria ou nova funcionalidade"
+title: "Feature: "
+labels: ["enhancement"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por sugerir uma melhoria! Preencha os campos abaixo para facilitar a avaliação e priorização.
+
+  - type: input
+    id: motivation
+    attributes:
+      label: "Motivação"
+      description: "Por que essa funcionalidade é importante?"
+      placeholder: "Melhora a experiência do usuário ao..."
+
+  - type: input
+    id: specification
+    attributes:
+      label: "Especificação"
+      description: "Como você imagina a implementação?"
+      placeholder: "Adicionar botão de favoritos na tela de canais..."
+
+  - type: input
+    id: context
+    attributes:
+      label: "Contexto adicional"
+      description: "Links, referências ou exemplos similares"
+      placeholder: "Exemplo de app que já faz isso..."

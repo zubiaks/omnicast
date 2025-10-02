@@ -1,56 +1,69 @@
-[![CI](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml)
+[![CI on main](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml)
 [![Acessibilidade](https://github.com/zubiaks/omnicast/actions/workflows/accessibility.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/accessibility.yml)
-[![Performance](https://github.com/zubiaks/omnicast/actions/workflows/lighthouse.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/lighthouse.yml)
+[![Performance Budget](https://github.com/zubiaks/omnicast/actions/workflows/lighthouse-ci.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/lighthouse-ci.yml)
 [![Release](https://img.shields.io/github/v/release/zubiaks/omnicast?style=flat-square)](https://github.com/zubiaks/omnicast/releases/latest)
 [![License](https://img.shields.io/github/license/zubiaks/omnicast?style=flat-square)](LICENSE)
 
 # OmniCast
 
-**Versão 1.3.0 – Instrumentação de Web Vitals, Monitoramento & Budgets**
+![Demonstração do OmniCast](docs/assets/screenshot.gif)
 
-O que há de novo:
-- Coleta de Web Vitals (FCP, LCP, CLS, FID) usando `web-vitals`  
-- Envio de métricas via Beacon API para `/api/metrics`  
-- Budgets de performance definidos em `lhci-budgets.json`  
-- Integrações de segurança: Dependabot, CodeQL, Snyk, npm audit  
+OmniCast é uma Progressive Web App modular para streaming de IPTV, VOD, rádio e webcams, com back-end em Node.js, autenticação via Supabase e métricas em InfluxDB.
+
+---
+
+## Getting Started
+
+Siga estes passos para ter o OmniCast rodando localmente em minutos.
+
+1. Clone o repositório e entre na pasta:
+   ```bash
+   git clone https://github.com/zubiaks/omnicast.git
+   cd omnicast
+   ```
+2. Alinhe sua versão de Node.js:
+   ```bash
+   nvm install
+   nvm use
+   ```
+3. Instale dependências e navegadores Playwright:
+   ```bash
+   npm run setup
+   ```
+4. Execute em modo de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
 
 ---
 
 ## Sumário
 
-- [Visão Geral](#visão-geral)  
-- [Pré-requisitos](#pré-requisitos)  
+- [Prerequisitos](#prerequisitos)  
 - [Instalação](#instalação)  
-  - [Com Docker Compose](#com-docker-compose)  
-  - [Sem Docker (Node.js)](#sem-docker-nodejs)  
 - [Variáveis de Ambiente](#variáveis-de-ambiente)  
+- [Comandos Principais](#comandos-principais)  
 - [API Endpoints](#api-endpoints)  
-- [Exemplos de Uso](#exemplos-de-uso)  
 - [Monitoramento & Web Vitals](#monitoramento--web-vitals)  
 - [Performance Budgets](#performance-budgets)  
 - [CI/CD & Workflows](#cicd--workflows)  
-- [Segurança](#segurança)  
-- [Troubleshooting](#troubleshooting)  
+- [Testes e Qualidade](#testes-e-qualidade)  
 - [Contribuindo](#contribuindo)  
+- [Branches & Versionamento](#branches--versionamento)  
 - [Código de Conduta](#código-de-conduta)  
 - [Licença](#licença)  
 - [Roadmap](#roadmap)  
+- [O que falta na v1.3.1](#o-que-falta-na-v131)  
 
 ---
 
-## Visão Geral
+## Prerequisitos
 
-OmniCast é uma Progressive Web App modular para demonstração de streaming de IPTV, VOD, rádio e webcams.  
-No back-end Node.js, oferece rotas autenticadas via Supabase e coleta métricas de performance em InfluxDB.
-
----
-
-## Pré-requisitos
-
-- Docker Engine & Docker Compose v2+  
-- Node.js 18+  
-- Conta e projeto no Supabase  
-- (Opcional) Grafana para visualização de métricas  
+- Node.js `>=20.19.0 <21` (use `nvm`)  
+- npm `>=10.x`  
+- Git `>=2.30`  
+- Navegador moderno (Chrome, Firefox, Safari)  
+- Opcional: Docker Compose v2+, Grafana  
 
 ---
 
@@ -58,17 +71,12 @@ No back-end Node.js, oferece rotas autenticadas via Supabase e coleta métricas 
 
 ### Com Docker Compose
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/zubiaks/omnicast.git
-   cd omnicast
-   ```
-2. Defina variáveis em `.env` (veja [Variáveis de Ambiente](#variáveis-de-ambiente)).  
-3. Inicie os serviços:
+1. Defina variáveis em `.env` (veja [Variáveis de Ambiente](#variáveis-de-ambiente)).  
+2. Inicie os serviços:
    ```bash
    docker compose up -d
    ```
-4. Acesse:
+3. Acesse:
    - API: http://localhost:5000  
    - InfluxDB Explorer: http://localhost:8086  
    - Grafana: http://localhost:3000  
@@ -77,15 +85,15 @@ No back-end Node.js, oferece rotas autenticadas via Supabase e coleta métricas 
 
 1. Navegue até o servidor:
    ```bash
-   cd omnicast/server
+   cd server
    ```
-2. Instale dependências:
+2. Instale dependências e Playwright:
    ```bash
    npm ci
    npm run setup
    ```
-3. Crie `.env` na raiz de `server/` (veja [Variáveis de Ambiente](#variáveis-de-ambiente)).  
-4. Inicie:
+3. Crie `server/.env` (veja [Variáveis de Ambiente](#variáveis-de-ambiente)).  
+4. Inicie a API:
    ```bash
    node index.js
    ```
@@ -94,141 +102,121 @@ No back-end Node.js, oferece rotas autenticadas via Supabase e coleta métricas 
 
 ## Variáveis de Ambiente
 
-Crie `server/.env` com:
+Crie `.env` na raiz:
 
 ```ini
 SUPABASE_URL=https://<SEU_PROJETO>.supabase.co
-SUPABASE_ANON_KEY=<anon key>
-SUPABASE_SERVICE_ROLE_KEY=<service_role key>
+SUPABASE_ANON_KEY=<anon_key>
+TEST_USER_EMAIL=<email>
+TEST_USER_PASSWORD=<senha>
+```
+
+Crie `server/.env`:
+
+```ini
+SUPABASE_SERVICE_ROLE_KEY=<service_role_key>
 INFLUX_URL=http://influxdb:8086
-INFLUX_TOKEN=<influx token>
-INFLUX_ORG=<influx org>
-INFLUX_BUCKET=metrics
+INFLUX_TOKEN=<influx_token>
+INFLUX_ORG=<influx_org>
+INFLUX_BUCKET=<bucket>
 PORT=5000
 ```
 
 ---
 
-## API Endpoints
+## Comandos Principais
 
-1. **Health Check**  
-   `GET /`  
-   Retorna `{ "status": "ok" }`
-
-2. **Login Supabase**  
-   `POST /auth/v1/token?grant_type=password`  
-   - Headers:  
-     - `apikey: SUPABASE_ANON_KEY`  
-     - `Content-Type: application/json`  
-   - Body:
-     ```json
-     { "email": "user@example.com", "password": "Password123" }
-     ```
-   - Resposta:  
-     ```json
-     { "access_token": "...", "refresh_token": "...", ... }
-     ```
-
-3. **Streams Protegidos**  
-   `GET /streams`  
-   - Header: `Authorization: Bearer <access_token>`  
-   - Resposta:
-     ```json
-     [
-       { "id":1, "title":"Canal A", "url":"https://.../x36xhzz.m3u8" },
-       { "id":2, "title":"Canal B", "url":"https://.../stream.m3u8" }
-     ]
-     ```
-   - Sem token ou inválido: `401 Unauthorized`
+| Tarefa                        | Comando                          |
+|-------------------------------|----------------------------------|
+| Instalar dependências         | npm run setup                    |
+| Desenvolvimento               | npm run dev                      |
+| Build                         | npm run build                    |
+| Preview                       | npm run preview -- --port 5500   |
+| Testes RLS                    | npm run test:rls                 |
+| Testes E2E                    | npm run test:e2e                 |
+| Mostrar relatório Playwright  | npm run test:e2e:report          |
+| Testes completos              | npm test                         |
+| Release                       | npm run release                  |
 
 ---
 
-## Exemplos de Uso
+## API Endpoints
 
-### PowerShell
+- **GET /**  
+  Retorna `{ "status": "ok" }`.
 
-```powershell
-# Carrega .env
-Get-Content .\.env |
-  Where-Object { $_ -and $_ -notmatch '^\s*#' } |
-  ForEach-Object {
-    $kv = $_ -split '=',2
-    Set-Item Env:\$($kv[0]) $kv[1]
-  }
+- **POST /auth/v1/token?grant_type=password**  
+  - Headers: `apikey: SUPABASE_ANON_KEY`  
+  - Body: `{ "email":"...","password":"..." }`  
+  - Retorna tokens de acesso e refresh.
 
-# Login
-$body = @{ email="user@example.com"; password="Password123" } | ConvertTo-Json
-$resp = Invoke-RestMethod -Uri "$env:SUPABASE_URL/auth/v1/token?grant_type=password" `
-  -Method POST -Headers @{ apikey=$env:SUPABASE_ANON_KEY; "Content-Type"="application/json" } `
-  -Body $body
-$token = $resp.access_token
-
-# Chamada streams
-curl.exe -H "Authorization: Bearer $token" http://localhost:5000/streams
-```
-
-### cURL (Linux/macOS)
-
-```bash
-curl -X POST "$SUPABASE_URL/auth/v1/token?grant_type=password" \
-  -H "apikey: $SUPABASE_ANON_KEY" \
-  -H "Content-Type: application/json" \
-  --data '{"email":"user@example.com","password":"Password123"}'
-```
+- **GET /streams**  
+  - Header: `Authorization: Bearer <token>`  
+  - Retorna JSON de streams; sem token → `401 Unauthorized`.
 
 ---
 
 ## Monitoramento & Web Vitals
 
-1. Instale:
-   ```bash
-   npm install web-vitals --save
-   ```
-2. Em `js/main.js`:
-   ```js
-   import { getCLS, getFID, getLCP, getFCP } from 'web-vitals'
-
-   function sendToMonitoring(metric) {
-     const payload = {
-       name: metric.name,
-       value: metric.value,
-       delta: metric.delta,
-       href: window.location.href,
-       timestamp: Date.now()
-     }
-     const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
-     navigator.sendBeacon('/api/metrics', blob)
-   }
-
-   getCLS(sendToMonitoring)
-   getFID(sendToMonitoring)
-   getLCP(sendToMonitoring)
-   getFCP(sendToMonitoring)
-   ```
-3. No InfluxDB Explorer:
-   ```flux
-   from(bucket:"metrics")
-     |> range(start: -5m)
-     |> filter(fn: (r) => r._measurement == "http_request")
-   ```
+Instrumentação via `web-vitals` e Beacon API.  
+Detalhes em [docs/monitoring.md](docs/monitoring.md).
 
 ---
 
 ## Performance Budgets
 
-Arquivo `lhci-budgets.json`:
+Validação de budgets com Lighthouse CI.  
+Veja `lhci-budgets.json`, `.lighthouserc.cjs` e workflow em [`.github/workflows/lighthouse-ci.yml`](.github/workflows/lighthouse-ci.yml).
 
-```json
-[
-  { "metric": "largest-contentful-paint", "budget": 2500 },
-  { "metric": "cumulative-layout-shift",  "budget": 0.1   },
-  { "metric": "first-input-delay",        "budget": 100   }
-]
-```
+---
 
-Configuração em `.lighthouserc.cjs`:
+## CI/CD & Workflows
 
-```js
-module.exports = {
-  ci: {
-    collect:
+- **ci-main.yml**: build, audit, patch Rollup, E2E, artefatos  
+- **ci.yml**: audit produção, testes com secrets  
+- **lighthouse-ci.yml**: budgets de performance  
+- **accessibility.yml**: testes de acessibilidade  
+- **metrics-smoke.yml**: smoke tests de métricas  
+
+---
+
+## Testes e Qualidade
+
+- Lint: `npm run lint`  
+- Audit: `npm audit --audit-level=critical`  
+- Unit/Integration: `npm test`  
+- E2E: `npm run test:e2e`  
+- Acessibilidade: badge “Acessibilidade” no topo  
+
+---
+
+## Contribuindo
+
+Consulte templates em [`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE) e o guia completo em [docs/contributing.md](docs/contributing.md).
+
+---
+
+## Branches & Versionamento
+
+Veja políticas e SemVer em [docs/branches.md](docs/branches.md).
+
+---
+
+## Código de Conduta
+
+Este projeto adota o Contributor Covenant 2.0.  
+Leia [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
+---
+
+## Licença
+
+MIT © 2025 OmniCast Team
+
+---
+
+## Roadmap
+
+- v1.4.0: login biométrico e notificações PWA  
+- v2.0.0: contratos de API revisados (breaking changes)  
+- Mobile PWA offline e stream failover inteligente  

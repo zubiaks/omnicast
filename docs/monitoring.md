@@ -1,6 +1,6 @@
 # Monitoring & Web Vitals
 
-Este documento mostra como instrumentar métricas de Web Vitals e configurar budgets de performance.
+Este documento mostra como instrumentar métricas de Web Vitals, configurar budgets de performance e integrá-los ao CI.
 
 ---
 
@@ -14,9 +14,9 @@ npm install web-vitals --save
 
 ---
 
-## 2. Instrumentação
+## 2. Instrumentação de Web Vitals
 
-No seu entrypoint (por exemplo `js/main.js`), importe e chame as funções de Web Vitals:
+No seu entrypoint (por exemplo `src/main.js`):
 
 ```js
 import { getCLS, getFID, getLCP, getFCP } from 'web-vitals'
@@ -30,14 +30,10 @@ function sendToMonitoring(metric) {
     href: window.location.href,
     timestamp: Date.now()
   }
-  const blob = new Blob(
-    [JSON.stringify(payload)],
-    { type: 'application/json' }
-  )
+  const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
   navigator.sendBeacon('/api/metrics', blob)
 }
 
-// dispara coleta de cada métrica
 getCLS(sendToMonitoring)
 getFID(sendToMonitoring)
 getLCP(sendToMonitoring)
@@ -48,7 +44,14 @@ getFCP(sendToMonitoring)
 
 ## 3. Envio de Métricas
 
-Utilizamos a Beacon API para garantir o envio mesmo quando o usuário fecha a aba. O endpoint back-end deve aceitar requisições POST em `/api/metrics` com um JSON no corpo contendo `name`, `value`, `delta`, `href` e `timestamp`.
+Utilizamos a Beacon API para garantir o envio mesmo quando o usuário fecha a aba  
+O endpoint back-end deve aceitar POST em `/api/metrics` com JSON contendo:
+
+- `name`  
+- `value`  
+- `delta`  
+- `href`  
+- `timestamp`  
 
 Exemplo de payload:
 
@@ -66,29 +69,138 @@ Exemplo de payload:
 
 ## 4. Performance Budgets
 
-Os budgets de performance ficam em `lhci-budgets.json`. Se algum critério for ultrapassado, o Lighthouse CI falha o build.
+Crie o arquivo `lhci-budgets.json` na raiz do projeto com:
 
-Exemplo de conteúdo de `lhci-budgets.json`:
-
-```json
+```bash
+cat << 'EOF' > lhci-budgets.json
 [
-  { "metric": "largest-contentful-paint", "budget": 2500 },
-  { "metric": "cumulative-layout-shift",  "budget": 0.1   },
-  { "metric": "first-input-delay",        "budget": 100   }
+  {
+    "path": "/",
+    "budgets": [
+      { "metric": "first-contentful-paint",  "maxNumericValue": 2000 },
+      { "metric": "largest-contentful-paint", "maxNumericValue": 2500 },
+      { "metric": "interactive",              "maxNumericValue": 5000 },
+      { "metric": "total-blocking-time",       "maxNumericValue": 300  },
+      { "metric": "cumulative-layout-shift",   "maxNumericValue": 0.10 }
+    ]
+  },
+  {
+    "path": "/iptv",
+    "budgets": [ /* mesmos valores para cada rota */ ]
+  },
+  {
+    "path": "/vod",
+    "budgets": [ /* ... */ ]
+  },
+  {
+    "path": "/radio",
+    "budgets": [ /* ... */ ]
+  },
+  {
+    "path": "/webcams",
+    "budgets": [ /* ... */ ]
+  }
 ]
+EOF
 ```
 
 ---
 
-## 5. Como Testar
+## 5. Configuração do Lighthouse CI
 
-1. Inicie a aplicação em modo de desenvolvimento:
+Crie o arquivo `.lighthouserc.cjs` na raiz:
+
+```js
+module.exports = {
+  ci: {
+    collect: {
+      url: [
+        'http://localhost:5500/',
+        'http://localhost:5500/iptv',
+        'http://localhost:5500/vod',
+        'http://localhost:5500/radio',
+        'http://localhost:5500/webcams'
+      ],
+      numberOfRuns:         3,
+      startServerCommand:   'npm run build && npm run preview -- --port 5500',
+      startServerReadyPattern: 'Local:',
+      startServerTimeout:     120000,
+      launchOptions: {
+        chromeFlags: ['--no-sandbox','--headless']
+      }
+    },
+    assert: {
+      budgetsFile: './lhci-budgets.json'
+    },
+    upload: {
+      target: 'temporary-public-storage'
+    }
+  }
+};
+```
+
+---
+
+## 6. Workflow de Performance Budget
+
+Adicione `.github/workflows/lighthouse-ci.yml`:
+
+```yaml
+name: Performance Budget
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  lhci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            .npmrc
+
+      - run: npm ci --no-audit
+      - run: npm install -g @lhci/cli
+
+      - name: Run Lighthouse CI
+        run: lhci autorun --config ./.lighthouserc.cjs
+```
+
+---
+
+## 7. Badge de Performance
+
+No `README.md`, adicione junto aos outros badges:
+
+```markdown
+![Performance Budget](https://github.com/omnicast-org/omnicast/actions/workflows/lighthouse-ci.yml/badge.svg)
+```
+
+---
+
+## 8. Como Testar Localmente
+
+1. Inicie em modo de desenvolvimento:  
    ```bash
    npm run dev
    ```
-2. Ou faça build e preview:
+2. Ou faça build + preview:  
    ```bash
-   npm run build && npm run preview
+   npm run build && npm run preview -- --port 5500
    ```
-3. Abra o DevTools do navegador → aba Network → filtre por `/api/metrics`.
-4. Navegue pela aplicação e confira os requests enviados com os Web Vitals.
+3. Verifique no DevTools → aba Network → filtre por `/api/metrics`  
+4. Execute Lighthouse localmente:  
+   ```bash
+   npx lhci autorun --config ./.lighthouserc.cjs

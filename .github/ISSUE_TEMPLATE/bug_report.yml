@@ -1,0 +1,40 @@
+name: "🐛 Bug report"
+about: "Abra uma issue para reportar um bug no OmniCast"
+title: "Bug: "
+labels: ["bug"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por reportar um bug! Preencha os campos abaixo com clareza para facilitar a reprodução e correção.
+
+  - type: input
+    id: steps
+    attributes:
+      label: "Passos para reproduzir"
+      description: "Liste em ordem os passos para reproduzir o bug"
+      placeholder: |
+        1. Vá para '...'
+        2. Clique em '...'
+        3. Veja o erro
+
+  - type: input
+    id: expected
+    attributes:
+      label: "Resultado esperado"
+      description: "O que esperava que acontecesse?"
+
+  - type: input
+    id: actual
+    attributes:
+      label: "Resultado atual"
+      description: "O que aconteceu de fato?"
+
+  - type: input
+    id: environment
+    attributes:
+      label: "Ambiente"
+      description: "SO, versão do Node.js, navegador, dispositivo etc"
+      placeholder: "Windows 11, Node 20.19.0, Chrome 117, iPhone 13"

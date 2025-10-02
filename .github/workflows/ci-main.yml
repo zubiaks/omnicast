@@ -17,6 +17,11 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.19.0]
+
+    name: E2E on Node ${{ matrix.node-version }}
 
     steps:
       - name: Checkout repo
@@ -28,14 +33,22 @@ jobs:
       - name: Validate package.json
         run: npx jsonlint@1.6.3 package.json
 
-      - name: Setup Node.js 20.19.0
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: '20.19.0'
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: |
             package-lock.json
             .npmrc
+
+      - name: Validate Node.js version from .nvmrc
+        run: |
+          REQUIRED_NODE=$(cat .nvmrc)
+          CURRENT_NODE=$(node -v | sed 's/v//')
+          if [ "$CURRENT_NODE" != "$REQUIRED_NODE" ]; then
+            echo "⚠️ CI está rodando com Node $CURRENT_NODE, mas .nvmrc exige $REQUIRED_NODE"
+          fi
 
       - name: Install dependencies (omit optional deps)
         run: npm ci --omit=optional
