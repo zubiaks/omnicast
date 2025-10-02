@@ -1,32 +1,50 @@
-name: Metrics Smoke Test
+# .github/workflows/metrics-smoke.yml
+name: Metrics Smoke
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  smoke-metrics:
+  smoke:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 20.19.0
-          cache: npm
+          node-version: 20
+
+      - name: Configure environment
+        run: |
+          echo "INFLUX_URL=http://localhost:8086" >> .env
+          echo "INFLUX_TOKEN=${{ secrets.INFLUX_TOKEN }}" >> .env
+          echo "INFLUX_ORG=${{ secrets.INFLUX_ORG }}" >> .env
+          echo "INFLUX_BUCKET=${{ secrets.INFLUX_BUCKET }}" >> .env
+
+      - name: Build and start InfluxDB via Docker Compose
+        run: docker compose up -d influxdb
+
+      - name: Wait for InfluxDB to be healthy
+        run: |
+          for i in $(seq 1 12); do
+            STATUS=$(curl -fsS http://localhost:8086/health | jq -r .status)
+            if [ "$STATUS" = "pass" ]; then
+              echo "InfluxDB is healthy!"
+              exit 0
+            fi
+            echo "Waiting for InfluxDB... ($i/12)"
+            sleep 5
+          done
+          echo "InfluxDB failed to become healthy in time."
+          exit 1
 
       - name: Install dependencies
-        run: npm ci --omit=optional --no-audit
+        run: npm ci
 
-      - name: Run Smoke Test de Métricas
+      - name: Run smoke-metrics
         run: node scripts/smoke-metrics.js
-        env:
-          INFLUX_URL: ${{ secrets.INFLUX_URL }}
-          INFLUX_TOKEN: ${{ secrets.INFLUX_TOKEN }}
-          INFLUX_ORG: ${{ secrets.INFLUX_ORG }}
-          INFLUX_BUCKET: ${{ secrets.INFLUX_BUCKET }}

@@ -1,11 +1,14 @@
+# docker-compose.yml
+version: '3.8'
+
 services:
   influxdb:
     image: influxdb:2.6
     container_name: influxdb
-    volumes:
-      - influxdb-data:/var/lib/influxdb2
     ports:
       - "8086:8086"
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=omnicast
@@ -19,10 +22,10 @@ services:
     container_name: grafana
     depends_on:
       - influxdb
-    volumes:
-      - grafana-data:/var/lib/grafana
     ports:
       - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
 
@@ -40,6 +43,8 @@ services:
     environment:
       - INFLUX_URL=http://influxdb:8086
       - INFLUX_TOKEN=omnicast123
+      - INFLUX_ORG=omnicast
+      - INFLUX_BUCKET=metrics
 
   web:
     build:

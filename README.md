@@ -5,36 +5,11 @@
 [![License](https://img.shields.io/github/license/zubiaks/omnicast?style=flat-square)](LICENSE)
 [![Metrics Smoke](https://github.com/zubiaks/omnicast/actions/workflows/metrics-smoke.yml/badge.svg)](https://github.com/zubiaks/omnicast/actions/workflows/metrics-smoke.yml)
 
-# OmniCast
+# OmniCast v1.5.1
 
 ![Demonstração do OmniCast](docs/assets/screenshot.gif)
 
 OmniCast é uma Progressive Web App modular para streaming de IPTV, VOD, rádio e webcams, com back-end em Node.js, autenticação via Supabase e métricas em InfluxDB.
-
----
-
-## Getting Started
-
-Siga estes passos para ter o OmniCast rodando localmente em minutos.
-
-1. Clone o repositório e entre na pasta:
-   ```bash
-   git clone https://github.com/zubiaks/omnicast.git
-   cd omnicast
-   ```
-2. Alinhe sua versão de Node.js:
-   ```bash
-   nvm install
-   nvm use
-   ```
-3. Instale dependências e navegadores Playwright:
-   ```bash
-   npm run setup
-   ```
-4. Execute em modo de desenvolvimento:
-   ```bash
-   npm run dev
-   ```
 
 ---
 
@@ -48,13 +23,14 @@ Siga estes passos para ter o OmniCast rodando localmente em minutos.
 - [Monitoramento & Web Vitals](#monitoramento--web-vitals)  
 - [Performance Budgets](#performance-budgets)  
 - [CI/CD & Workflows](#cicd--workflows)  
+- [Smoke Metrics](#smoke-metrics)  
 - [Testes e Qualidade](#testes-e-qualidade)  
 - [Contribuindo](#contribuindo)  
 - [Branches & Versionamento](#branches--versionamento)  
 - [Código de Conduta](#código-de-conduta)  
 - [Licença](#licença)  
 - [Roadmap](#roadmap)  
-- [O que falta na v1.3.1](#o-que-falta-na-v131)  
+- [O que vem na v1.5.1](#o-que-vem-na-v151)  
 
 ---
 
@@ -64,7 +40,7 @@ Siga estes passos para ter o OmniCast rodando localmente em minutos.
 - npm `>=10.x`  
 - Git `>=2.30`  
 - Navegador moderno (Chrome, Firefox, Safari)  
-- Opcional: Docker Compose v2+, Grafana  
+- Docker Compose v2+ (recomendado) ou Docker CLI  
 
 ---
 
@@ -73,14 +49,14 @@ Siga estes passos para ter o OmniCast rodando localmente em minutos.
 ### Com Docker Compose
 
 1. Defina variáveis em `.env` (veja [Variáveis de Ambiente](#variáveis-de-ambiente)).  
-2. Inicie os serviços:
+2. Inicie todos os serviços:
    ```bash
    docker compose up -d
    ```
 3. Acesse:
    - API: http://localhost:5000  
    - InfluxDB Explorer: http://localhost:8086  
-   - Grafana: http://localhost:3000  
+   - Grafana (opcional): http://localhost:3000  
 
 ### Sem Docker (Node.js)
 
@@ -103,24 +79,17 @@ Siga estes passos para ter o OmniCast rodando localmente em minutos.
 
 ## Variáveis de Ambiente
 
-Crie `.env` na raiz:
+Crie um `.env` na raiz do projeto:
 
 ```ini
 SUPABASE_URL=https://<SEU_PROJETO>.supabase.co
 SUPABASE_ANON_KEY=<anon_key>
 TEST_USER_EMAIL=<email>
 TEST_USER_PASSWORD=<senha>
-```
-
-Crie `server/.env`:
-
-```ini
-SUPABASE_SERVICE_ROLE_KEY=<service_role_key>
-INFLUX_URL=http://influxdb:8086
+INFLUX_URL=http://localhost:8086
 INFLUX_TOKEN=<influx_token>
 INFLUX_ORG=<influx_org>
 INFLUX_BUCKET=<bucket>
-PORT=5000
 ```
 
 ---
@@ -135,7 +104,7 @@ PORT=5000
 | Preview                       | npm run preview -- --port 5500   |
 | Testes RLS                    | npm run test:rls                 |
 | Testes E2E                    | npm run test:e2e                 |
-| Mostrar relatório Playwright  | npm run test:e2e:report          |
+| Relatório E2E                 | npm run test:e2e:report          |
 | Testes completos              | npm test                         |
 | Release                       | npm run release                  |
 
@@ -181,6 +150,86 @@ Veja `lhci-budgets.json`, `.lighthouserc.cjs` e workflow em [`.github/workflows/
 
 ---
 
+## Smoke Metrics
+
+Este script faz um write+read em um bucket InfluxDB para validar sua pipeline de métricas.
+
+### Pré-requisitos
+
+- InfluxDB (via Docker ou Compose) rodando  
+- Node.js (v16+) e npm/yarn disponíveis  
+- `.env` com:
+  - `INFLUX_URL` (ex.: `http://localhost:8086`)
+  - `INFLUX_TOKEN` (token de leitura/escrita)
+  - `INFLUX_ORG` (ex.: `omnicast`)
+  - `INFLUX_BUCKET` (ex.: `metrics`)
+
+### 1. Subir o InfluxDB
+
+#### Docker Run
+
+```bash
+docker run -d \
+  --name influxdb \
+  -p 8086:8086 \
+  -v influxdb_data:/var/lib/influxdb2 \
+  influxdb:2.6
+```
+
+#### Docker Compose
+
+```yaml
+version: '3.8'
+services:
+  influxdb:
+    image: influxdb:2.6
+    container_name: influxdb
+    ports:
+      - 8086:8086
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+
+volumes:
+  influxdb_data:
+```
+```bash
+docker-compose up -d
+```
+
+### 2. Setup (apenas na primeira vez)
+
+```bash
+docker exec -it influxdb influx setup --force \
+  --token omnicast123 \
+  --bucket metrics \
+  --org omnicast \
+  --username zubiaks \
+  --password '1000Fonte$'
+```
+
+Saída esperada:
+
+```
+Setup Successful!
+Your initial user is: zubiaks
+Your initial organization is: omnicast
+Your initial bucket is: metrics
+```
+
+### 3. Executar o Smoke Metrics
+
+```bash
+node scripts/smoke-metrics.js
+```
+
+Saída esperada:
+
+```
+✅ Métricas chegando normalmente no InfluxDB
+```
+
+---
+
 ## Testes e Qualidade
 
 - Lint: `npm run lint`  
@@ -199,7 +248,7 @@ Consulte templates em [`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE) e o gui
 
 ## Branches & Versionamento
 
-Veja políticas e SemVer em [docs/branches.md](docs/branches.md).
+Este projeto segue GitFlow e SemVer. Veja detalhes em [docs/branches.md](docs/branches.md).
 
 ---
 
@@ -218,6 +267,16 @@ MIT © 2025 OmniCast Team
 
 ## Roadmap
 
-- v1.4.0: login biométrico e notificações PWA  
-- v2.0.0: contratos de API revisados (breaking changes)  
-- Mobile PWA offline e stream failover inteligente  
+- v1.5.1: consolidar smoke metrics, documentar README, CI merge smoke workflow  
+- v1.6.0: login biométrico e notificações PWA  
+- v2.0.0: contratos de API revisados (breaking changes) e mobile PWA offline  
+
+---
+
+## O que vem na v1.5.1
+
+- Fluxo de smoke metrics integrado ao CI (`metrics-smoke.yml`)  
+- Seção Smoke Metrics completa no README  
+- `docker-compose.yml` oficial para InfluxDB  
+- Atualização do pipeline de CI para rodar smoke tests  
+- Ajustes no `scripts/smoke-metrics.js` (write+read)
