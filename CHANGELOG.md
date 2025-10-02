@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/zubiaks/omnicast/compare/v1.4.0...v1.5.0) (2025-10-02)
+
+
+### Features
+
+* **ci:** smoke test de métricas no InfluxDB e badge ([2b631f3](https://github.com/zubiaks/omnicast/commit/2b631f31258de4fa653f8265522f49897f6c0aed))
+
 # Changelog
 
 Todas as alterações significativas neste projeto são documentadas aqui.  
@@ -244,4 +251,4 @@ e as versões seguem [SemVer](https://semver.org/lang/pt-BR/).
 [0.0.4]:          https://github.com/zubiaks/omnicast/releases/tag/v0.0.4  
 [0.0.3]:          https://github.com/zubiaks/omnicast/releases/tag/v0.0.3  
 [0.0.2]:          https://github.com/zubiaks/omnicast/releases/tag/v0.0.2  
-[0.0.1]:          https://github.com/zubiaks/omnicast/releases/tag/v0.0.1  
+[0.0.1]:          https://github.com/zubiaks/omnicast/releases/tag/v0.0.1
