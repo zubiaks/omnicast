@@ -50,6 +50,10 @@
     "vite-plugin-pwa": "^1.0.3",
     "vite-plugin-tsconfig-paths": "^1.4.1"
   },
+  "overrides": {
+    "tmp": "1.0.1",
+    "underscore": "1.13.4"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/zubiaks/omnicast.git"
