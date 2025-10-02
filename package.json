@@ -20,8 +20,7 @@
     "test": "npm run test:rls && npm run test:e2e",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "release": "semantic-release",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "release": "semantic-release"
   },
   "dependencies": {
     "@influxdata/influxdb-client": "^1.35.0",
@@ -41,8 +40,6 @@
     "@semantic-release/github": "^11.0.6",
     "@semantic-release/release-notes-generator": "^14.1.0",
     "@vitejs/plugin-legacy": "^7.2.1",
-    "conventional-changelog-angular": "^8.0.0",
-    "conventional-changelog-cli": "^5.0.0",
     "gh-pages": "^6.3.0",
     "jsonlint": "^1.6.3",
     "puppeteer": "^24.23.0",

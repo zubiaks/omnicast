@@ -5,33 +5,27 @@ on:
     branches:
       - main
 
-# concede permissão de escrita em tags/commits
-permissions:
-  contents: write    # permite push de tags e commits
-  issues: write      # opcional, se quiser criar issues de erro
-  id-token: write    # opcional, para OIDC se necessário
-
 jobs:
   release:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0         # garante histórico completo para análise de commits
-          persist-credentials: true  # usa GITHUB_TOKEN no push
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
-          cache: 'npm'
+          node-version: 20
 
       - name: Install dependencies
-        run: npm ci --omit=optional --no-audit
+        run: npm ci
 
       - name: Run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # NPM_TOKEN: ${{ secrets.NPM_TOKEN }}   # se for publicar no npm
         run: npm run release
