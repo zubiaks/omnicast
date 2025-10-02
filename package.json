@@ -13,13 +13,14 @@
     "build": "vite build",
     "preview": "vite preview",
     "serve:dist": "serve -s dist -l 5500",
+    "test:rls": "node scripts/test-rls.js",
     "test:e2e": "npx playwright test",
     "test:e2e:headed": "npx playwright test --headed",
     "test:e2e:report": "npx playwright show-report",
+    "test": "npm run test:rls && npm run test:e2e",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "release": "semantic-release",
-    "test:rls": "node scripts/test-rls.js"
+    "release": "semantic-release"
   },
   "dependencies": {
     "@influxdata/influxdb-client": "^1.35.0",
@@ -48,11 +49,6 @@
     "vite": "^7.1.7",
     "vite-plugin-pwa": "^1.0.3",
     "vite-plugin-tsconfig-paths": "^1.4.1"
-  },
-  "overrides": {
-    "nomnom": {
-      "underscore": "1.13.4"
-    }
   },
   "repository": {
     "type": "git",
