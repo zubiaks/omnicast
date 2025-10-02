@@ -2,9 +2,9 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import { InfluxDB } from '@influxdata/influxdb-client';
+import { InfluxDB, Point } from '@influxdata/influxdb-client';
 
-// Carrega .env que já está na raiz do projeto
+// Carrega .env que está na raiz do projeto
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../.env'), override: true });
@@ -20,11 +20,20 @@ async function run() {
     process.exit(1);
   }
 
-  const client   = new InfluxDB({ url, token });
+  const client = new InfluxDB({ url, token });
+
+  // 1) Escrever um ponto de controle
+  const writeApi = client.getWriteApi(org, bucket);
+  writeApi.useDefaultTags({ smoke: 'true' });
+  writeApi.writePoint(new Point('smoke_test').floatField('value', 1));
+  await writeApi.close();
+
+  // 2) Ler qualquer ponto nos últimos 5 minutos
   const queryApi = client.getQueryApi(org);
   const fluxQuery = `
     from(bucket:"${bucket}")
       |> range(start: -5m)
+      |> filter(fn: (r) => r["_measurement"] == "smoke_test")
       |> limit(n:1)
   `;
 
