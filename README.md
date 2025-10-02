@@ -1,7 +1,8 @@
 [![CI on main](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/ci-main.yml)
 [![Acessibilidade](https://github.com/zubiaks/omnicast/actions/workflows/accessibility.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/accessibility.yml)
 [![Performance Budget](https://github.com/zubiaks/omnicast/actions/workflows/lighthouse-ci.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/actions/workflows/lighthouse-ci.yml)
-[![Release](https://img.shields.io/github/v/release/zubiaks/omnicast?style=flat-square)](https://github.com/zubiaks/omnicast/releases/latest)
+[![Release](https://github.com/zubiaks/omnicast/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/zubiaks/omnicast/releases)
+[![Latest Changelog](https://img.shields.io/badge/changelog-latest-brightgreen?logo=github)](https://github.com/zubiaks/omnicast/blob/main/CHANGELOG.md)
 [![License](https://img.shields.io/github/license/zubiaks/omnicast?style=flat-square)](LICENSE)
 [![Metrics Smoke](https://github.com/zubiaks/omnicast/actions/workflows/metrics-smoke.yml/badge.svg)](https://github.com/zubiaks/omnicast/actions/workflows/metrics-smoke.yml)
 
@@ -147,6 +148,7 @@ Veja `lhci-budgets.json`, `.lighthouserc.cjs` e workflow em [`.github/workflows/
 - **lighthouse-ci.yml**: budgets de performance  
 - **accessibility.yml**: testes de acessibilidade  
 - **metrics-smoke.yml**: smoke tests de métricas  
+- **release.yml**: versionamento automático com semantic-release  
 
 ---
 

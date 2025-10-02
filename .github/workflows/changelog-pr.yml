@@ -1,0 +1,36 @@
+# .github/workflows/changelog-pr.yml
+name: Changelog PR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install deps
+        run: npm ci
+      - name: Generate changelog
+        run: npm run changelog
+      - name: Commit changelog
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: chore: update CHANGELOG.md
+          commit_user_name: github-actions
+          commit_user_email: actions@github.com
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: chore: update CHANGELOG.md
+          body: |
+            Gerado automaticamente pelo workflow de Changelog.
+          branch: ci/changelog
+          labels: automated, changelog
