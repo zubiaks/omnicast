@@ -11,8 +11,9 @@ services:
       - influxdb-data:/var/lib/influxdb2
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=omnicast
-      - DOCKER_INFLUXDB_INIT_PASSWORD=omnicast123
+      - DOCKER_INFLUXDB_INIT_USERNAME=zubiaks
+      - DOCKER_INFLUXDB_INIT_PASSWORD=1000Fonte$
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=1000Fonte$
       - DOCKER_INFLUXDB_INIT_ORG=omnicast
       - DOCKER_INFLUXDB_INIT_BUCKET=metrics
       - DOCKER_INFLUXDB_INIT_RETENTION=72h
@@ -42,7 +43,7 @@ services:
       - .env
     environment:
       - INFLUX_URL=http://influxdb:8086
-      - INFLUX_TOKEN=omnicast123
+      - INFLUX_TOKEN=1000Fonte$
       - INFLUX_ORG=omnicast
       - INFLUX_BUCKET=metrics
 
