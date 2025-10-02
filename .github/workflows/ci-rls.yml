@@ -1,10 +1,11 @@
+# .github/workflows/ci-rls.yml
 name: CI rls
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   ci:

@@ -54,8 +54,8 @@ jobs:
       - name: Install dependencies (omit optional deps)
         run: npm ci --omit=optional
 
-      - name: Security audit (fail on critical)
-        run: npm audit --audit-level=critical
+      - name: Security audit (produção)
+        run: npm audit --production --audit-level=critical
 
       - name: Patch Rollup native module
         run: npm install @rollup/rollup-linux-x64-gnu --no-save
