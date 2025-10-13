@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@influxdata/influxdb-client": "^1.35.0",
-    "@supabase/supabase-js": "^2.58.0",
+    "@supabase/supabase-js": "^2.75.0",
     "dotenv": "^17.2.3",
     "express-prom-bundle": "^8.0.0",
     "hls.js": "^1.6.13",
