@@ -45,7 +45,7 @@
     "puppeteer": "^24.23.0",
     "semantic-release": "^24.2.9",
     "serve": "^14.2.5",
-    "snyk": "^1.1299.1",
+    "snyk": "^1.1300.1",
     "vite": "^7.1.8",
     "vite-plugin-pwa": "^1.0.3",
     "vite-plugin-tsconfig-paths": "^1.4.1"
