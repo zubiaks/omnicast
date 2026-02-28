@@ -1,0 +1,101 @@
+/* web/assets/css/webcams.css */
+
+/* 1. Grid de webcams ------------------------------------------------------- */
+.webcams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* 2. Cartão de webcam ------------------------------------------------------ */
+.webcam-card {
+  background-color: var(--theme-secondary);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  outline: none;
+}
+
+.webcam-card:hover,
+.webcam-card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.webcam-card:focus-visible {
+  outline: 2px solid var(--theme-info);
+  outline-offset: 2px;
+}
+
+/* 3. Snapshot / Imagem ----------------------------------------------------- */
+.webcam-snapshot {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 4. Informações da webcam ------------------------------------------------ */
+.webcam-info {
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--theme-bg);
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: var(--line-height-base);
+}
+
+/* 5. Player responsivo ----------------------------------------------------- */
+.webcam-player {
+  margin-top: var(--spacing-md);
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 4 / 3;
+  background-color: #000;
+  overflow: hidden;
+}
+
+/* elemento <video> ou <iframe> dentro do player */
+.webcam-player video,
+.webcam-player iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* placeholder de carregamento */
+.webcam-player::before {
+  content: 'Carregando câmera...';
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-bg);
+  font-size: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.webcam-player.loading::before {
+  display: flex;
+}
+
+/* 6. Ajustes para dispositivos móveis -------------------------------------- */
+@media (max-width: 480px) {
+  .webcams-grid {
+    gap: var(--spacing-sm);
+  }
+
+  .webcam-info {
+    font-size: 0.8rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .webcam-player {
+    aspect-ratio: auto;
+    height: auto;
+  }
+}

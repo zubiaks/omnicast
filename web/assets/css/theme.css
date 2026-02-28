@@ -1,0 +1,119 @@
+/* web/assets/css/theme.css */
+
+/* 1. Variáveis de tema padrão e modo escuro via prefers-color-scheme */
+:root {
+  --theme-bg: #f0f0f0;
+  --theme-fg: #333333;
+  --theme-primary: #0066cc;
+  --theme-secondary: #555555;
+  --theme-error: #d0454c;
+  --theme-info: #217aff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --theme-bg: #1a1a1a;
+    --theme-fg: #e0e0e0;
+    --theme-primary: #58a6ff;
+    --theme-secondary: #bbbbbb;
+    --theme-error: #f97583;
+    --theme-info: #4f8cff;
+  }
+}
+
+/* 2. Aplicação dos temas ao body */
+body {
+  background-color: var(--theme-bg);
+  color: var(--theme-fg);
+}
+
+/* 3. Links e estados */
+a {
+  color: var(--theme-primary);
+  transition: color 0.2s;
+}
+a:hover,
+a:focus {
+  color: var(--theme-secondary);
+  text-decoration: underline;
+}
+
+/* 4. Botões padrão */
+button {
+  background-color: var(--theme-primary);
+  color: var(--theme-bg);
+  transition: background-color 0.2s, opacity 0.2s;
+}
+button:hover,
+button:focus {
+  background-color: var(--theme-secondary);
+  opacity: 0.9;
+}
+
+/* 5. Inputs e formulários */
+input,
+select,
+textarea {
+  background-color: var(--theme-bg);
+  color: var(--theme-fg);
+  border-color: var(--theme-secondary);
+  transition: border-color 0.2s;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--theme-primary);
+  outline: none;
+}
+
+/* 6. Estados de alerta e informação */
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.alert--error {
+  background-color: var(--theme-error);
+  color: var(--theme-bg);
+}
+.alert--info {
+  background-color: var(--theme-info);
+  color: var(--theme-bg);
+}
+
+/* 7. Tema alternativo via classe em <body> */
+body.theme-light {
+  --theme-bg: #f0f0f0;
+  --theme-fg: #333333;
+  --theme-primary: #0066cc;
+  --theme-secondary: #555555;
+}
+body.theme-dark {
+  --theme-bg: #1a1a1a;
+  --theme-fg: #e0e0e0;
+  --theme-primary: #58a6ff;
+  --theme-secondary: #bbbbbb;
+}
+
+/* 8. Variáveis específicas para componentes (opcional) */
+:root {
+  --toast-bg: var(--theme-secondary);
+  --toast-success: var(--theme-primary);
+  --toast-error: var(--theme-error);
+  --spinner-color: var(--theme-primary);
+}
+
+/* 9. Override para componentes chamarem variáveis de tema */
+#global-spinner .spinner {
+  border-color: var(--spinner-color);
+  border-top-color: transparent;
+}
+.toast {
+  background-color: var(--toast-bg);
+}
+.toast--success {
+  background-color: var(--toast-success);
+}
+.toast--error {
+  background-color: var(--toast-error);
+}

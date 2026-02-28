@@ -1,0 +1,148 @@
+/* web/assets/css/base.css */
+
+/* 1. Variáveis de tema ------------------------------------------------------ */
+:root {
+  --color-bg: #fafafa;
+  --color-fg: #333;
+  --color-primary: #0066cc;
+  --color-secondary: #555;
+  --color-error: #d0454c;
+  --color-info: #217aff;
+
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --font-sans:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  --font-size-base: 1rem;
+  --line-height-base: 1.5;
+}
+
+/* 2. Reset simples e box-sizing -------------------------------------------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 3. Tipografia base ------------------------------------------------------- */
+html {
+  font-size: 100%; /* 16px */
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.2;
+}
+
+p {
+  margin-bottom: var(--spacing-md);
+}
+
+/* 4. Links e listas ------------------------------------------------------- */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+ul {
+  list-style: none;
+}
+
+/* 5. Botões --------------------------------------------------------------- */
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-primary);
+  color: #fff;
+  transition: opacity 0.2s;
+}
+
+button:hover,
+button:focus {
+  opacity: 0.9;
+}
+
+/* 6. Formulários ----------------------------------------------------------- */
+input,
+select,
+textarea {
+  font: inherit;
+  line-height: inherit;
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm);
+  color: var(--color-fg);
+  background-color: #fff;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+/* 7. Helpers --------------------------------------------------------------- */
+/* Esconde conteúdo visualmente, mas mantém acessível a leitores de tela */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Margin and padding utilities */
+.m-0 { margin: 0 !important; }
+.mt-sm { margin-top: var(--spacing-sm) !important; }
+.mb-md { margin-bottom: var(--spacing-md) !important; }
+.p-md { padding: var(--spacing-md) !important; }
+
+/* 8. Responsividade básica ------------------------------------------------ */
+@media (max-width: 768px) {
+  html {
+    font-size: 90%;
+  }
+}

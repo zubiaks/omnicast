@@ -27,8 +27,7 @@
     "@supabase/supabase-js": "^2.58.0",
     "dotenv": "^17.2.3",
     "express-prom-bundle": "^8.0.0",
-    "hls.js": "^1.6.13",
-    "web-vitals": "^5.1.0"
+    "hls.js": "^1.6.13"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
@@ -48,7 +47,8 @@
     "snyk": "^1.1299.1",
     "vite": "^7.1.8",
     "vite-plugin-pwa": "^1.0.3",
-    "vite-plugin-tsconfig-paths": "^1.4.1"
+    "vite-plugin-tsconfig-paths": "^1.4.1",
+    "web-vitals": "^5.1.0"
   },
   "overrides": {
     "tmp": "^0.2.4",

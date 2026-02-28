@@ -1,0 +1,57 @@
+{
+  "short_name": "OmniCast",
+  "name": "OmniCast PWA",
+  "description": "Centralize transmissões de IPTV, VOD, rádio e webcams num app leve e offline-first.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "scope": "/",
+  "start_url": "/?utm_source=install",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#222831",
+  "theme_color": "#222831",
+  "icons": [
+    {
+      "src": "/assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "IPTV ao Vivo",
+      "short_name": "IPTV",
+      "description": "Assista canais de TV ao vivo",
+      "url": "/#/iptv",
+      "icons": [{ "src": "/assets/icons/shortcut-iptv.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Vídeos On-Demand",
+      "short_name": "VOD",
+      "description": "Acesse sua biblioteca de vídeos",
+      "url": "/#/vod",
+      "icons": [{ "src": "/assets/icons/shortcut-vod.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Rádio Online",
+      "short_name": "Rádio",
+      "description": "Ouça estações ao vivo",
+      "url": "/#/radio",
+      "icons": [{ "src": "/assets/icons/shortcut-radio.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Webcams Mundo",
+      "short_name": "Webcams",
+      "description": "Confira câmeras ao vivo pelo mundo",
+      "url": "/#/webcams",
+      "icons": [{ "src": "/assets/icons/shortcut-webcams.png", "sizes": "96x96" }]
+    }
+  ]
+}

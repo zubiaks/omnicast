@@ -1,0 +1,89 @@
+/* web/assets/css/offline.css */
+
+/* 1. Container principal -------------------------------------------------- */
+.offline-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: var(--spacing-lg);
+  background-color: var(--theme-bg);
+  color: var(--theme-fg);
+  font-family: var(--font-sans);
+}
+
+/* 2. Títulos e texto ------------------------------------------------------ */
+.offline-page h1 {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--theme-primary);
+}
+
+.offline-page p {
+  margin-bottom: var(--spacing-md);
+  max-width: 360px;
+  line-height: var(--line-height-base);
+}
+
+/* 3. Botão de ação -------------------------------------------------------- */
+.offline-page button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: var(--theme-primary);
+  color: var(--theme-bg);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.offline-page button:hover,
+.offline-page button:focus {
+  background-color: var(--theme-secondary);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.offline-page button:focus-visible {
+  outline: 2px solid var(--theme-info);
+  outline-offset: 2px;
+}
+
+/* 4. Link de recarregar página ------------------------------------------- */
+.offline-page .retry-link {
+  display: inline-block;
+  margin-top: var(--spacing-md);
+  color: var(--theme-primary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.2s;
+}
+
+.offline-page .retry-link:hover,
+.offline-page .retry-link:focus {
+  color: var(--theme-secondary);
+  text-decoration: underline;
+}
+
+/* 5. Responsividade -------------------------------------------------------- */
+@media (max-width: 480px) {
+  .offline-page {
+    padding: var(--spacing-md);
+  }
+
+  .offline-page h1 {
+    font-size: 1.75rem;
+  }
+
+  .offline-page p {
+    font-size: 0.9rem;
+  }
+
+  .offline-page button {
+    width: 100%;
+    padding: var(--spacing-md);
+  }
+}

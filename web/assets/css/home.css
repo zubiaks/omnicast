@@ -1,0 +1,143 @@
+/* home.css - estilos específicos para a home */
+.home-page { width:100%; }
+
+.home-hero{
+  border-radius:12px;
+  padding:2rem;
+  color:#ffffff;
+  background-size:cover;
+  background-position:center;
+  margin-bottom:1.25rem;
+  box-shadow:0 6px 20px rgba(0,0,0,0.06);
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+  align-items:flex-start;
+  justify-content:center;
+  min-height:180px;
+}
+
+.home-hero h1{
+  margin:0;
+  font-size:1.6rem;
+  line-height:1.05;
+  text-shadow:0 2px 8px rgba(0,0,0,0.18);
+}
+
+.home-hero p{
+  margin:0;
+  color:rgba(255,255,255,0.92);
+  font-size:1rem;
+}
+
+.categories { margin-top:0.5rem; }
+
+.categories-grid {
+  list-style:none;
+  padding:0;
+  margin:0;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap:1rem;
+}
+
+.category-card {
+  display:flex;
+  gap:0.75rem;
+  align-items:flex-start;
+  padding:1rem;
+  border-radius:10px;
+  background:#ffffff;
+  text-decoration:none;
+  color:inherit;
+  border:1px solid rgba(15,23,42,0.04);
+  box-shadow:0 6px 18px rgba(2,6,23,0.04);
+  transition:transform .14s ease, box-shadow .14s ease;
+  min-height:96px;
+}
+
+.category-card:focus,
+.category-card:hover {
+  transform:translateY(-4px);
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  outline:none;
+}
+
+.category-icon {
+  width:56px;
+  height:56px;
+  border-radius:8px;
+  flex:0 0 56px;
+  background:linear-gradient(135deg,var(--accent,#00adb5),#006d77);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-weight:700;
+}
+
+.category-body h3{
+  margin:0 0 0.25rem 0;
+  font-size:1.05rem;
+}
+
+.category-body p{
+  margin:0;
+  color:var(--muted,#6b7280);
+  font-size:0.95rem;
+}
+
+/* responsive tweaks */
+@media (max-width:560px){
+  .home-hero { padding:1.25rem; min-height:140px }
+  .home-hero h1 { font-size:1.25rem }
+  .category-icon { width:48px; height:48px; flex:0 0 48px }
+}
+/* --- home.css modifiers: dark mode --- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-page: #0f1724;
+    --card-bg: #0b1220;
+    --text-strong: #e6eef6;
+    --muted: #99a3b2;
+    --shadow-strong: 0 10px 30px rgba(0,0,0,0.6);
+  }
+
+  .page-center { background: linear-gradient(180deg,#07101a,#071723); }
+  .home-hero {
+    background-color: #06202a;
+    color: var(--text-strong);
+    box-shadow: var(--shadow-strong);
+  }
+  .category-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    color: var(--text-strong);
+  }
+  .category-body p { color: var(--muted); }
+}
+
+/* --- home.css modifiers: compact layout (useful em telas pequenas/compact view) --- */
+@media (max-width:420px) {
+  .home-hero { padding:1rem; min-height:120px }
+  .home-hero h1 { font-size:1.1rem }
+  .categories-grid { gap:0.6rem }
+  .category-card { padding:0.75rem; min-height:78px }
+  .category-icon { width:42px; height:42px; flex:0 0 42px }
+  .category-body h3 { font-size:0.98rem }
+  .category-body p { font-size:0.88rem }
+}
+
+/* --- home.css: lightweight SVG fallback for hero background if asset absent --- */
+/* Apply a subtle gradient + inline SVG data URI as background-image when the external file is missing. */
+.home-hero {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  /* the external file is first choice; this data URI is a very small SVG gradient fallback */
+  background-image: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.06)), url('/assets/img/hero-network.svg');
+}
+
+/* If the SVG file cannot be fetched, the gradient still provides a pleasant appearance.
+   For browsers supporting object-fit or modern image loading, this is resilient. */

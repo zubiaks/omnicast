@@ -1,0 +1,72 @@
+/* web/assets/css/spinner.css */
+
+/* 1. Spinner variables ----------------------------------------------------- */
+:root {
+  /* size of the spinner ring */
+  --spinner-size: 48px;
+  /* thickness of spinner border */
+  --spinner-thickness: 4px;
+  /* color of the rotating part */
+  --spinner-color: var(--theme-primary);
+  /* color of the track/back part */
+  --spinner-track: var(--theme-secondary);
+  /* backdrop covering page */
+  --spinner-backdrop: rgba(0, 0, 0, 0.3);
+  /* animation duration */
+  --spinner-speed: 0.8s;
+}
+
+/* 2. Full-screen overlay -------------------------------------------------- */
+#global-spinner {
+  position: fixed;
+  inset: 0;                   /* top:0; right:0; bottom:0; left:0 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--spinner-backdrop);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 2000;
+}
+
+/* show + allow interactions blocking underlay */
+#global-spinner.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* hide via ARIA when not visible */
+#global-spinner[aria-hidden="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 3. Spinner ring --------------------------------------------------------- */
+.spinner {
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+  border: var(--spinner-thickness) solid var(--spinner-track);
+  border-top: var(--spinner-thickness) solid var(--spinner-color);
+  border-radius: 50%;
+  animation: spin var(--spinner-speed) linear infinite;
+}
+
+/* 4. Inline / small variant ------------------------------------------------ */
+.spinner--small {
+  width: calc(var(--spinner-size) * 0.5);
+  height: calc(var(--spinner-size) * 0.5);
+  border-width: calc(var(--spinner-thickness) * 0.5);
+  animation-duration: calc(var(--spinner-speed) * 0.75);
+}
+
+/* for embedding next to text or inside buttons */
+.inline-spinner {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* 5. Keyframes ------------------------------------------------------------- */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

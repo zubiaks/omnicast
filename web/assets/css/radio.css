@@ -1,0 +1,89 @@
+/* web/assets/css/radio.css */
+
+/* 1. Lista de estações de rádio ------------------------------------------- */
+.radio-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+/* 2. Botões de estação ----------------------------------------------------- */
+.radio-button {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--theme-secondary);
+  color: var(--theme-bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.radio-button:hover,
+.radio-button:focus {
+  background-color: var(--theme-primary);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.radio-button:focus-visible {
+  outline: 2px solid var(--theme-info);
+  outline-offset: 2px;
+}
+
+.radio-button.active {
+  background-color: var(--theme-primary);
+}
+
+/* 3. Player de rádio ------------------------------------------------------- */
+.radio-player {
+  margin-top: var(--spacing-md);
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 16/9;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.radio-player audio,
+.radio-player iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 4. Placeholder de carregamento ------------------------------------------ */
+.radio-player::before {
+  content: 'Carregando rádio...';
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-bg);
+  font-size: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.radio-player.loading::before {
+  display: flex;
+}
+
+/* 5. Responsividade -------------------------------------------------------- */
+@media (max-width: 480px) {
+  .radio-list {
+    gap: var(--spacing-xs);
+  }
+
+  .radio-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.875rem;
+  }
+
+  .radio-player {
+    aspect-ratio: auto;
+    height: auto;
+  }
+}

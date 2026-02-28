@@ -1,0 +1,97 @@
+/* web/assets/css/toast.css */
+
+/* 1. Variáveis de configuração -------------------------------------------- */
+:root {
+  /* espaçamento entre toasts e das bordas da viewport */
+  --toast-gap: var(--spacing-sm);
+  --toast-offset: var(--spacing-lg);
+
+  /* padding e raio de borda */
+  --toast-padding-vertical: var(--spacing-sm);
+  --toast-padding-horizontal: var(--spacing-md);
+  --toast-radius: var(--radius-md);
+
+  /* tipografia */
+  --toast-font-size: 0.875rem;
+  --toast-line-height: 1.4;
+
+  /* cores padrão (pode ser sobrescrito por variante) */
+  --toast-bg: var(--theme-secondary);
+  --toast-color: var(--theme-bg);
+
+  /* timing das animações */
+  --toast-in-duration: 0.3s;
+  --toast-out-duration: 0.3s;
+  --toast-visible-time: 3s;
+}
+
+/* 2. Container de toasts ------------------------------------------------- */
+#toast-container {
+  position: fixed;
+  top: var(--toast-offset);
+  right: var(--toast-offset);
+  display: flex;
+  flex-direction: column;
+  gap: var(--toast-gap);
+  z-index: 2200;
+  pointer-events: none;          /* permite clicar elementos abaixo */
+}
+
+/* 3. Estilo base do toast ------------------------------------------------ */
+.toast {
+  pointer-events: all;           /* ativa interação para hover/focus */
+  padding: var(--toast-padding-vertical) var(--toast-padding-horizontal);
+  border-radius: var(--toast-radius);
+  font-size: var(--toast-font-size);
+  line-height: var(--toast-line-height);
+  color: var(--toast-color);
+  background-color: var(--toast-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateX(100%);
+  animation:
+    toast-slide-in var(--toast-in-duration) ease-out forwards,
+    toast-fade-out var(--toast-out-duration) ease-in
+      var(--toast-visible-time) forwards;
+}
+
+/* 4. Variantes de cor ---------------------------------------------------- */
+.toast--success {
+  --toast-bg: var(--theme-primary);
+}
+
+.toast--error {
+  --toast-bg: var(--theme-error);
+}
+
+.toast--info {
+  --toast-bg: var(--theme-info);
+}
+
+/* 5. Animações ----------------------------------------------------------- */
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-fade-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* 6. Acessibilidade ------------------------------------------------------- */
+/* Ao inserir no HTML, adicione:
+   <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+   e em cada toast: role="status" para anunciar mudanças. */

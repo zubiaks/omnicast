@@ -1,0 +1,65 @@
+/* layout.css - global layout + utilities */
+:root{
+  --max-width: 900px;
+  --content-padding: 1.25rem;
+  --bg: #ffffff;
+  --muted: #6b7280;
+  --brand: #222831;
+  --accent: #00adb5;
+  --radius: 8px;
+  --focus: 3px solid rgba(0,173,181,0.18);
+  --shadow: 0 6px 20px rgba(0,0,0,0.06);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  box-sizing: border-box;
+}
+
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%}
+body{
+  margin:0;
+  background:linear-gradient(180deg,#fafafa,#f3f4f6);
+  color: #111827;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+  font-size:16px;
+}
+
+.container {
+  width:100%;
+  max-width:var(--max-width);
+  margin:0 auto;
+  padding:var(--content-padding);
+}
+
+/* centered page wrapper for auth pages */
+.page-center {
+  min-height: calc(100vh - 2.5rem);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2rem var(--content-padding);
+}
+
+/* grid utilities */
+.grid {
+  display:grid;
+  gap:1rem;
+}
+.grid-cols-2 { grid-template-columns: repeat(2,1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3,1fr); }
+
+/* accessible focus ring utility */
+.focus-ring:focus {
+  outline: none;
+  box-shadow: var(--focus);
+  border-radius: 6px;
+}
+
+/* visually-hidden helper */
+.sr-only{
+  position:absolute!important;
+  height:1px;width:1px;
+  overflow:hidden;clip:rect(1px,1px,1px,1px);
+  white-space:nowrap;border:0;padding:0;margin:-1px;
+}
